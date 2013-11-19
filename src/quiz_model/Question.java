@@ -1,0 +1,24 @@
+package quiz_model;
+import org.json.JSONObject;
+
+public abstract class Question {
+
+	protected int id; /* Display id within a quiz, not necessarily indicate the stored id in database */
+	
+	public Question(){}
+	
+	public Question(int id){
+		this.id = id;
+	}
+	
+	public abstract JSONObject getJSON(); /* Return the json representation */
+	public abstract String getHTML();	/* Return the HTML format of the question */
+	public abstract String getHTMLwithAnswer();	/* Return the HTML format of the question with answer*/
+	public abstract String getType(); /* Return the type of the question */
+	public void setId(int id){
+		this.id = id;
+	}
+	//public abstract int evaluateAnswer(); /* Evaluate the answer and return the score earned */ 
+	
+	
+}
