@@ -1,5 +1,4 @@
 package quiz_model;
-import org.json.JSONObject;
 
 public abstract class Question {
 
@@ -11,7 +10,6 @@ public abstract class Question {
 		this.id = id;
 	}
 	
-	public abstract JSONObject getJSON(); /* Return the json representation */
 	public abstract String getHTML();	/* Return the HTML format of the question */
 	public abstract String getHTMLwithAnswer();	/* Return the HTML format of the question with answer*/
 	public abstract String getType(); /* Return the type of the question */

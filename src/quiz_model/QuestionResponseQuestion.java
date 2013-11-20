@@ -38,16 +38,6 @@ public class QuestionResponseQuestion extends Question{
 			answers.add(json.optString("answer" + i));
 		}
 	}
-	
-	@Override
-	public JSONObject getJSON() {
-		JSONObject json = new JSONObject();
-		json.put("question", question);
-		for(int i = 0; i < answers.size(); ++i){
-			json.put("answer" + i, answers.get(i));
-		}
-		return json;
-	}
 
 	@Override
 	public String getHTML() {
@@ -75,6 +65,7 @@ public class QuestionResponseQuestion extends Question{
 			html_answer += answer;
 			html_answer += "/";
 		}
+		html_answer = html_answer.substring(0, html_answer.length()  - 1);
 		html_answer += "<br>";
 		return html_question + html_answer;
 	}

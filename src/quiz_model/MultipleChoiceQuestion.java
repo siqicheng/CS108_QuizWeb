@@ -2,7 +2,6 @@ package quiz_model;
 
 import java.util.ArrayList;
 
-import org.json.JSONObject;
 import java.util.Random;
 
 public class MultipleChoiceQuestion extends Question{
@@ -17,19 +16,6 @@ public class MultipleChoiceQuestion extends Question{
 		this.answer = answer;
 	}
 	
-	@Override
-	public JSONObject getJSON() {
-		JSONObject json = new JSONObject();
-		json.put("question", question);
-		for(int i = 0; i < choices.size(); ++i){
-			json.put("choice" + i, choices.get(i));
-		}
-		
-		json.put("answer", answer);
-		
-		return json;
-	}
-
 	@Override
 	public String getHTML() {
 		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b>" + this.question + "<br>";

@@ -43,6 +43,8 @@ public class CreateQuestionTypeServlet extends HttpServlet {
 			dispatch = request.getRequestDispatcher("CreateFillInBlankQuestion.jsp");
 		} else if (type.equals("MultipleChoiceQuestion")){
 			dispatch = request.getRequestDispatcher("CreateMultipleChoiceQuestion.jsp");
+		} else if (type.equals("PictureResponseQuestion")){
+			dispatch = request.getRequestDispatcher("CreatePictureResponseQuestion.jsp");
 		} else dispatch = null;
 		
 		dispatch.forward(request, response);

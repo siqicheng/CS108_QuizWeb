@@ -29,6 +29,7 @@ for(int i = 0; i < questions.size(); ++i){
 <p><input type="radio" name="type" value="QuestionResponseQuestion" checked> Question-Response</p>
 <p><input type="radio" name="type" value="FillInBlankQuestion"> Fill in the Blank</p>
 <p><input type="radio" name="type" value="MultipleChoiceQuestion"> Multiple Choice</p>
+<p><input type="radio" name="type" value="PictureResponseQuestion"> Picture Response</p>
 <input type="submit" value="Select">
 </form>
 
