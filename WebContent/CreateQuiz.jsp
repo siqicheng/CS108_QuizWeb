@@ -33,5 +33,14 @@ for(int i = 0; i < questions.size(); ++i){
 <input type="submit" value="Select">
 </form>
 
+<form action = "CreateQuizSubmissionServlet" method="post">
+<p>Random Questions <input type="checkbox" name="random" value="yes"></p>
+<p>Page Setting: 
+<input type="radio" name="page_setting" value="one"> One Page
+<input type="radio" name="page_setting" value="multiple"> Multiple Pages</p>
+<p>Immediate Correction <input type="checkbox" name="immediate" value="yes"></p>
+<input type="submit" name = "action" value="Submit">
+<input type="submit" name = "action" value="Cancel">
+</form>
 </body>
 </html>

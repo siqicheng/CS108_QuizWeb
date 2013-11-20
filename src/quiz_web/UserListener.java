@@ -15,12 +15,12 @@ import quiz_model.*;
  *
  */
 @WebListener
-public class CreateQuizListener implements HttpSessionListener {
+public class UserListener implements HttpSessionListener {
 
     /**
      * Default constructor. 
      */
-    public CreateQuizListener() {
+    public UserListener() {
         // TODO Auto-generated constructor stub
     }
 
