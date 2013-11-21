@@ -1,6 +1,8 @@
 package quiz_web;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -43,9 +45,19 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 			request.getSession().setAttribute("createdQuestions", questions);
 		}
 		
+		Statement stmt = (Statement)request.getSession().getAttribute("db_connection");
+		
 		String action = request.getParameter("action");
-		if(action.equals("submit")){
+		if(action.equals("Submit")){
 			/* Insert question */
+			for(Question question : questions){
+				try {
+					//System.out.println(question.insertSql(0, "Wenxiao"));
+					stmt.executeUpdate(question.insertSql(0, "Wenxiao"));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			
 			/* Insert quiz */
 			

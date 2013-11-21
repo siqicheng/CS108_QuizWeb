@@ -1,11 +1,14 @@
 package quiz_web;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+
+import database_connection.DBConnection;
 
 import quiz_model.*;
 
@@ -31,6 +34,8 @@ public class UserListener implements HttpSessionListener {
     	HttpSession session = arg0.getSession();
     	ArrayList<Question> createdQuestions = new ArrayList<Question>();
     	session.setAttribute("createdQuestions", createdQuestions);
+    	Statement stmt = (new DBConnection()).getStatement();
+    	session.setAttribute("db_connection", stmt);
     }
 
 	/**

@@ -69,5 +69,26 @@ public class QuestionResponseQuestion extends Question{
 		html_answer += "<br>";
 		return html_question + html_answer;
 	}
+
+	@Override
+	public String insertSql(int id, String user) {
+		String sql = "INSERT INTO QR VALUES(";
+		sql += Integer.toString(id) + ","; /* ID */
+		sql += "\"" + user + "\","; /* User name */
+		sql += "\"" + question + "\",";  /* Question */
+		
+		/* Answers */
+		sql += "\"";
+		for(String answer : answers){
+			sql += "#" + answer + "#";
+		}
+		sql += "\",";
+		
+		sql += Integer.toString(5) + ","; /* Score, to be changed */
+		sql += "\"" + "#NULL#" + "\","; /* Tag, to be changed */
+		sql += "0);"; /* Time */
+		
+		return sql;	
+	}
 	
 }

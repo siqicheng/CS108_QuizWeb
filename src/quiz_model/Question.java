@@ -17,6 +17,6 @@ public abstract class Question {
 		this.id = id;
 	}
 	//public abstract int evaluateAnswer(); /* Evaluate the answer and return the score earned */ 
-	
+	public abstract String insertSql(int id, String user);
 	
 }

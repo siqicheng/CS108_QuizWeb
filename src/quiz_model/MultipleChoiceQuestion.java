@@ -60,5 +60,32 @@ public class MultipleChoiceQuestion extends Question{
 		return "MultipleChoice";
 	}
 	
+	@Override
+	public String insertSql(int id, String user) {
+		String sql = "INSERT INTO MC VALUES(";
+		sql += Integer.toString(id) + ","; /* ID */
+		sql += "\"" + user + "\","; /* User name */
+		
+		/* Question */
+		sql += "\"" + question + "\",";  
+		
+		/* Choices */
+		sql += "\"";
+		for(String choice : choices){
+			sql += "#" + choice + "#";
+		}
+		sql += "#" + answer + "#";
+		sql += "\",";
+		
+		/* Answer */
+		sql += "\"" + answer + "\",";
+		
+		sql += Integer.toString(5) + ","; /* Score, to be changed */
+		sql += "\"" + "#NULL#" + "\","; /* Tag, to be changed */
+		sql += "0);"; /* Time */
 
+		return sql;	
+
+	}
+	
 }

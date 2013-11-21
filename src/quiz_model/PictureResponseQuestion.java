@@ -42,4 +42,30 @@ public class PictureResponseQuestion extends Question {
 		return "PictureResponse";
 	}
 
+	@Override
+	public String insertSql(int id, String user) {
+		String sql = "INSERT INTO PR VALUES(";
+		sql += Integer.toString(id) + ","; /* ID */
+		sql += "\"" + user + "\","; /* User name */
+		
+		/* Question */
+		sql += "\"" + question + "\",";  
+		
+		/* Answer */
+		sql += "\"";
+		for(String answer : answers){
+			sql += "#" + answer + "#";
+		}
+		sql += "\",";
+		
+		/* URL */
+		sql += "\"" + url + "\","; 
+		
+		sql += Integer.toString(5) + ","; /* Score, to be changed */
+		sql += "\"" + "#NULL#" + "\","; /* Tag, to be changed */
+		sql += "0);"; /* Time */
+
+		return sql;	
+
+	}
 }
