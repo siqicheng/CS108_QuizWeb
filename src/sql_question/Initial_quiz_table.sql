@@ -1,0 +1,12 @@
+-- ======================================================================	
+-- Initailization of MySQL table
+-- Define different types of questions
+-- Currently support seven types:
+--		Question Response(QR)
+--		Fill In The Blank(FB)
+--		Multiple Choice(MC)
+--		Picture Response(PR)
+--		Multiple Answer(MA)
+--		Multiple Choice Multiple Answer(MCMA)
+--		Matching Question(MQ)
+-- ======================================================================	
