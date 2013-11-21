@@ -20,7 +20,7 @@ USE c_cs108_sqcheng;
 DROP TABLE IF EXISTS QR;
 -- remove table if it already exists and start from scratch
 CREATE TABLE QR (
-	QuestionID CHAR(32),
+	QuestionID INT,
 	CreaterID CHAR(32),
 	Question BLOB,
 	Answer BLOB,
@@ -29,7 +29,7 @@ CREATE TABLE QR (
     Time INT
 );
 INSERT INTO QR VALUES
- ("0000", "Siqi", "What is the teacher's name? (CS108)", "Patrick Young", 
+ (0, "Siqi", "What is the teacher's name? (CS108)", "Patrick Young", 
  		 5, "#CommonSense##CS#", 0);
 
 -- ======================================================================	
@@ -38,7 +38,7 @@ INSERT INTO QR VALUES
 DROP TABLE IF EXISTS FB;
 -- remove table if it already exists and start from scratch
 CREATE TABLE FB (
-	QuestionID CHAR(32),
+	QuestionID INT,
 	CreaterID CHAR(32),
 	Question BLOB,
 	Answer BLOB,
@@ -48,7 +48,7 @@ CREATE TABLE FB (
 );
 
 INSERT INTO FB VALUES
-("0000", "Siqi", "#blank# is the CS108's teacher this quarter(2013Autumn).", "Patrick Young", 
+(0, "Siqi", "#blank# is the CS108's teacher this quarter(2013Autumn).", "Patrick Young", 
 		5, "#CommonSense##CS#", 0);
 
 -- ======================================================================	
@@ -57,7 +57,7 @@ INSERT INTO FB VALUES
 DROP TABLE IF EXISTS MC;
 -- remove table if it already exists and start from scratch
 CREATE TABLE MC ( 
-	QuestionID CHAR(32),
+	QuestionID INT,
 	CreaterID CHAR(32),
 	Question BLOB,
 	Choices BLOB,
@@ -68,7 +68,7 @@ CREATE TABLE MC (
 );         
          
 INSERT INTO MC VALUES
-("0000", "Siqi", "What is the teacher's name? (CS108)", 
+(0, "Siqi", "What is the teacher's name? (CS108)", 
 		"#Zhang##Li##Du##Cheng#Patrick Young#","Patrick Young",5, "#CommonSense##CS#", 0);
 	 
 -- ======================================================================	
@@ -77,7 +77,7 @@ INSERT INTO MC VALUES
 DROP TABLE IF EXISTS PR;
 -- remove table if it already exists and start from scratch
 CREATE TABLE PR (
-	QuestionID CHAR(32),
+	QuestionID INT,
 	CreaterID CHAR(32),
 	Question BLOB,
 	Answer BLOB,
@@ -88,7 +88,7 @@ CREATE TABLE PR (
 );         
          
 INSERT INTO PR VALUES
-("0000","Siqi",  "What is the Acronym of this building ?","MC",
+(0,"Siqi",  "What is the Acronym of this building ?","MC",
 		"http://events.stanford.edu/events/252/25201/Memchu_small.jpg", 5, "#CommonSense##Stanford#", 0);  
 		
 -- ======================================================================	
@@ -97,7 +97,7 @@ INSERT INTO PR VALUES
 DROP TABLE IF EXISTS MA;
 -- remove table if it already exists and start from scratch
 CREATE TABLE MA (   
-	QuestionID CHAR(32),
+	QuestionID INT,
 	CreaterID CHAR(32),
 	Question BLOB,
 	Answer BLOB,
@@ -108,7 +108,7 @@ CREATE TABLE MA (
 );
 
 INSERT INTO MA VALUES        
-("0000","Siqi",  "List the last name of all the team members in this project group?","#Zhang##Li##Du##Cheng#",
+(0,"Siqi",  "List the last name of all the team members in this project group?","#Zhang##Li##Du##Cheng#",
 		"false", 8, "#CommonSense##Stanford#", 0);  
 
 -- ======================================================================	
@@ -117,7 +117,7 @@ INSERT INTO MA VALUES
 DROP TABLE IF EXISTS MCMA;
 -- remove table if it already exists and start from scratch
 CREATE TABLE MCMA (  
-	QuestionID CHAR(32),
+	QuestionID INT,
 	CreaterID CHAR(32),
 	Question BLOB,
 	Choices BLOB,
@@ -127,7 +127,7 @@ CREATE TABLE MCMA (
     Time INT    
 );
 INSERT INTO MCMA VALUES
-("0000","Siqi", "What is the last name of all the team members in this project group?(Choose all that is correct)","#Zhang##Li##Du##Cheng#",
+(0,"Siqi", "What is the last name of all the team members in this project group?(Choose all that is correct)","#Zhang##Li##Du##Cheng#",
 		"#Zhang##Li##Du##Cheng#", 8, "#CommonSense##Stanford#", 0); 
 
 -- ======================================================================	
@@ -136,7 +136,7 @@ INSERT INTO MCMA VALUES
 DROP TABLE IF EXISTS MQ;
 -- remove table if it already exists and start from scratch
 CREATE TABLE MQ (  
-	QuestionID CHAR(32),
+	QuestionID INT,
 	CreaterID CHAR(32),
 	Question BLOB,
 	Choices BLOB,
@@ -147,5 +147,5 @@ CREATE TABLE MQ (
 );
 
 INSERT INTO MQ VALUES
-("0000","Siqi", "Matching the first name and last name","#Zhang##Li##Du##Cheng#",
+(0,"Siqi", "Matching the first name and last name","#Zhang##Li##Du##Cheng#",
 		"#Hao##Haoran##Wenxiao##Siqi#", 8, "#CommonSense##Stanford#", 0); 
