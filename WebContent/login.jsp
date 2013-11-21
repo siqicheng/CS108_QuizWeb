@@ -50,7 +50,7 @@
 			</div>
   
 		    <div class="reg">    
-		        <a href="/Create_new_account.jsp" class="lnk-reg"> Register</a>
+		        <a href="CreateAccount_new_account.jsp" class="lnk-reg"> Register</a>
 		        <div class="nb-info">
 		        	<b>More challenge, more knowledge</b>
 		        </div>

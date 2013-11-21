@@ -35,14 +35,15 @@ public class AccountCreationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountManager am = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
-        if(am.hasAccount(request.getParameter("name"))){
-            RequestDispatcher rd = request.getRequestDispatcher("name_in_use.jsp");
+
+		if(AccountManager.hasAccount(request.getParameter("name"))){
+            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_name_in_use.jsp");
             rd.forward(request,response);
         }
         else{
-        	am.createNewAccount(request.getParameter("name"),request.getParameter("password"));
-            RequestDispatcher rd = request.getRequestDispatcher("welcome.jsp");
+        	AccountManager.createNewAccount(request.getParameter("name"),request.getParameter("password"),
+        			"u", request.getParameter("gender").charAt(0), request.getParameter("email"));
+            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
             rd.forward(request,response);
         }	
 	}

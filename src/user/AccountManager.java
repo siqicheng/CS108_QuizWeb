@@ -2,35 +2,101 @@ package user;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.sun.tools.javac.util.List;
+
+import database_connection.DBConnection;
 
 public class AccountManager {
-	private Map<String, String> accountMap;
+	
 	public final static String ATTRIBUTE_NAME = "Account Manager";
+	public static List<String> protectedNameList;
+	private static Statement statement; 
 	
 	public AccountManager() {
-		accountMap = new HashMap <String, String>();
+		addProtectedName();
 		initialAccountData();
 	}
 
-	public void createNewAccount(String name, String password){
-        accountMap.put(name,getHashCodeSHA(password));
+	private static void connect(){
+		statement = (new DBConnection()).getStatement();
+	}
+	
+	public static void close() {
+		DBConnection.closeConnection();
+	}
+	
+	public static boolean createNewAccount(String UserName, String Password, String Status, char Gender, String Email){
+		if (isProtectedName(UserName)) return false;
+		connect();
+		try {
+			
+			String query = "INSERT INTO userTable VALUES (\""
+				+ UserName.toLowerCase() + "\", \"" + getHashCodeSHA(Password) + "\", \"" + Status + "\", \"" + Gender + "\", \"" + Email +  "\");";
+			System.out.print(query);
+		statement.executeUpdate(query);
+		
+		} catch (SQLException e) {
+			close();
+			return false;
+		}
+		close();
+		return true;
     }
     
-    public boolean hasAccount(String name){
-        return accountMap.containsKey(name);
+    public static boolean hasAccount(String name){
+    	if (isProtectedName(name)) return false;
+    	connect();
+		try {
+			ResultSet rs = statement.executeQuery("SELECT * FROM userTable " +
+					"WHERE UserName = \"" + name + "\"");
+			if(rs.next()) {
+				close();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return false;
     }
     
     public boolean isCorrectAccount(String name, String password){
-        return hasAccount(name) && accountMap.get(name).equals(getHashCodeSHA(password));
+    	if (!hasAccount(name)) return false;
+    	connect();
+		try {
+			ResultSet rs = statement.executeQuery("SELECT * FROM userTable " +
+					"WHERE UserName = \"" + name + "\" AND password = \"" + getHashCodeSHA(password) + "\"");
+			
+			if(rs.next()) {
+				close();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return false;
     }
     
     private void initialAccountData(){
-        createNewAccount("Patrick", "1234");
-        createNewAccount("Molly", "FloPup");
+        createNewAccount("Patrick", getHashCodeSHA("1234"),"s",'m',"siqicheng.fdu@gmail.com");
+        createNewAccount("Molly", getHashCodeSHA("1111"),"s",'f',"siqicheng.fdu@gmail.com");
     }
     
+    private static boolean isProtectedName(String UserName){
+    	return false;
+//    	if(protectedNameList.contains(UserName)) return true;
+//    	return false;
+    }
+    
+    private void  addProtectedName(){
+		protectedNameList.add("guest");
+		protectedNameList.add("admin");
+    }
     
     
 	/*	Password to hashcode.
