@@ -5,40 +5,142 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script type="text/javascript">
-function validateForm(frm) {
 
-	  account = frm.elements['form_email'],
-	  passwd = frm.elements['form_password'],
-	  defaultError = document.getElementById('item-error');
+function validateForm() {
 
-	  if (defaultError) {
-	    defaultError.style.display = 'none';
-	  }
+	var error = 0;
+	defaultError = document.getElementById('item-error');
+	if (defaultError) {
+		defaultError.style.display = 'none';
+	}
+	
+	/*	Check user name
+	 * 	1.	Not null
+	 *	2.	At least 5 digits
+	 *	3.	Do not have ", / ' " \ % & [space]"   
+	 */
+	var account = document.forms[0].name;
+	if (account) {
+		var accountName = account.value;
+		if (accountName == '') {
+			displayError(account, 'Please provide a username');
+			error ++;
+		} else if (accountName.length < 5){
+			displayError(account, 'Username should be at least 5 digits');
+			error ++;
+		} else if (accountName.indexOf(",") != -1 ||accountName.indexOf("/") != -1 ||accountName.indexOf("'") != -1 ||
+			accountName.indexOf("\"")!= -1 ||accountName.indexOf("\\")!= -1 ||accountName.indexOf("%") != -1 ||
+			accountName.indexOf("&") != -1 ||accountName.indexOf(" ") != -1){
+			displayError(account, 'Please input valid username');
+			error ++;	
+		} else {
+		    clearError(account);
+		}
+	}
 
+	/*	Check password
+	 * 	1.	Not null
+	 *	2.	At least 5 digits 
+	 */
+	var passwd = document.forms[0].password;
+	if (passwd) {
+		if (passwd.value == '') {
+		     displayError(passwd, 'Please provide a password');
+		     error ++;
+		} else if (passwd.value.length < 5){
+		     displayError(passwd, 'Password should be at least 5 digits');
+		     error ++;
+		} else {
+		     clearError(passwd);
+		}
+	}
+	/*	Check confirm password
+	 * 	1.	Equals password
+	 */
+	var confirm = document.forms[0].confirm;
+	if (confirm) {
+		if (confirm.value != passwd.value) {
+		     displayError(confirm, 'Password not match');
+		     error ++;
+		} else {
+		     clearError(confirm);
+		}
+	}
+	
+	/*	Check age between 3 ~ 150
+	 * 	1.	age not null
+	 *	2.	age are int
+	 *	3.	age make sense.
+	 *
+	 */
+	var age = document.forms[0].age;
 
-	  if (account) {
-	    var account_value = trim(account.value);
-	    if (account_value === '') {
-	      displayError(account, 'Please provide a username');
-	      error = 1;
-	    } else if (! (/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(account_value)
-	                  || /^1[358](\d){9}$/.test(account_value))){
-	      displayError(account, 'Please input valid username');
-	      error = 1;
-	    } else {
-	      clearError(account);
+	if (age.value == '') {
+	     displayError(age, 'Please provide your age');
+	     error ++;
+	} else if (parseInt(age.value)<3){
+		displayError(age, 'Baby user should be at least 3 years old');
+		error ++;		
+	} else if (parseInt(age.value)>150){
+		displayError(age, 'Are you really over 150 years old');
+		error ++;
+	} else if (isAgeInt(age,error)){
+	} else {
+		clearError(age);
+	}
+		
+	/*	Check email
+	 * 	1.	Not null
+	 *	2.	has @
+	 *	3.	has .
+	 */
+	 
+	var email = document.forms[0].email;
+	if (email){
+		var emailAddr = email.value;
+		if (emailAddr == "") {
+		     displayError(email, "Please provide your email");
+		     error ++;
+		} else {
+			clearError(email);
+		}
+	}
+	var isValid = true;
+	if (error > 0) isValid = false;
+	
+	return isValid;
+}
+
+	
+function isAgeInt(age,error){
+	for (var i=0; i<age.value.length; i++){
+	    if (age.value.charAt(i) < "0" || age.value.charAt(i) > "9" ){
+	    	displayError(age, 'Age should be integer');
+	    	age.focus( );
+	    	age.select( );
+		    error = true;
+		    break;
 	    }
-	  }
+	}
+}
 
-	  if (passwd) {
-	    if (passwd.value === '') {
-	      displayError(passwd, 'Please provide a password');
-	      error = 1;
-	    } else {
-	      passwd && clearError(passwd);
-	    }
-	  }
-	  return !error;
+function displayError(el, msg) {
+	var err = document.getElementById(el.name + '_err');
+	if (!err) {
+		err = document.createElement('span');
+		err.id = el.name + '_err';
+		err.className = 'error-tip';
+		el.parentNode.appendChild(err);
+	}
+	err.style.display = 'inline';
+	err.innerHTML = msg;
+}
+	
+function clearError(el) {
+	var err = document.getElementById(el.name + '_err');
+	if (err) {
+  		err.style.display = 'none';
+	}
 }
 
 </script>
@@ -58,37 +160,47 @@ function validateForm(frm) {
 	  	<div class="article">
       
 
-		<form id="lzform" name="lzform" method="post" action="AccountCreationServlet">
-
+		<form id="lzform" name="lzform" method="post" action="AccountCreationServlet" OnSubmit="return validateForm()">
+		    
+		    <div id="item-error" style="display: none;">
+		        <p class="error">password not match!</p>
+		    </div>
 		    <div class="item">
 		        <label>Username</label>
 		        <input id="email" name="name" type="text" class="basic-input" placeholder="username" maxlength="60" tabindex="1">
+		        <br><span id="name_err" class="error-tip" style="display: none;"></span>
 		    </div>
 		    <div class="item">
 		        <label>Password</label>
 		        <input id="password" name="password" type="password" class="basic-input" placeholder="password" maxlength="20" tabindex="2">
+		        <br><span id="password_err" class="error-tip" style="display: none;"></span>
 		    </div>
 		    <div class="item">
 		    	<label>Confirm</label>
 		    	<input type="password" name="confirm" type="password" class="basic-input" placeholder="confirm password" maxlength="20" tabindex="3">
-		    </div>
-		    <div class="item">
-			    <label>Gender</label>
-		    	<input type="radio" name="gender" value="male" checked=""> Male
-				<input type="radio" name="gender" value="female"> Female
-		    </div>
-		    <div class="item">
-		    	<label>Age</label>
-		    	<input type="text" name="age" class="basic-input" placeholder="age [10-150]" maxlength="20" tabindex="4">
+		    	<br><span id="confirm_err" class="error-tip" style="display: none;"></span>
 		    </div>
 		    <div class="item">
 		    	<label>Email</label>
-		    	<input type="text" name="email" class="basic-input" placeholder="email" maxlength="20" tabindex="5">
+		    	<input type="text" name="email" class="basic-input" placeholder="email" maxlength="60" tabindex="5">
+		    	<br><span id="email_err" class="error-tip" style="display: none;"></span>
+		    </div>
+		    
+		    <div class="item">
+		    	<label>Age</label>
+		    	<input type="text" name="age" class="basic-input" placeholder="age [3-150]" maxlength="20" tabindex="4">
+		    	<br><span id="age_err" class="error-tip" style="display: none;"></span>
 		    </div>
 
 		    <div class="item">
+			    <label>Gender</label>
+		    	<input type="radio" name="gender" value="male" checked="" tabindex="6"> Male
+				<input type="radio" name="gender" value="female" tabindex="7"> Female
+		    </div>
+		    <div class="item">
 		    	<label>&nbsp;</label>
-	        	<input type="submit" value="Submit" name="submit" class="btn-submit" tabindex="6">
+	        	<input type="submit" value="Submit" name="submit" class="btn-submit" tabindex="8">
+	        	<input type="reset" value="Reset" name="reset" class="gtn-submit" tabindex="9">
 		    </div>
 		    <br><br><br><br>
 		    <div class="item">
@@ -102,7 +214,7 @@ function validateForm(frm) {
 		
 		<ul id="side-nav" class="aside">
 		
-			<li><img src="pic/Jokes1.jpg" width="480" height="480"></li>
+			<li><img src="pic/Jokes1.jpg" width="480" height="540"></li>
 		
   		</ul>
 </div>
