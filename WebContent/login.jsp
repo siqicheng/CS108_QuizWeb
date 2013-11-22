@@ -43,7 +43,7 @@
 			            
 			            <div class="item-submit">
 			                <input type="submit" value="Login" class="bn-submit" tabindex="4">
-			                <input type="submit" value="Guest" class="gn-submit" tabindex="4">
+			                <input type="submit" value="Guest" class="gn-submit" tabindex="4" onclick="form.action='CreateAccount_welcome.jsp';">
 			            </div>
 			        </fieldset>
     			</form>
@@ -64,7 +64,7 @@
 	<div class="wrapper">
 		<img src="pic/IQuizYOU.gif" width="950" height="475">
 		<div id="ft">
-			<span id="icp" class="fleft gray-link">
+			<span class="fleft">
 			  <a> Copyright © 2013 <%=webName%> , all rights reserved</a><br>
 			  <a> Quick Links</a><br> 
 			  <a href="http://www.stanford.edu/">Stanford University</a><br>

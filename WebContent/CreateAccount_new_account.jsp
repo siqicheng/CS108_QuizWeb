@@ -43,24 +43,90 @@ function validateForm(frm) {
 
 </script>
 <title>Create Account</title>
+<link rel="stylesheet" href="CSS/login_try_again.css" type="text/css">
+<!-- COLLECTED CSS -->
 </head>
 <body>
-	<h1>Create New Account</h1>
 
-	<p>Please enter username and password.</p><!--
-onsubmit="return validateForm(this);"
-	--><form action="AccountCreationServlet" method="post" >
-	    	User Name: <input type="text" name="name"/> <br/>
-	    	Password: <input type="text" name="password"/> <br/>
-	    	Confirm Password: <input type="password" name="confirm"> <br/>
-	    	Gender:
-	    	<input type="radio" name="gender" value="male" checked=""> Male
-			<input type="radio" name="gender" value="female"> Female <br/>
-			Age:<input type="text" name="age"><br/>
-			Email:<input type="text" name="email">
-    	<input type="submit" value="login"/>
-	</form>
-	
+<div class="wrapper">
+	<div id="header">
+    	<a>Login IQuizYou</a>
+  	</div>
+
+	<div id="content">
+	  	<h1>Please provide valid input	</h1>
+	  	<div class="article">
+      
+
+		<form id="lzform" name="lzform" method="post" action="AccountCreationServlet">
+
+		    <div class="item">
+		        <label>Username</label>
+		        <input id="email" name="name" type="text" class="basic-input" placeholder="username" maxlength="60" tabindex="1">
+		    </div>
+		    <div class="item">
+		        <label>Password</label>
+		        <input id="password" name="password" type="password" class="basic-input" placeholder="password" maxlength="20" tabindex="2">
+		    </div>
+		    <div class="item">
+		    	<label>Confirm</label>
+		    	<input type="password" name="confirm" type="password" class="basic-input" placeholder="confirm password" maxlength="20" tabindex="3">
+		    </div>
+		    <div class="item">
+			    <label>Gender</label>
+		    	<input type="radio" name="gender" value="male" checked=""> Male
+				<input type="radio" name="gender" value="female"> Female
+		    </div>
+		    <div class="item">
+		    	<label>Age</label>
+		    	<input type="text" name="age" class="basic-input" placeholder="age [10-150]" maxlength="20" tabindex="4">
+		    </div>
+		    <div class="item">
+		    	<label>Email</label>
+		    	<input type="text" name="email" class="basic-input" placeholder="email" maxlength="20" tabindex="5">
+		    </div>
+
+		    <div class="item">
+		    	<label>&nbsp;</label>
+	        	<input type="submit" value="Submit" name="submit" class="btn-submit" tabindex="6">
+		    </div>
+		    <br><br><br><br>
+		    <div class="item">
+			    <a>Already have an IQuizYou ID?</a><br><br>
+		        <label>&nbsp;</label>
+		        <a rel="nofollow" href="Login_try_again.jsp" class = "lnk-reg" >Login</a>
+	        </div>
+		</form>
+		</div>
+		
+		
+		<ul id="side-nav" class="aside">
+		
+			<li><img src="pic/Jokes1.jpg" width="480" height="480"></li>
+		
+  		</ul>
+</div>
+		<div class="wrapper">
+			<div id="ft">
+				<span class="fleft">
+				  <a> Copyright © 2013 IQuizYOU , all rights reserved</a><br>
+				  <a> Quick Links</a><br> 
+				  <a href="http://www.stanford.edu/">Stanford University</a><br>
+				  <a href="http://www.stanford.edu/class/cs108/">CS 108 -- Object Oriented System Design</a><br>
+				</span>
+			
+				<span class="fright">
+				    <a>About us</a>
+				    · <a href="http://www.linkedin.com/pub/siqi-cheng/64/696/250">Siqi</a>
+				    · <a href="http://www.linkedin.com/pub/wenxiao-du/58/ab8/778">Wenxiao</a>
+				    · <a href="http://www.linkedin.com/pub/haoran-li/52/46b/a0">Haoran</a>
+				    · <a href="http://www.linkedin.com/pub/hao-zhang/36/b80/a35">Hao</a>
+				</span>
+	  		</div>
+		</div>
+</div>
+
+
 	
 </body>
 </html>
