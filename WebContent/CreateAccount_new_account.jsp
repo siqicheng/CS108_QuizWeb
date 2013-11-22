@@ -156,7 +156,7 @@ function clearError(el) {
   	</div>
 
 	<div id="content">
-	  	<h1>Please provide valid input	</h1>
+	  	<h1>Join Us!</h1>
 	  	<div class="article">
       
 
@@ -182,13 +182,13 @@ function clearError(el) {
 		    </div>
 		    <div class="item">
 		    	<label>Email</label>
-		    	<input type="text" name="email" class="basic-input" placeholder="email" maxlength="60" tabindex="5">
+		    	<input type="text" name="email" class="basic-input" placeholder="email" maxlength="60" tabindex="4">
 		    	<br><span id="email_err" class="error-tip" style="display: none;"></span>
 		    </div>
 		    
 		    <div class="item">
 		    	<label>Age</label>
-		    	<input type="text" name="age" class="basic-input" placeholder="age [3-150]" maxlength="20" tabindex="4">
+		    	<input type="text" name="age" class="basic-input" placeholder="age [3-150]" maxlength="20" tabindex="5">
 		    	<br><span id="age_err" class="error-tip" style="display: none;"></span>
 		    </div>
 
@@ -199,18 +199,24 @@ function clearError(el) {
 		    </div>
 		    <div class="item">
 		    	<label>&nbsp;</label>
-	        	<input type="submit" value="Submit" name="submit" class="btn-submit" tabindex="8">
-	        	<input type="reset" value="Reset" name="reset" class="gtn-submit" tabindex="9">
+	        	<input type="submit" value="Submit" name="submit" class="gtn-submit" tabindex="8">
+	        	<input type="reset" value="Reset" name="reset" class="ytn-submit" tabindex="9">
+	        	
 		    </div>
-		    <br><br><br><br>
-		    <div class="item">
-			    <a>Already have an IQuizYou ID?</a><br><br>
-		        <label>&nbsp;</label>
-		        <a rel="nofollow" href="Login_try_again.jsp" class = "lnk-reg" >Login</a>
-	        </div>
+
+		</form>
+		<form method="post" action="Login_try_again.jsp">
+			<div class="item">
+				<br><br><br>
+				
+				<a>Already have an IQuizYou ID?</a><br><br>
+		    	<label>&nbsp;</label>
+	        	<input type="submit" value="Login" class="rtn-submit" tabindex="8" onclick="form.action='Login_try_again.jsp';">
+	        	<input type="submit" value="Return" class="btn-submit" tabindex="9" onclick="form.action='login.jsp';">	
+		    </div>
 		</form>
 		</div>
-		
+
 		
 		<ul id="side-nav" class="aside">
 		

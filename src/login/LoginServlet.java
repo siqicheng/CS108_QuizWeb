@@ -38,7 +38,6 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		if(AccountManager.isCorrectAccount(request.getParameter("name"), request.getParameter("password"))){
             RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
             rd.forward(request,response);

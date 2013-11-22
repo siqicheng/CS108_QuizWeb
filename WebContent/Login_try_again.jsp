@@ -17,7 +17,7 @@
   	</div>
 
 	<div id="content">
-	  	<h1>Please provide valid input	</h1>
+	  	<h1>Please provide valid input</h1>
 	  	<div class="article">
       
 

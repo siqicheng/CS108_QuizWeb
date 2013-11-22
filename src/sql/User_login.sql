@@ -15,4 +15,4 @@ CREATE TABLE userTable (
 );
 
 INSERT INTO userTable VALUES
-("Siqi", "4181eecbd7a755d19fdf73887c54837cbecf63fd", "s","m","siqicheng.fdu@gmail.com");
+("sqcheng", "4181eecbd7a755d19fdf73887c54837cbecf63fd", "s","m","siqicheng.fdu@gmail.com");
