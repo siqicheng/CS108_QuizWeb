@@ -64,7 +64,7 @@ public class AccountManager {
 		return false;
     }
     
-    public boolean isCorrectAccount(String name, String password){
+    public static boolean isCorrectAccount(String name, String password){
     	if (!hasAccount(name)) return false;
     	connect();
 		try {

@@ -4,10 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Welcome <%= request.getParameter("name")%></title>
+<%
+	String Username = request.getParameter("name");
+	if (Username.length() < 1) Username = "Guest";
+%>
+
+
+
+<title>Welcome <%=Username %></title>
 </head>
 <body>
-	<h1>Welcome <%= request.getParameter("name")%></h1>
+	<h1>Welcome <%= Username%></h1>
 	
 </body>
 </html>
