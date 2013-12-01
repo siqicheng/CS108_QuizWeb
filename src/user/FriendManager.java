@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.*;
+
 
 import database_connection.DBConnection;
 
@@ -14,22 +16,28 @@ public class FriendManager {
 	private static Connection db;
 	
 	
-	private static void connect(){
-		statement = (new DBConnection()).getStatement();
-	}
+//	private static void connect(){
+//		statement = (new DBConnection()).getStatement();
+//	}
 	
 	public static void close() {
 		DBConnection.closeConnection();
 	}
 	
+	public FriendManager(){
+		DBConnection dbConnect = new DBConnection();
+		db = dbConnect.getConnection();
+		statement = dbConnect.getStatement();
+	}
 	
+	
+	// checks if username1 and username2 are friends
 	public static boolean isFriend(String username1, String username2){
-		connect();
+		//connect();
 		try {
 			
 			String query = "select username from friendTable where (username = ? and friendname = ?) or (friendname = ? and username = ?)";
-			DBConnection dbConnect = new DBConnection();
-			db = dbConnect.getConnection();
+
 			PreparedStatement pst = db.prepareStatement(query);	
 			pst.setString(1, username1);
 			pst.setString(2, username2);
@@ -95,11 +103,14 @@ public class FriendManager {
 		    }
 			
 			//Insert request
-			query = "insert into friendRequestTable (`UserName`, `FriendName`, `Message`) values (?,?,?)";
-			pst = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
+			query = "insert into friendRequestTable (`UserName`, `FriendName`, `Message`, `SentTime`) values (?,?,?,?)";
+			pst = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, username1);
 			pst.setString(2, username2);
 			pst.setString(3,  msg);
+			Date SentTime = new Date();
+			Timestamp ts = new Timestamp(SentTime.getTime());
+			pst.setTimestamp(4, ts);
 			
 			pst.executeUpdate();
 			
@@ -111,4 +122,53 @@ public class FriendManager {
 		
 		return false;
 	}
+	
+	
+	public List<Friend_Request> getFriendRequests(String receivername){
+		
+		List<Friend_Request> list = new ArrayList<Friend_Request>();
+		
+		try {
+			
+			String query = "select * from friendRequestTable where friendname = ?";
+			PreparedStatement pst = db.prepareStatement(query);	
+			pst.setString(1, receivername);
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				String senderName = rs.getString("username");
+				String message = rs.getString("message");
+				Date date = rs.getTimestamp("senttime");
+				
+				Friend_Request r = new Friend_Request(senderName, receivername, message, date);
+				list.add(r);
+		    }
+			
+			Collections.sort(list);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+		
+	}
+	
+	public void deleteFriendRequest(String sendername, String receivername){
+		try {
+			//Delete Challenge
+			String query = "delete from friendRequestTable where username = ? and friendname = ?";
+			PreparedStatement pst = db.prepareStatement(query);
+			pst.setString(1, sendername);
+			pst.setString(2, receivername);
+			pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void acceptFriendRequest(){
+		
+	}
+	
 }
