@@ -19,8 +19,7 @@
 	<h1><%=Username%></h1>
 	<h2>Announcenments</h2>
 	<h2>Popular Quiz</h2>
-	<h2>Latest Quiz</h2>
-		<ul>
+	<ul>
 			<%
 				Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
 				if(stmt == null) {
@@ -28,7 +27,22 @@
 			    	request.getSession().setAttribute("db_connection", stmt);
 				}
 			
-				ResultSet rs = stmt.executeQuery("SELECT QuizID, QuizName FROM QI order by CreateTime DESC;");
+				ResultSet rs = stmt.executeQuery("SELECT QuizName, Quiz_Id, Number FROM (SELECT Quiz_Id, COUNT(*) as Number FROM quiz_take_history GROUP BY Quiz_Id) AS tmp, QI WHERE tmp.Quiz_Id = QI.QuizID ORDER BY Number DESC;");
+				int counter_1 = 0;
+				while (rs.next() && counter_1 < 15) {
+					String name = rs.getString("QuizName");
+					String id = Integer.toString(rs.getInt("Quiz_Id"));
+					String line = "<li><a href=\"Quiz-summary.jsp?id=" + id + "\">"
+							+ name + "</a></li>";
+					out.println(line);
+					++counter_1;
+				}
+			%>
+		</ul>
+	<h2>Latest Quiz</h2>
+		<ul>
+			<%
+				rs = stmt.executeQuery("SELECT QuizID, QuizName FROM QI order by CreateTime DESC;");
 				int counter_0 = 0;
 				while (rs.next() && counter_0 < 15) {
 					String name = rs.getString("QuizName");
@@ -58,6 +72,24 @@
 				}
 			%>
 		</ul>
+		<%
+			query = "SELECT QuizID, QuizName FROM QI WHERE CreaterId = '"+ Username + "' ORDER BY CreateTime DESC;";
+			rs = stmt.executeQuery(query);
+			if (rs.isBeforeFirst()){ /* rs not empty */
+				out.println("<h2>Created Quiz</h2>");
+				out.println("<ul>");
+				int counter_2 = 0;
+				while (rs.next() && counter < 15) {
+					String name = rs.getString("QuizName");
+					String id = Integer.toString(rs.getInt("QuizID"));
+					String line = "<li><a href=\"Quiz-summary.jsp?id=" + id + "\">"
+					+ name + "</a></li>";
+					out.println(line);
+					++counter_2;
+				}
+				out.println("</ul>");
+			}
+		%>
 	<h2>Achievements</h2>
 	<h2>Messages</h2>
 	<h2>Friends Activities</h2>
