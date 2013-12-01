@@ -167,8 +167,41 @@ public class FriendManager {
 		}
 	}
 	
-	public void acceptFriendRequest(){
-		
+	public void acceptFriendRequest(Friend_Request request){
+		try {
+			
+			//Create relationship
+			String query = "insert into friendTable (`username`, `friendname`) values (?,?)";
+			PreparedStatement pst = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
+			pst.setString(1, request.getUserName());
+			pst.setString(2, request.getFriendName());
+			pst.executeUpdate();
+			
+			//Delete FriendRequest
+			deleteFriendRequest(request.getUserName(), request.getFriendName());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
+	
+	
+	public void rmFriendship(String username1, String username2){
+		try {
+			
+			//Delete Challenge
+			String query = "delete from friendTable where (username = ? and friendname = ?) or (friendname = ? and username = ?)";
+			PreparedStatement pst = db.prepareStatement(query);
+			pst.setString(1, username1);
+			pst.setString(2, username2);
+			pst.setString(3, username1);
+			pst.setString(4, username2);
+			pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 }
