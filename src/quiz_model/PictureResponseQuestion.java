@@ -1,6 +1,10 @@
 package quiz_model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class PictureResponseQuestion extends Question {
 
@@ -15,8 +19,26 @@ public class PictureResponseQuestion extends Question {
 		this.answers = new ArrayList<String>(answers);
 	}
 	
+	public PictureResponseQuestion(int id, Statement stmt) {
+		super(id);
+		try {
+			String ansStr = "";
+			ResultSet rs = stmt.executeQuery("SELECT * FROM PR WHERE QuestionID = \"" + id + "\"");
+			rs.next();
+			question = rs.getBlob("Question").toString();
+			url = rs.getBlob("Url").toString();
+			ansStr = rs.getBlob("Answer").toString();
+			StringTokenizer str = new StringTokenizer(ansStr, "# #");
+			while (str.hasMoreTokens()) {
+				answers.add(str.nextToken());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
-	public String getHTML() {
+	public String getHTML(int questionNum) {
 		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b><br>" ;
 		html_question += "<img src=\"" + this.url + "\"/><br>"; 
 		html_question += this.question + "<br>";
@@ -25,8 +47,8 @@ public class PictureResponseQuestion extends Question {
 	}
 
 	@Override
-	public String getHTMLwithAnswer() {
-		String html = this.getHTML();
+	public String getHTMLwithAnswer(int questionNum) {
+		String html = this.getHTML(questionNum);
 		html += "<b>Answers:</b> ";
 		for(String answer : this.answers){
 			html += answer;

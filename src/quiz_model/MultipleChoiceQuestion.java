@@ -1,6 +1,10 @@
 package quiz_model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import java.util.Random;
 
@@ -16,9 +20,27 @@ public class MultipleChoiceQuestion extends Question{
 		this.answer = answer;
 	}
 	
+	public MultipleChoiceQuestion(int id, Statement stmt) {
+		super(id);
+		try {
+			String choiceStr = "";
+			ResultSet rs = stmt.executeQuery("SELECT * FROM MC WHERE QuestionID = \"" + id + "\"");
+			rs.next();
+			question = rs.getBlob("Question").toString();
+			answer = rs.getBlob("Answer").toString();
+			choiceStr = rs.getBlob("Choices").toString();
+			StringTokenizer str = new StringTokenizer(choiceStr, "# #");
+			while (str.hasMoreTokens()) {
+				choices.add(str.nextToken());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
-	public String getHTML() {
-		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b>" + this.question + "<br>";
+	public String getHTML(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
 		Random rnd = new Random();
 		double prob = 1 / choices.size();
 		boolean answerNotShown = true;
@@ -35,8 +57,8 @@ public class MultipleChoiceQuestion extends Question{
 	}
 
 	@Override
-	public String getHTMLwithAnswer() {
-		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b>" + this.question + "<br>";
+	public String getHTMLwithAnswer(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
 		Random rnd = new Random();
 		double prob = (double)1 / choices.size();
 		boolean answerNotShown = true;

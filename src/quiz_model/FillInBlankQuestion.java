@@ -1,6 +1,10 @@
 package quiz_model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class FillInBlankQuestion extends Question{
 
@@ -14,16 +18,37 @@ public class FillInBlankQuestion extends Question{
 		this.part2 = part2;
 		this.answers = new ArrayList<String>(answers);
 	}
+	
+	public FillInBlankQuestion(int id, Statement stmt) {
+		super(id);
+		try {
+			String ansStr = "";
+			String questionStr = "";
+			ResultSet rs = stmt.executeQuery("SELECT * FROM FB WHERE QuestionID = \"" + id + "\"");
+			rs.next();
+			questionStr = rs.getBlob("Question").toString();
+			StringTokenizer str1 = new StringTokenizer(questionStr, "# #");
+			part1 = str1.nextToken();
+			part2 = str1.nextToken();
+			ansStr = rs.getBlob("Answer").toString();
+			StringTokenizer str2 = new StringTokenizer(ansStr, "# #");
+			while (str2.hasMoreTokens()) {
+				answers.add(str2.nextToken());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
-	public String getHTML() {
-		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b>" + this.part1 + " __________ " + this.part2 + "<br>";
+	public String getHTML(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.part1 + " __________ " + this.part2 + "<br>";
 		return html_question;
 	}
 
 	@Override
-	public String getHTMLwithAnswer() {
-		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b>" + this.part1 + " __________ " + this.part2 + "<br>";
+	public String getHTMLwithAnswer(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.part1 + " __________ " + this.part2 + "<br>";
 		String html_answer = "<b>Answers: </b>";
 		for(String answer : this.answers){
 			html_answer += answer;
