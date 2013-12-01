@@ -19,6 +19,7 @@ DROP TABLE IF EXISTS friendRequestTable;
 
 CREATE TABLE friendRequestTable (
 	UserName CHAR(32),
-	FriendName CHAR(32)
-	Message BLOB
+	FriendName CHAR(32),
+	Message BLOB,
+	SentTime TIMESTAMP
 );
