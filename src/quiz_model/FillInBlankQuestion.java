@@ -21,19 +21,26 @@ public class FillInBlankQuestion extends Question{
 	
 	public FillInBlankQuestion(int id, Statement stmt) {
 		super(id);
+		this.answers = new ArrayList<String>();
 		try {
 			String ansStr = "";
 			String questionStr = "";
 			ResultSet rs = stmt.executeQuery("SELECT * FROM FB WHERE QuestionID = \"" + id + "\"");
 			rs.next();
-			questionStr = rs.getBlob("Question").toString();
-			StringTokenizer str1 = new StringTokenizer(questionStr, "# #");
-			part1 = str1.nextToken();
-			part2 = str1.nextToken();
-			ansStr = rs.getBlob("Answer").toString();
-			StringTokenizer str2 = new StringTokenizer(ansStr, "# #");
-			while (str2.hasMoreTokens()) {
-				answers.add(str2.nextToken());
+			questionStr = rs.getString("Question");
+			String[] questionList = questionStr.split("#blank#");
+			part1 = questionList[0];
+			part2 = questionList[1];
+			//StringTokenizer str1 = new StringTokenizer(questionStr, "#blank#");
+			//part1 = str1.nextToken();
+			//part2 = str1.nextToken();
+			ansStr = rs.getString("Answer");
+			String[] answerList = ansStr.split("#blank#");
+			for (String answer: answerList) {
+				answers.add(answer);
+			}
+			for (int i = 0; i < answers.size(); i++) {
+				System.out.println(answers.get(i));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,5 +92,13 @@ public class FillInBlankQuestion extends Question{
 		sql += "0);"; /* Time */
 
 		return sql;	
+	}
+
+	@Override
+	public String getHTMLwithQuestion(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" + this.part1+"</br>";
+		html_question += "<b><textarea name=\"answers\" rows=\"1\" cols=\"30\"></textarea></b>";
+		html_question += this.part2 + "<br>";
+		return html_question;
 	}
 }

@@ -26,6 +26,7 @@ public abstract class Question {
 	
 	public abstract String getHTML(int questionNum);	/* Return the HTML format of the question */
 	public abstract String getHTMLwithAnswer(int questionNum);	/* Return the HTML format of the question with answer*/
+	public abstract String getHTMLwithQuestion(int questionNum);	/* Return the HTML format of the question to be answered */
 	public abstract String getType(); /* Return the type of the question */
 	public void setId(int id){
 		this.id = id;

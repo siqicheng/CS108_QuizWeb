@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
+import database_connection.DBConnection;
+
 public class Quiz {
 	int id;
 	String name;
@@ -51,7 +53,7 @@ public class Quiz {
 		return result;
 	}
 
-	public Quiz(int id, Statement stmt) {
+	public Quiz(int id, DBConnection con) {
 		this.id = id;
 		String quizName = "";
 		String createrId = "";
@@ -66,6 +68,7 @@ public class Quiz {
 		ArrayList<Question> questionList = new ArrayList<Question>();
 
 		try {
+			Statement stmt = con.getStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM QI WHERE QuizID = \"" + id + "\"");
 			rs.next();
 			quizName = rs.getString("QuizName");
@@ -79,10 +82,11 @@ public class Quiz {
 			isImmediateCorrection = rs.getBoolean("isImmediateCorrection");
 
 			int score = 0;
-			rs = stmt.executeQuery("SELECT * FROM QQ WHERE QuizID = \"" + id + "\"");
-			while (rs.next()) {
-				int questionType = rs.getInt("questionType");
-				int questionId = rs.getInt("questionId");
+			Statement stmt2 = (new DBConnection()).getStatement();
+			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM QQ WHERE QuizID = \"" + id + "\"");
+			while (rs2.next()) {
+				int questionType = rs2.getInt("questionType");
+				int questionId = rs2.getInt("questionId");
 				Question question = getQuestion(questionId, questionType, stmt);
 				if (question != null)
 					score += question.getScore();
@@ -104,6 +108,33 @@ public class Quiz {
 		this.questions = questionList;
 	}
 
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public boolean isRandom() {
+		return isRandom;
+	}
+	
+	public boolean isOnePage() {
+		return isOnePage;
+	}
+	
+	public boolean isImmediateCorrection() {
+		return isImmediateCorrection;
+	}
+	
+	public boolean canPractice() {
+		return canPractice;
+	}
 	public String insertQISql(){
 		String sql = "INSERT INTO QI VALUES(";
 		// (0, "FirstQuizEver", "Siqi", "2013-11-20 04:21:07", "#CommonSense##CS#","CommonSense",false,false,true,false),
@@ -117,7 +148,6 @@ public class Quiz {
 		sql += Boolean.toString(isRandom) + ","; 
 		sql += Boolean.toString(isOnePage) + ","; 
 		sql += Boolean.toString(isImmediateCorrection) + ");"; 
-
 		return sql;	
 	}
 

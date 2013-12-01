@@ -26,12 +26,12 @@ public class MultipleChoiceQuestion extends Question{
 			String choiceStr = "";
 			ResultSet rs = stmt.executeQuery("SELECT * FROM MC WHERE QuestionID = \"" + id + "\"");
 			rs.next();
-			question = rs.getBlob("Question").toString();
-			answer = rs.getBlob("Answer").toString();
-			choiceStr = rs.getBlob("Choices").toString();
-			StringTokenizer str = new StringTokenizer(choiceStr, "# #");
-			while (str.hasMoreTokens()) {
-				choices.add(str.nextToken());
+			question = rs.getString("Question");
+			answer = rs.getString("Answer");
+			choiceStr = rs.getString("Choices");
+			String [] choicesList = choiceStr.split("#blank#");
+			for (String choice: choicesList) {
+				choices.add(choice);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,6 +108,24 @@ public class MultipleChoiceQuestion extends Question{
 
 		return sql;	
 
+	}
+
+	@Override
+	public String getHTMLwithQuestion(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" + this.question + "</br><br>";
+		Random rnd = new Random();
+		double prob = (double)1 / choices.size();
+		boolean answerNotShown = true;
+		for (int i = 0; i < choices.size(); ++i){
+			if(rnd.nextDouble() < prob && answerNotShown) {
+				html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
+				answerNotShown = false;
+			}
+			html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + choices.get(i) + "\"> " + choices.get(i) + "</p>";
+		}
+		
+		if(answerNotShown) html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
+		return html_question;
 	}
 	
 }

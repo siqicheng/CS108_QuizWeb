@@ -25,12 +25,12 @@ public class PictureResponseQuestion extends Question {
 			String ansStr = "";
 			ResultSet rs = stmt.executeQuery("SELECT * FROM PR WHERE QuestionID = \"" + id + "\"");
 			rs.next();
-			question = rs.getBlob("Question").toString();
-			url = rs.getBlob("Url").toString();
-			ansStr = rs.getBlob("Answer").toString();
-			StringTokenizer str = new StringTokenizer(ansStr, "# #");
-			while (str.hasMoreTokens()) {
-				answers.add(str.nextToken());
+			question = rs.getString("Question");
+			url = rs.getString("Url");
+			ansStr = rs.getString("Answer");
+			String[] answerList = ansStr.split("#blank#");
+			for (String answer: answerList) {
+				answers.add(answer);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,5 +89,13 @@ public class PictureResponseQuestion extends Question {
 
 		return sql;	
 
+	}
+
+	@Override
+	public String getHTMLwithQuestion(int questionNum) {
+		String html_question = this.getHTML(questionNum);
+		String html_answer = "<b>Your answers (use ; as delimiters if more than one legal answer):</b><br>";
+		html_answer += "<b><textarea name=\"answers\" rows=\"1\" cols=\"30\"></textarea></b><br>";
+		return html_question + html_answer;
 	}
 }
