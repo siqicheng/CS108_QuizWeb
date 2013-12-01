@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import = "java.sql.*, quiz_model.*, database_connection.*" %>
+<%@ page import = "java.sql.*, quiz_model.*, database_connection.*, java.text.SimpleDateFormat" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,10 +13,10 @@
 
 
 
-<title>Welcome <%=Username%></title>
+<title><%=Username%></title>
 </head>
 <body>
-	<h1>Welcome <%=Username%></h1>
+	<h1><%=Username%></h1>
 	<h2>Announcenments</h2>
 	<h2>Popular Quiz</h2>
 	<h2>Latest Quiz</h2>
@@ -29,16 +29,35 @@
 				}
 			
 				ResultSet rs = stmt.executeQuery("SELECT QuizID, QuizName FROM QI order by CreateTime DESC;");
-				while (rs.next()) {
+				int counter_0 = 0;
+				while (rs.next() && counter_0 < 15) {
 					String name = rs.getString("QuizName");
 					String id = Integer.toString(rs.getInt("QuizID"));
 					String line = "<li><a href=\"Quiz-summary.jsp?id=" + id + "\">"
 							+ name + "</a></li>";
 					out.println(line);
+					++counter_0;
 				}
 			%>
 		</ul>
 	<h2>Recent Activities</h2>
+		<ul>
+			<%
+				String query = "SELECT QuizID, QuizName, Score, End_Time FROM QI, quiz_take_history WHERE QI.QuizID = quiz_take_history.Quiz_Id AND User_Name = \"" + Username + "\" order by Start_Time DESC;";
+				rs = stmt.executeQuery(query);
+				int counter = 0;
+				while (rs.next() && counter < 15) {
+					String name = rs.getString("QuizName");
+					String id = Integer.toString(rs.getInt("QuizID"));
+					String score = Integer.toString(rs.getInt("Score"));
+					String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rs.getTimestamp("End_Time"));
+					String line = "<li>Finished quiz <a href=\"Quiz-summary.jsp?id=" + id + "\">"
+							+ name + "</a> at "+ endTime + " and earned " + score +  " points</li>";
+					out.println(line);
+					++counter;
+				}
+			%>
+		</ul>
 	<h2>Achievements</h2>
 	<h2>Messages</h2>
 	<h2>Friends Activities</h2>
