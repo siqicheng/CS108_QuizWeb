@@ -32,7 +32,7 @@
 				while (rs.next() && counter_1 < 15) {
 					String name = rs.getString("QuizName");
 					String id = Integer.toString(rs.getInt("Quiz_Id"));
-					String line = "<li><a href=\"Quiz-summary.jsp?id=" + id + "\">"
+					String line = "<li><a href=\"Quiz.jsp?quizId=" + id + "\">"
 							+ name + "</a></li>";
 					out.println(line);
 					++counter_1;
@@ -47,7 +47,7 @@
 				while (rs.next() && counter_0 < 15) {
 					String name = rs.getString("QuizName");
 					String id = Integer.toString(rs.getInt("QuizID"));
-					String line = "<li><a href=\"Quiz-summary.jsp?id=" + id + "\">"
+					String line = "<li><a href=\"Quiz.jsp?quizId=" + id + "\">"
 							+ name + "</a></li>";
 					out.println(line);
 					++counter_0;
@@ -65,7 +65,7 @@
 					String id = Integer.toString(rs.getInt("QuizID"));
 					String score = Integer.toString(rs.getInt("Score"));
 					String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rs.getTimestamp("End_Time"));
-					String line = "<li>Finished quiz <a href=\"Quiz-summary.jsp?id=" + id + "\">"
+					String line = "<li>Finished quiz <a href=\"Quiz.jsp?quizId=" + id + "\">"
 							+ name + "</a> at "+ endTime + " and earned " + score +  " points</li>";
 					out.println(line);
 					++counter;
@@ -82,7 +82,7 @@
 				while (rs.next() && counter < 15) {
 					String name = rs.getString("QuizName");
 					String id = Integer.toString(rs.getInt("QuizID"));
-					String line = "<li><a href=\"Quiz-summary.jsp?id=" + id + "\">"
+					String line = "<li><a href=\"Quiz.jsp?quizId=" + id + "\">"
 					+ name + "</a></li>";
 					out.println(line);
 					++counter_2;
