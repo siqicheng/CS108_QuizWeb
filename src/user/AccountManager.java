@@ -21,7 +21,7 @@ public class AccountManager {
 		initialAccountData();
 	}
 
-	private static void connect(){
+	private static void connect() {
 		statement = (new DBConnection()).getStatement();
 	}
 	

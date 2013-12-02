@@ -19,7 +19,7 @@ if(questions == null) {
 for(int i = 0; i < questions.size(); ++i){
 	Question question = questions.get(i);
 	question.setId(i);
-	String html = question.getHTMLwithAnswer();
+	String html = question.getHTMLwithAnswer(i);
 	out.println(html);
 }
 %>
@@ -34,6 +34,7 @@ for(int i = 0; i < questions.size(); ++i){
 </form>
 
 <form action = "CreateQuizSubmissionServlet" method="post">
+<p>Practice Questions <input type="checkbox" name="practice" value="yes"></p>
 <p>Random Questions <input type="checkbox" name="random" value="yes"></p>
 <p>Page Setting: 
 <input type="radio" name="page_setting" value="one"> One Page

@@ -6,6 +6,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class PictureResponseQuestion extends Question {
 
 	String url;	/* of picture */
@@ -95,7 +97,49 @@ public class PictureResponseQuestion extends Question {
 	public String getHTMLwithQuestion(int questionNum) {
 		String html_question = this.getHTML(questionNum);
 		String html_answer = "<b>Your answers (use ; as delimiters if more than one legal answer):</b><br>";
-		html_answer += "<b><textarea name=\"answers\" rows=\"1\" cols=\"30\"></textarea></b><br>";
+		html_answer += "<b><textarea name=\"answers"+ Integer.toString(questionNum) +"\" rows=\"1\" cols=\"30\"></textarea></b><br>";
 		return html_question + html_answer;
+	}
+
+	@Override
+	public String fetchAnswer(HttpServletRequest request, int questionNum) {
+		// TODO Auto-generated method stub
+		String ans = request.getParameter("answer" + Integer.toString(questionNum));
+        if (ans == null)
+                ans = "";
+        return ans;
+	}
+
+	@Override
+	public int getScore(String ans) {
+		// TODO Auto-generated method stub
+		for (String s: answers) {
+			if (s.trim().toLowerCase().matches(ans.trim().toLowerCase())) {
+				return score;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public String getHTMLwithQuestionResult(int questionNum, String userAns,
+			int curScore) {
+		// TODO Auto-generated method stub
+		String html_question = getHTML(questionNum);
+		String html_user_answer = "<b>Your answer: " + userAns + "</br><br>";
+		String ansStr = "";
+		for (int i = 0; i < answers.size()-1; i++) {
+			ansStr += (answers.get(i) + "/");
+		}
+		ansStr += answers.get(answers.size()-1);
+		String html_correct_answer = "<b>Correct answer: " + ansStr + "</br><br>";
+		String html_correct = "";
+		if (score == curScore) {
+			html_correct += "You are correct!" + "</br><br>";
+		} else {
+			html_correct += "You are wrong!" + "</br><br>";
+		}
+		
+		return html_question + html_user_answer + html_correct_answer + html_correct;
 	}
 }

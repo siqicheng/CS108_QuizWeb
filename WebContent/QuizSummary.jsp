@@ -6,6 +6,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
+	int quizId = Integer.parseInt(request.getParameter("quizId"));
+	DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+	if (con == null) {
+		request.getSession().setAttribute("dbcon", new DBConnection());
+		con = (DBConnection) request.getSession().getAttribute("dbcon");
+		System.out.println("hello");
+	}
+	Quiz quiz = new Quiz(quizId, con);
+	request.getSession().setAttribute("Quiz", quiz);
+	request.getSession().setAttribute("startTime", new java.util.Date().getTime());
+%>
+<!--<%
 	String id = request.getParameter("quizId");
 	System.out.println(id);
 	DBConnection dbcon = (DBConnection)request.getSession().getAttribute("dbcon");
@@ -22,9 +34,13 @@
 	
 	String name = dbcon.getQuizName(id);
 %>
-<title><%=name%></title>
+-->
+<title><%=quiz.getName()%></title>
 </head>
 <body>
-This is quiz <%=name%>
+This is quiz <%=quiz.getName()%>
+<form action="QuizSinglePage.jsp" method="post">
+<input type="submit" value="GoRockQuiz">
+</form>
 </body>
 </html>

@@ -8,16 +8,20 @@ import java.util.StringTokenizer;
 
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class MultipleChoiceQuestion extends Question{
 
 	String question;
 	ArrayList<String> choices; /* Choices other than the correct answer */
 	String answer; 
+	Boolean correct;
 	
 	public MultipleChoiceQuestion(String question, ArrayList<String> choices, String answer){
 		this.question = question;
 		this.choices = new ArrayList<String>(choices);
 		this.answer = answer;
+		this.correct = false;
 	}
 	
 	public MultipleChoiceQuestion(int id, Statement stmt) {
@@ -118,14 +122,50 @@ public class MultipleChoiceQuestion extends Question{
 		boolean answerNotShown = true;
 		for (int i = 0; i < choices.size(); ++i){
 			if(rnd.nextDouble() < prob && answerNotShown) {
-				html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
+				html_question += "<p><input type=\"radio\" name=\"answer"+ Integer.toString(questionNum) +"\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
 				answerNotShown = false;
 			}
-			html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + choices.get(i) + "\"> " + choices.get(i) + "</p>";
+			html_question += "<p><input type=\"radio\" name=\"answer"+ Integer.toString(questionNum) +"\" value=\"" + choices.get(i) + "\"> " + choices.get(i) + "</p>";
 		}
 		
-		if(answerNotShown) html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
+		if(answerNotShown) html_question += "<p><input type=\"radio\" name=\"answer"+ Integer.toString(questionNum) +"\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
 		return html_question;
+	}
+
+	@Override
+	public String fetchAnswer(HttpServletRequest request, int questionNum) {
+		// TODO Auto-generated method stub
+		String ans = request.getParameter("answer" + Integer.toString(questionNum));
+        if (ans == null)
+                ans = "";
+        return ans;
+	}
+
+	@Override
+	public int getScore(String ans) {
+		// TODO Auto-generated method stub
+		if (ans.matches(answer)) {
+			return score;
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public String getHTMLwithQuestionResult(int questionNum, String userAns,
+			int curScore) {
+		// TODO Auto-generated method stub
+		String html_question = getHTML(questionNum);
+		String html_user_answer = "<b>Your answer: " + userAns + "</br><br>";
+		String html_correct_answer = "<b>Correct answer: " + answer + "</br><br>";
+		String html_correct = "";
+		if (score == curScore) {
+			html_correct += "Correct Answer" + "</br><br>";
+		} else {
+			html_correct += "Wrong Answer" + "</br><br>";
+		}
+		
+		return html_question + html_user_answer + html_correct_answer + html_correct;
 	}
 	
 }

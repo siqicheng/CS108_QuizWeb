@@ -1,5 +1,7 @@
 package quiz_model;
 
+import javax.servlet.http.HttpServletRequest;
+
 public abstract class Question {
 
 	protected int id; /* Display id within a quiz, not necessarily indicate the stored id in database */
@@ -27,6 +29,9 @@ public abstract class Question {
 	public abstract String getHTML(int questionNum);	/* Return the HTML format of the question */
 	public abstract String getHTMLwithAnswer(int questionNum);	/* Return the HTML format of the question with answer*/
 	public abstract String getHTMLwithQuestion(int questionNum);	/* Return the HTML format of the question to be answered */
+	public abstract String getHTMLwithQuestionResult(int questionNum, String userAns, int curScore);
+	public abstract String fetchAnswer(HttpServletRequest request, int questionNum);
+	public abstract int getScore(String ans);
 	public abstract String getType(); /* Return the type of the question */
 	public void setId(int id){
 		this.id = id;
