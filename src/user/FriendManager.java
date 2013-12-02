@@ -16,118 +16,151 @@ public class FriendManager {
 	private static Connection db;
 	
 	
-//	private static void connect(){
-//		statement = (new DBConnection()).getStatement();
-//	}
+	private static void connect(){
+		DBConnection dbConnect = new DBConnection();
+		db = dbConnect.getConnection();
+		statement = dbConnect.getStatement();
+	}
 	
 	public static void close() {
 		DBConnection.closeConnection();
 	}
 	
 	public FriendManager(){
-		DBConnection dbConnect = new DBConnection();
-		db = dbConnect.getConnection();
-		statement = dbConnect.getStatement();
+//		DBConnection dbConnect = new DBConnection();
+//		db = dbConnect.getConnection();
+//		statement = dbConnect.getStatement();
 	}
 	
 	
 	// checks if username1 and username2 are friends
 	public static boolean isFriend(String username1, String username2){
-		//connect();
+		connect();
 		try {
 			
-			String query = "select username from friendTable where (username = ? and friendname = ?) or (friendname = ? and username = ?)";
+			//String query = "select username from friendTable where (username = ? and friendname = ?) or (friendname = ? and username = ?)";
 
-			PreparedStatement pst = db.prepareStatement(query);	
-			pst.setString(1, username1);
-			pst.setString(2, username2);
-			pst.setString(3, username2);
-			pst.setString(4, username1);
-			ResultSet rs = pst.executeQuery();
+			//PreparedStatement pst = db.prepareStatement(query);	
+//			pst.setString(1, "\"" + username1 + "\"");
+//			pst.setString(2, "\"" + username2 + "\"");
+//			pst.setString(3, "\"" + username2 + "\"");
+//			pst.setString(4, "\"" + username1 + "\"");
+			
+			
+//			pst.setString(1, username1);
+//			pst.setString(2, username2);
+//			pst.setString(3, username2);
+//			pst.setString(4, username1);
+			
+			
+			
+//			pst.setString(1, "thefirst");
+//			pst.setString(2, "thesecond");
+//			pst.setString(3, "thefirst");
+//			pst.setString(4, "thesecond");
+			
+			
+			String query = "select username from friendTable where (username = " + 
+					"\"" + username1 + "\"" +
+					" and friendname = " +
+					"\"" + username2 + "\"" +
+					") or (friendname = " +
+					"\"" + username1 + "\"" +
+					" and username = " +
+					"\"" + username2 + "\"" +")";
+			
+			
+			ResultSet rs = statement.executeQuery(query);//pst.executeQuery();
 			if (rs.next()) {
+				close();
 				return true;
 		    }
+			close();
 			return false;
 			
 		} catch (SQLException e) {
+			close();
 			e.printStackTrace();
 		}
+		close();
 		return false;
 	}
 	
 	
-	public boolean isDuplicateFriendRequest(String username1, String username2){
-
+	public static boolean isDuplicateFriendRequest(String username1, String username2){
+		connect();
 		try {
-			String query = "select UserName from friendRequestTable where UserName = ? and FriendName = ?";
-			PreparedStatement pst = db.prepareStatement(query);
-			pst.setString(1, username1);
-			pst.setString(2, username2);
-			ResultSet rs = pst.executeQuery();
+			String query = "select UserName from friendRequestTable where UserName = \"" +
+					username1 + "\" and FriendName = \"" + username2 + "\"";
+			ResultSet rs = statement.executeQuery(query);
 			if (rs.next()) {
+				close();
 				return true; //duplicate
 			}
+			close();
 			return false;
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+		close();
 		return false;
 	}
 	
 	public static boolean sendFriendRequest(String username1, String username2, String msg){
+		connect();
 		try {
 
-			
 			//Check recipient exists
-			String query = "select UserName from User_login where UserName = ?";
-			PreparedStatement pst = db.prepareStatement(query);	
-			pst.setString(1, username1);
-			ResultSet rs = pst.executeQuery();
+			String query = "select UserName from User_login where UserName = \"" + username1 + "\"";
+			ResultSet rs = statement.executeQuery(query);
 			if (!rs.next()) {
+				close();
 				return false; //recipient does not exist
 		    }
 			
 			//Make sure they are not friends already
 			if (FriendManager.isFriend(username1, username2)) {
+				close();
 				return false; //relationship already exists
 		    }
 			
 			//Check for a duplicate friend request
-			query = "select username from friendRequestTable where username = ? and friendname = ?";
-			pst = db.prepareStatement(query);	
-			pst.setString(1, username1);
-			pst.setString(2, username2);
-			rs = pst.executeQuery();
+			query = "select username from friendRequestTable where UserName = \"" +
+					username1 + "\" and FriendName = \"" + username2 + "\"";
+			rs = statement.executeQuery(query);
 			if (rs.next()) {
+				close();
 				return false; //duplicate
 		    }
 			
 			//Insert request
-			query = "insert into friendRequestTable (`UserName`, `FriendName`, `Message`, `SentTime`) values (?,?,?,?)";
-			pst = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			pst.setString(1, username1);
-			pst.setString(2, username2);
-			pst.setString(3,  msg);
 			Date SentTime = new Date();
 			Timestamp ts = new Timestamp(SentTime.getTime());
-			pst.setTimestamp(4, ts);
+			query = "insert into friendRequestTable values ('" + username1 +
+					"','" + username2 + "','" + msg + "','" + ts + "')";
+
+//			pst = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+//			pst.setString(1, username1);
+//			pst.setString(2, username2);
+//			pst.setString(3,  msg);
+//			pst.setTimestamp(4, ts);
 			
-			pst.executeUpdate();
-			
+			statement.executeUpdate(query);
+			close();
 			return true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		close();
 		return false;
 	}
 	
 	
-	public List<Friend_Request> getFriendRequests(String receivername){
+	public static List<Friend_Request> getFriendRequests(String receivername){
 		
 		List<Friend_Request> list = new ArrayList<Friend_Request>();
-		
+		connect();
 		try {
 			
 			String query = "select * from friendRequestTable where friendname = ?";
@@ -148,12 +181,13 @@ public class FriendManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		close();
 		return list;
 		
 	}
 	
-	public void deleteFriendRequest(String sendername, String receivername){
+	public static void deleteFriendRequest(String sendername, String receivername){
+		connect();
 		try {
 			//Delete Challenge
 			String query = "delete from friendRequestTable where username = ? and friendname = ?";
@@ -165,9 +199,11 @@ public class FriendManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		close();
 	}
 	
-	public void acceptFriendRequest(Friend_Request request){
+	public static void acceptFriendRequest(Friend_Request request){
+		connect();
 		try {
 			
 			//Create relationship
@@ -183,24 +219,43 @@ public class FriendManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		close();
 	}
 	
 	
-	public void rmFriendship(String username1, String username2){
+	public static void rmFriendship(String username1, String username2){
+		connect();
 		try {
 			
 			//Delete Challenge
-			String query = "delete from friendTable where (username = ? and friendname = ?) or (friendname = ? and username = ?)";
-			PreparedStatement pst = db.prepareStatement(query);
-			pst.setString(1, username1);
-			pst.setString(2, username2);
-			pst.setString(3, username1);
-			pst.setString(4, username2);
-			pst.executeUpdate();
+			
+			String query = "delete from friendTable where (username = " + 
+			"\"" + username1 + "\"" +
+			" and friendname = " +
+			"\"" + username2 + "\"" +
+			") or (friendname = " +
+			"\"" + username1 + "\"" +
+			" and username = " +
+			"\"" + username2 + "\"" +")";
+	
+	
+			statement.executeUpdate(query);//pst.executeQuery();
+			
+			
+			
+			
+//			String query = "delete from friendTable where (username = ? and friendname = ?) or (friendname = ? and username = ?)";
+//			PreparedStatement pst = db.prepareStatement(query);
+//			pst.setString(1, username1);
+//			pst.setString(2, username2);
+//			pst.setString(3, username1);
+//			pst.setString(4, username2);
+//			pst.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		close();
 	}
 	
 	
