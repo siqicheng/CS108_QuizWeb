@@ -89,5 +89,19 @@ public class DBConnection {
 		}
 		return null;
 	}
+	
+	public int getQuizTimes(String quizId){
+		String query = "select COUNT(*) AS Freq FROM quiz_take_history WHERE Quiz_Id = "+ quizId + " GROUP BY Quiz_Id;";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			int freq = rs.getInt("Freq");
+			return freq;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
 

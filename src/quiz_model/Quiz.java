@@ -116,6 +116,10 @@ public class Quiz {
 		return name;
 	}
 	
+	public String getCreator() {
+		return createrId;
+	}
+	
 	public int getId() {
 		return id;
 	}

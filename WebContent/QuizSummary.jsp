@@ -15,7 +15,7 @@
 	}
 	Quiz quiz = new Quiz(quizId, con);
 	request.getSession().setAttribute("Quiz", quiz);
-	request.getSession().setAttribute("startTime", new java.util.Date().getTime());
+	
 %>
 <!--<%
 	String id = request.getParameter("quizId");
@@ -38,7 +38,21 @@
 <title><%=quiz.getName()%></title>
 </head>
 <body>
-This is quiz <%=quiz.getName()%>
+<h1><%=quiz.getName()%></h1>
+<h4>
+<% 
+	int freq = dbcon.getQuizTimes(id);
+	if (freq == 0) out.println("The quiz has never been taken yet. You can be the first taker!");
+	else {
+		
+	}
+%>The quiz have been taken for times, with average score of, and the average time of.</h4>
+<h4>Creator: <a href="CreateAccount_welcome.jsp?name=<%=quiz.getCreator()%>"><%=quiz.getCreator()%></a></h4>
+<h3>Your historical performance</h3>
+<h3>Top performers of all time</h3>
+<h3>Top performers of last day</h3>
+<h3>Recent takers performance</h3>
+
 <form action="QuizSinglePage.jsp" method="post">
 <input type="submit" value="GoRockQuiz">
 </form>

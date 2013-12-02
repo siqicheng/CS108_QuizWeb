@@ -38,6 +38,7 @@ public class QuizSummaryPageServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.getSession().setAttribute("startTime", new java.util.Date().getTime());
 		Quiz quiz = (Quiz) request.getSession().getAttribute("Quiz");
 		if (quiz.isOnePage()) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("QuizSinglePage.jsp");
