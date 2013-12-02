@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
+<%@ page import = "java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,8 +16,9 @@
 	if (Username.length() < 1)
 		Username = "Guest";
 	String sender = request.getParameter("sender");
-		sender = (String)request.getSession().getAttribute("sender");
 	if (sender == null)
+		sender = (String)request.getSession().getAttribute("sender");
+	if (sender == null)	
 		sender = Username;
 %>
 
@@ -145,14 +146,22 @@
 			//String rmButton = "<button onclick=\"rmfriend('" + Username + "','" + sender + "');this.disabled=true;\">Remove Friend</button>";
 			//out.println(rmButton);
 			
-		} else {
+		} else if (!FriendManager.isDuplicateFriendRequest(sender, Username)){
 			//TODO
 			//send a friend request
-			
-			
-			
+			String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
+			String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
+			String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
 			String requestButton = "<button type = \"button\">Send Friend Request</button>";
+			String endForm = "</form>";
+			out.println(formline);
+			out.println(senderline);
+			out.println(receiverline);
 			out.println(requestButton);
+			out.println(endForm);
+		} else {
+			String sentButton = "<button type=\"button\" disabled>Friend Request Sent</button>";
+			out.println(sentButton);
 		}
 	}
 	
