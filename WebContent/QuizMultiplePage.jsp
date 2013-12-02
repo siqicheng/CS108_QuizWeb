@@ -26,9 +26,16 @@
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz - <%=quiz.getName()%></title>
 </head>
 <body>
-
+<h1><%=quiz.getName() %></h1>
+<form action="QuizResultPage.jsp" method="post">
+<%
+	Question question = questions.get(questionNum);
+	out.print(question.getHTMLwithQuestion(questionNum));
+%> <input type="hidden" name="quizId" value="<%=quiz.getId()%>">
+   <input type="submit" value="Submit">
+</form>
 </body>
 </html>
