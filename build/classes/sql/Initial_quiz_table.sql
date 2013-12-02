@@ -28,8 +28,8 @@ CREATE TABLE QI (
 );
 
 INSERT INTO QI VALUES
- (0, "FirstQuizEver", "sqcheng", "2013-11-20 04:21:07", "#CommonSense##CS#","CommonSense",false,false,true,false),
- (1, "QuizExample1", "sqcheng", "2013-11-20 04:22:07", "#CommonSense##CS#","CommonSense",false,false,true,false);
+ (0, "FirstQuizEver", "sqcheng", "2013-11-20 04:21:07", "CommonSense#CS","CommonSense",false,false,true,false),
+ (1, "QuizExample1", "sqcheng", "2013-11-20 04:22:07", "CommonSense#CS","CommonSense",false,false,true,false);
 
  -- ======================================================================	
 -- Quiz Questions Mapping (QQ) table. 
