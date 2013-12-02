@@ -39,7 +39,7 @@
 </head>
 <body>
 This is quiz <%=quiz.getName()%>
-<form action="QuizSinglePage.jsp" method="post">
+<form action="QuizSummaryPageServlet" method="post">
 <input type="submit" value="GoRockQuiz">
 </form>
 </body>
