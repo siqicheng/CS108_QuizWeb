@@ -1,6 +1,8 @@
 package quiz_web;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import quiz_model.Question;
 import quiz_model.Quiz;
 
 /**
@@ -38,7 +41,12 @@ public class QuizSummaryPageServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.getSession().setAttribute("startTime", new java.util.Date().getTime());
 		Quiz quiz = (Quiz) request.getSession().getAttribute("Quiz");
+		List<Question> questions = quiz.getQuestions();
+		if (quiz.isRandom()) {
+			Collections.shuffle(questions);
+		}
 		if (quiz.isOnePage()) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("QuizSinglePage.jsp");
 			dispatcher.forward(request, response);

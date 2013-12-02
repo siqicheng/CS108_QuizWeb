@@ -15,7 +15,6 @@
 	}
 	Quiz quiz = new Quiz(quizId, con);
 	request.getSession().setAttribute("Quiz", quiz);
-	request.getSession().setAttribute("startTime", new java.util.Date().getTime());
 %>
 <!--<%
 	String id = request.getParameter("quizId");

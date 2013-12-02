@@ -15,9 +15,14 @@
 	//Quiz quiz = new Quiz(quizId, con);
 	Quiz quiz = (Quiz) request.getSession().getAttribute("Quiz");
 	List<Question> questions = quiz.getQuestions();
-	if (quiz.isRandom()) {
-		Collections.shuffle(questions);
+	String questionNumStr = request.getParameter("question");
+	int questionNum;
+	if (questionNumStr == null) {
+		questionNum = 0;
+	} else {
+		questionNum = Integer.parseInt(questionNumStr);
 	}
+	
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
