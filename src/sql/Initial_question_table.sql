@@ -69,7 +69,7 @@ CREATE TABLE MC (
          
 INSERT INTO MC VALUES
 (0, "Siqi", "What is the teacher's name? (CS108)", 
-		"Zhang#Li#Du#Cheng#Patrick Young","Patrick Young",5, "CommonSense#CS", 0);
+		"Zhang#Li#Du#Cheng","Patrick Young",5, "CommonSense#CS", 0);
 	 
 -- ======================================================================	
 -- Question Type Four Picture Response(PR)
