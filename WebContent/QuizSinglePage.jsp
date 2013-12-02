@@ -15,9 +15,6 @@
 	//Quiz quiz = new Quiz(quizId, con);
 	Quiz quiz = (Quiz) request.getSession().getAttribute("Quiz");
 	List<Question> questions = quiz.getQuestions();
-	if (quiz.isRandom()) {
-		Collections.shuffle(questions);
-	}
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
