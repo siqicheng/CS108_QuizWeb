@@ -142,7 +142,6 @@ public class FillInBlankQuestion extends Question{
 		} else {
 			html_correct += "<b>You are wrong!</b>" + "</br><br>";
 		}
-		
 		return html_question + html_user_answer + html_correct_answer + html_correct;
 	}
 }

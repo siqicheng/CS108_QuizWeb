@@ -26,6 +26,7 @@ public class MultipleChoiceQuestion extends Question{
 	
 	public MultipleChoiceQuestion(int id, Statement stmt) {
 		super(id);
+		this.choices = new ArrayList<String>();
 		try {
 			String choiceStr = "";
 			ResultSet rs = stmt.executeQuery("SELECT * FROM MC WHERE QuestionID = \"" + id + "\"");
@@ -33,8 +34,9 @@ public class MultipleChoiceQuestion extends Question{
 			question = rs.getString("Question");
 			answer = rs.getString("Answer");
 			choiceStr = rs.getString("Choices");
-			String [] choicesList = choiceStr.split("#blank#");
+			String [] choicesList = choiceStr.split("#");
 			for (String choice: choicesList) {
+				//System.out.println(choice);
 				choices.add(choice);
 			}
 		} catch (SQLException e) {
@@ -156,13 +158,13 @@ public class MultipleChoiceQuestion extends Question{
 			int curScore) {
 		// TODO Auto-generated method stub
 		String html_question = getHTML(questionNum);
-		String html_user_answer = "<b>Your answer: " + userAns + "</br><br>";
-		String html_correct_answer = "<b>Correct answer: " + answer + "</br><br>";
+		String html_user_answer = "<b>Your answer:</b> " + userAns + "</br><br>";
+		String html_correct_answer = "<b>Correct answer:</b> " + answer + "</br><br>";
 		String html_correct = "";
 		if (score == curScore) {
-			html_correct += "Correct Answer" + "</br><br>";
+			html_correct += "<b>You are correct!</b>" + "</br><br>";
 		} else {
-			html_correct += "Wrong Answer" + "</br><br>";
+			html_correct += "<b>You are wrong!</b>" + "</br><br>";
 		}
 		
 		return html_question + html_user_answer + html_correct_answer + html_correct;

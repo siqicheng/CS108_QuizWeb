@@ -23,6 +23,7 @@ public class PictureResponseQuestion extends Question {
 	
 	public PictureResponseQuestion(int id, Statement stmt) {
 		super(id);
+		this.answers = new ArrayList<String>();
 		try {
 			String ansStr = "";
 			ResultSet rs = stmt.executeQuery("SELECT * FROM PR WHERE QuestionID = \"" + id + "\"");
@@ -41,7 +42,7 @@ public class PictureResponseQuestion extends Question {
 	
 	@Override
 	public String getHTML(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b><br>" ;
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" ;
 		html_question += "<img src=\"" + this.url + "\"/><br>"; 
 		html_question += this.question + "<br>";
 		return html_question;
@@ -126,18 +127,18 @@ public class PictureResponseQuestion extends Question {
 			int curScore) {
 		// TODO Auto-generated method stub
 		String html_question = getHTML(questionNum);
-		String html_user_answer = "<b>Your answer: " + userAns + "</br><br>";
+		String html_user_answer = "<b>Your answer:</b> " + userAns + "</br><br>";
 		String ansStr = "";
 		for (int i = 0; i < answers.size()-1; i++) {
 			ansStr += (answers.get(i) + "/");
 		}
 		ansStr += answers.get(answers.size()-1);
-		String html_correct_answer = "<b>Correct answer: " + ansStr + "</br><br>";
+		String html_correct_answer = "<b>Correct answer:</b> " + ansStr + "</br><br>";
 		String html_correct = "";
 		if (score == curScore) {
-			html_correct += "You are correct!" + "</br><br>";
+			html_correct += "<b>You are correct!</b>" + "</br><br>";
 		} else {
-			html_correct += "You are wrong!" + "</br><br>";
+			html_correct += "<b>You are wrong!</b>" + "</br><br>";
 		}
 		
 		return html_question + html_user_answer + html_correct_answer + html_correct;
