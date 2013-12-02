@@ -1,6 +1,10 @@
 package quiz_model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import java.util.Random;
 
@@ -16,9 +20,27 @@ public class MultipleChoiceQuestion extends Question{
 		this.answer = answer;
 	}
 	
+	public MultipleChoiceQuestion(int id, Statement stmt) {
+		super(id);
+		try {
+			String choiceStr = "";
+			ResultSet rs = stmt.executeQuery("SELECT * FROM MC WHERE QuestionID = \"" + id + "\"");
+			rs.next();
+			question = rs.getString("Question");
+			answer = rs.getString("Answer");
+			choiceStr = rs.getString("Choices");
+			String [] choicesList = choiceStr.split("#blank#");
+			for (String choice: choicesList) {
+				choices.add(choice);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
-	public String getHTML() {
-		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b>" + this.question + "<br>";
+	public String getHTML(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
 		Random rnd = new Random();
 		double prob = 1 / choices.size();
 		boolean answerNotShown = true;
@@ -35,8 +57,8 @@ public class MultipleChoiceQuestion extends Question{
 	}
 
 	@Override
-	public String getHTMLwithAnswer() {
-		String html_question = "<b>Question " + Integer.toString(this.id) + ": </b>" + this.question + "<br>";
+	public String getHTMLwithAnswer(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
 		Random rnd = new Random();
 		double prob = (double)1 / choices.size();
 		boolean answerNotShown = true;
@@ -86,6 +108,24 @@ public class MultipleChoiceQuestion extends Question{
 
 		return sql;	
 
+	}
+
+	@Override
+	public String getHTMLwithQuestion(int questionNum) {
+		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" + this.question + "</br><br>";
+		Random rnd = new Random();
+		double prob = (double)1 / choices.size();
+		boolean answerNotShown = true;
+		for (int i = 0; i < choices.size(); ++i){
+			if(rnd.nextDouble() < prob && answerNotShown) {
+				html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
+				answerNotShown = false;
+			}
+			html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + choices.get(i) + "\"> " + choices.get(i) + "</p>";
+		}
+		
+		if(answerNotShown) html_question += "<p><input type=\"radio\" name=\"choice\" value=\"" + this.answer + "\"> " + this.answer + "</p>";
+		return html_question;
 	}
 	
 }

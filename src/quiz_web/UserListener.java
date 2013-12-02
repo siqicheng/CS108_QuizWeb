@@ -1,5 +1,6 @@
 package quiz_web;
 
+import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -34,8 +35,10 @@ public class UserListener implements HttpSessionListener {
     	HttpSession session = arg0.getSession();
     	ArrayList<Question> createdQuestions = new ArrayList<Question>();
     	session.setAttribute("createdQuestions", createdQuestions);
-    	Statement stmt = (new DBConnection()).getStatement();
+    	DBConnection dbCon = new DBConnection();
+    	Statement stmt = dbCon.getStatement();
     	session.setAttribute("db_connection", stmt);
+    	session.setAttribute("dbcon", dbCon);
     }
 
 	/**

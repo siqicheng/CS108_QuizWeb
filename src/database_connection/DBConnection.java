@@ -2,6 +2,7 @@ package database_connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -44,13 +45,36 @@ public class DBConnection {
     }
 	
 	public Connection getConnection(){
+		try {
+			if(statement.isClosed() || connection.isClosed()) generateConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return connection;
 	}
 	
 	public Statement getStatement(){
+		try {
+			if(statement.isClosed() || connection.isClosed()) generateConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return statement;
 	}
 	
+	public String getQuizName(String quizId){
+		String query = "SELECT QuizName FROM QI WHERE QuizID=" + quizId + ";";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			String quizName = rs.getString("QuizName");
+			return quizName;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
  
 }
 
