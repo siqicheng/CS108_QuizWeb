@@ -76,5 +76,18 @@ public class DBConnection {
 		return null;
 	}
  
+	public String getQuizCreator(String quizId){
+		String query = "SELECT CreaterId FROM QI WHERE QuizID=" + quizId + ";";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			String creator = rs.getString("CreaterId");
+			return creator;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
 
