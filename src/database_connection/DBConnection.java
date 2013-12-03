@@ -103,5 +103,35 @@ public class DBConnection {
 		}
 		return 0;
 	}
+	
+	public int getAverageScore(String quizId){
+		int freq = getQuizTimes(quizId);
+		String query = "SELECT SUM(Score) AS Total_Score FROM quiz_take_history where quiz_id = " + quizId + ";";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			int total = rs.getInt("Total_Score");
+			return total/freq;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getAverageTime(String quizId){
+		int freq = getQuizTimes(quizId);
+		String query = "SELECT SUM(TIMESTAMPDIFF(SECOND, START_TIME, END_TIME)) AS Total_Time FROM quiz_take_history where quiz_id = " + quizId + ";";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			int total = rs.getInt("Total_Time");
+			return total/freq;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
 
