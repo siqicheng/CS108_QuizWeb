@@ -8,6 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
 	String friend = request.getParameter("sender");
+	if (friend == null)
+		friend = (String)request.getSession().getAttribute("sender");
 %>
 
 
@@ -25,7 +27,7 @@
 					
 					out.println("##########################################");
 					out.println("<br>");
-					out.println(friendRequest.getUserName() + "has requested to be your friend");
+					out.println(friendRequest.getUserName() + " has requested to be your friend");
 					out.println("<br>");
 					out.println(friendRequest.getMessage());
 					out.println("<br>");

@@ -184,15 +184,12 @@ public class FriendManager {
 		
 	}
 	
-	public static void deleteFriendRequest(String sendername, String receivername){
+	public static void deleteFriendRequest(String sender, String receiver){
 		connect();
 		try {
 			//Delete Challenge
-			String query = "delete from friendRequestTable where username = ? and friendname = ?";
-			PreparedStatement pst = db.prepareStatement(query);
-			pst.setString(1, sendername);
-			pst.setString(2, receivername);
-			pst.executeUpdate();
+			String query = "delete from friendRequestTable where username = \""+ sender + "\" and friendname = \"" + receiver + "\"";
+			statement.executeUpdate(query);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
