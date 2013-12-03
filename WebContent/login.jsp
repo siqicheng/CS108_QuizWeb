@@ -17,8 +17,7 @@
 </head>
 
 <body>
-<a> </a>
-	<div id="anony-reg">
+	<div id="title-bar">
   		<div class="wrapper">
   			<div class="login">
     			<form id="lzform" name="lzform" method="post" action="LoginServlet">
@@ -29,6 +28,7 @@
 			            
 			            <div class="item item-account">
 				            <input type="text" name="name" id="form_email" value="" class="inp" placeholder="username" tabindex="1">
+				            <input type="hidden" value="" name="sender">
 				            <div class="opt">
 				            	<label for="form_remember">
 				            		<input name="remember" type="checkbox" id="form_remember" tabindex="4">
@@ -41,17 +41,19 @@
 				                <input type="password" name="password" id="form_password" class="inp" placeholder="password" tabindex="2">
 				        </div>
 			            
+			            
+			            
 			            <div class="item-submit">
-			                <input type="submit" value="Login" class="bn-submit" tabindex="4">
-			                <input type="submit" value="Guest" class="gn-submit" tabindex="4" onclick="form.action='CreateAccount_welcome.jsp';">
+			                <input type="submit" value="Login" class="login-submit" tabindex="4">
+			                <input type="submit" value="Guest" class="guest-submit" tabindex="4" onclick="form.action='CreateAccount_welcome.jsp';">
 			            </div>
 			        </fieldset>
     			</form>
 			</div>
   
 		    <div class="reg">    
-		        <a href="CreateAccount_new_account.jsp" class="lnk-reg"> Register</a>
-		        <div class="nb-info">
+		        <a href="CreateAccount_new_account.jsp" class="register-buttom"> Register</a>
+		        <div class="ad-info">
 		        	<b>More challenge, more knowledge</b>
 		        </div>
 		    </div>
