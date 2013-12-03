@@ -56,7 +56,7 @@ public class MailManager {
 			//Insert msg
 			Date SentTime = new Date();
 			Timestamp ts = new Timestamp(SentTime.getTime());
-			query = "insert into messageTable values ('" + username1 + "','" + username2 + "','" + msg + "','" + ts + "')";
+			query = "insert into mailTable values ('" + username1 + "','" + username2 + "','" + msg + "','" + ts + "')";
 			
 			connect();
 			statement.executeUpdate(query);
@@ -76,7 +76,7 @@ public class MailManager {
 		connect();
 		try {
 
-			String query = "select * from messageTable where receiver = \"" + receivername + "\"";
+			String query = "select * from mailTable where receiver = \"" + receivername + "\"";
 			ResultSet rs = statement.executeQuery(query);
 			while (rs.next()) {
 				String sendername = rs.getString("sender");
@@ -102,7 +102,7 @@ public class MailManager {
 		connect();
 		try {
 			//Delete message
-			String query = "delete from messageTable where sender = \""+ sender + "\" and receiver = \"" + receiver + "\"";
+			String query = "delete from mailTable where sender = \""+ sender + "\" and receiver = \"" + receiver + "\"";
 			statement.executeUpdate(query);
 			
 		} catch (SQLException e) {
