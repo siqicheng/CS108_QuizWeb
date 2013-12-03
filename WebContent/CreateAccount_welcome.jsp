@@ -16,10 +16,11 @@
 	if (Username.length() < 1)
 		Username = "Guest";
 	String sender = request.getParameter("sender");
-	if (sender == null)
+	if (sender == null || sender.isEmpty())
 		sender = (String)request.getSession().getAttribute("sender");
-	if (sender == null)	
+	if (sender == null || sender.isEmpty())	
 		sender = Username;
+	//System.out.println("Sender: "+ sender);
 %>
 
 
@@ -45,7 +46,7 @@
 				while (rs.next() && counter_1 < 15) {
 					String name = rs.getString("QuizName");
 					String id = Integer.toString(rs.getInt("Quiz_Id"));
-					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + Username + "\">"
+					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
 							+ name + "</a></li>";
 					out.println(line);
 					++counter_1;
@@ -60,7 +61,7 @@
 				while (rs.next() && counter_0 < 15) {
 					String name = rs.getString("QuizName");
 					String id = Integer.toString(rs.getInt("QuizID"));
-					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + Username + "\">"
+					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
 							+ name + "</a></li>";
 					out.println(line);
 					++counter_0;
@@ -78,7 +79,7 @@
 					String id = Integer.toString(rs.getInt("QuizID"));
 					String score = Integer.toString(rs.getInt("Score"));
 					String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rs.getTimestamp("End_Time"));
-					String line = "<li>Finished quiz <a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + Username + "\">"
+					String line = "<li>Finished quiz <a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
 							+ name + "</a> at "+ endTime + " and earned " + score +  " points</li>";
 					out.println(line);
 					++counter;
@@ -95,7 +96,7 @@
 				while (rs.next() && counter < 15) {
 					String name = rs.getString("QuizName");
 					String id = Integer.toString(rs.getInt("QuizID"));
-					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + Username + "\">"
+					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
 					+ name + "</a></li>";
 					out.println(line);
 					++counter_2;
