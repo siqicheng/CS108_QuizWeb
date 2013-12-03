@@ -20,9 +20,17 @@
 	if (questionNumStr == null) {
 		questionNum = 0;
 	} else {
-		questionNum = Integer.parseInt(questionNumStr);
+		String actionStr = request.getParameter("action");
+		if (actionStr == null) {
+			questionNum = Integer.parseInt(questionNumStr);
+		}
+		if (actionStr.matches("Back")) {
+			questionNum = Integer.parseInt(questionNumStr)-1;
+		} else {
+			// next
+			questionNum = Integer.parseInt(questionNumStr)+1;
+		}
 	}
-	
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -30,12 +38,25 @@
 </head>
 <body>
 <h1><%=quiz.getName() %></h1>
-<form action="QuizResultPage.jsp" method="post">
-<%
+<%	 
+	out.print("<form action=\"QuizMultiplePage.jsp\" method=\"post\">");
 	Question question = questions.get(questionNum);
 	out.print(question.getHTMLwithQuestion(questionNum));
-%> <input type="hidden" name="quizId" value="<%=quiz.getId()%>">
-   <input type="submit" value="Submit">
-</form>
+	out.print("<input type=\"hidden\" name=\"question\" value=\""+ Integer.toString(questionNum)+"\"");
+	if (questionNum == 0) {
+		out.print("<input type=\"submit\" name=\"action\" value=\"Next\">");
+	} else if (questionNum == questions.size()-1) {
+		out.print("<input type=\"submit\" name=\"action\" value=\"Back\">");
+	} else {
+		out.print("<input type=\"submit\" name=\"action\" value=\"Back\">");
+		out.print("<input type=\"submit\" name=\"action\" value=\"Next\">");
+	}
+	out.print("</form>");
+	if (questionNum == questions.size()-1) {
+		out.print("<form action=\"QuizResultPage.jsp\" method=\"post\">");
+		out.print("<input type=\"submit\" value=\"Submit\">");
+		out.print("</form>");
+	}
+%>
 </body>
 </html>
