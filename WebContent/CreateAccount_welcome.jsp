@@ -16,10 +16,11 @@
 	if (Username.length() < 1)
 		Username = "Guest";
 	String sender = request.getParameter("sender");
+	if (sender == "")	
+		sender = Username;
 	if (sender == null)
 		sender = (String)request.getSession().getAttribute("sender");
-	if (sender == null)	
-		sender = Username;
+
 %>
 
 
@@ -187,6 +188,17 @@
 	}
 	
 %>
+
+
+
+	<form action = "mailSystem.jsp" method = "post">
+	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");%>
+	<input type = "submit" value = "Mailbox"/>
+	</form>
+
+
+
+
 
 <script>
 function rmfriend(name1, name2){
