@@ -29,8 +29,13 @@
 		} else {
 			// next
 			questionNum = Integer.parseInt(questionNumStr)+1;
+			String ans = request.getParameter("answer" + Integer.toString(questionNum-1));
+			if (ans != null) {
+				request.getSession().setAttribute("answer"+Integer.toString(questionNum-1), ans);
+			}
 		}
 	}
+	request.getSession().setAttribute("question",questionNum);
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -39,24 +44,20 @@
 <body>
 <h1><%=quiz.getName() %></h1>
 <%	 
-	out.print("<form action=\"QuizMultiplePage.jsp\" method=\"post\">");
+	out.print("<form action=\"QuizMultiplePageServlet\" method=\"post\">");
 	Question question = questions.get(questionNum);
 	out.print(question.getHTMLwithQuestion(questionNum));
-	out.print("<input type=\"hidden\" name=\"question\" value=\""+ Integer.toString(questionNum)+"\"");
+	out.print("<input type=\"hidden\" name=\"question\" value=\""+ Integer.toString(questionNum)+"\">");
 	if (questionNum == 0) {
 		out.print("<input type=\"submit\" name=\"action\" value=\"Next\">");
 	} else if (questionNum == questions.size()-1) {
 		out.print("<input type=\"submit\" name=\"action\" value=\"Back\">");
+		out.print("<input type=\"submit\" value=\"Submit\">");
 	} else {
 		out.print("<input type=\"submit\" name=\"action\" value=\"Back\">");
 		out.print("<input type=\"submit\" name=\"action\" value=\"Next\">");
 	}
 	out.print("</form>");
-	if (questionNum == questions.size()-1) {
-		out.print("<form action=\"QuizResultPage.jsp\" method=\"post\">");
-		out.print("<input type=\"submit\" value=\"Submit\">");
-		out.print("</form>");
-	}
 %>
 </body>
 </html>

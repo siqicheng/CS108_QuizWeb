@@ -138,8 +138,12 @@ public class MultipleChoiceQuestion extends Question{
 	public String fetchAnswer(HttpServletRequest request, int questionNum) {
 		// TODO Auto-generated method stub
 		String ans = request.getParameter("answer" + Integer.toString(questionNum));
-        if (ans == null)
+        if (ans == null) {
+        	ans = (String)request.getSession().getAttribute("answer" + Integer.toString(questionNum)) ;
+        	if (ans == null) {
                 ans = "";
+        	}
+        }
         return ans;
 	}
 
