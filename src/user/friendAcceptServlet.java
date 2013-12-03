@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class friendRequestServlet
+ * Servlet implementation class friendAcceptServlet
  */
-@WebServlet("/friendRequestServlet")
-public class friendRequestServlet extends HttpServlet {
+@WebServlet("/friendAcceptServlet")
+public class friendAcceptServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public friendRequestServlet() {
+    public friendAcceptServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,15 +36,16 @@ public class friendRequestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String sender = request.getParameter("sender");
-		String receiver = request.getParameter("receiver");
-		String msg = request.getParameter("msg");
+		String user = request.getParameter("user");
+		String friend = request.getParameter("friend");
 		
-		FriendManager.sendFriendRequest(sender, receiver, msg);
-		request.getSession().setAttribute("name", sender);
-		request.getSession().setAttribute("sender", receiver);
 		
-        RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
+		
+		FriendManager.acceptFriendRequest(user, friend);
+		
+		request.getSession().setAttribute("sender", friend);
+		
+        RequestDispatcher rd = request.getRequestDispatcher("friendRequest.jsp");
         rd.forward(request,response);
 	}
 

@@ -111,7 +111,7 @@ public class FriendManager {
 		try {
 
 			//Check recipient exists
-			String query = "select UserName from User_login where UserName = \"" + username1 + "\"";
+			String query = "select UserName from userTable where UserName = \"" + username1 + "\"";
 			ResultSet rs = statement.executeQuery(query);
 			if (!rs.next()) {
 				close();
@@ -125,8 +125,8 @@ public class FriendManager {
 		    }
 			
 			//Check for a duplicate friend request
-			query = "select username from friendRequestTable where UserName = \"" +
-					username1 + "\" and FriendName = \"" + username2 + "\"";
+			query = "select username from friendRequestTable where UserName = \"" + username1 + "\" and FriendName = \"" + username2 + "\"";
+			connect();
 			rs = statement.executeQuery(query);
 			if (rs.next()) {
 				close();
@@ -136,8 +136,7 @@ public class FriendManager {
 			//Insert request
 			Date SentTime = new Date();
 			Timestamp ts = new Timestamp(SentTime.getTime());
-			query = "insert into friendRequestTable values ('" + username1 +
-					"','" + username2 + "','" + msg + "','" + ts + "')";
+			query = "insert into friendRequestTable values ('" + username1 + "','" + username2 + "','" + msg + "','" + ts + "')";
 
 //			pst = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 //			pst.setString(1, username1);
@@ -145,6 +144,7 @@ public class FriendManager {
 //			pst.setString(3,  msg);
 //			pst.setTimestamp(4, ts);
 			
+			connect();
 			statement.executeUpdate(query);
 			close();
 			return true;
@@ -157,16 +157,14 @@ public class FriendManager {
 	}
 	
 	
-	public static List<Friend_Request> getFriendRequests(String receivername){
+	public static ArrayList<Friend_Request> getFriendRequests(String receivername){
 		
-		List<Friend_Request> list = new ArrayList<Friend_Request>();
+		ArrayList<Friend_Request> list = new ArrayList<Friend_Request>();
 		connect();
 		try {
 			
-			String query = "select * from friendRequestTable where friendname = ?";
-			PreparedStatement pst = db.prepareStatement(query);	
-			pst.setString(1, receivername);
-			ResultSet rs = pst.executeQuery();
+			String query = "select * from friendRequestTable where friendname = \"" + receivername + "\"";
+			ResultSet rs = statement.executeQuery(query);
 			while (rs.next()) {
 				String senderName = rs.getString("username");
 				String message = rs.getString("message");
@@ -202,19 +200,16 @@ public class FriendManager {
 		close();
 	}
 	
-	public static void acceptFriendRequest(Friend_Request request){
+	public static void acceptFriendRequest(String user, String friend){
 		connect();
 		try {
 			
 			//Create relationship
-			String query = "insert into friendTable (`username`, `friendname`) values (?,?)";
-			PreparedStatement pst = db.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);	
-			pst.setString(1, request.getUserName());
-			pst.setString(2, request.getFriendName());
-			pst.executeUpdate();
+			String query = "insert into friendTable values ('" + user + "','" + friend + "')";
+			statement.executeUpdate(query);
 			
 			//Delete FriendRequest
-			deleteFriendRequest(request.getUserName(), request.getFriendName());
+			deleteFriendRequest(user, friend);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

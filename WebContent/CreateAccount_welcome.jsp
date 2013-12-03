@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
+<%@ page import = "java.util.*, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -116,7 +116,7 @@
 	
 	
 	<form action = "CreateAccount_welcome.jsp" method = "post">
-	<input type = "text" name = "name" value = "Search for friends"/>
+	<input type = "text" name = "name" placeholder = "Search for friends"/>
 	<% //<input type = "hidden" name = "sender" value = Username/> %>
 	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
 	<input type = "submit" value = "Search"/>
@@ -129,7 +129,6 @@
 	
 	if (sender != null && !Username.equals(sender)){
 		if(FriendManager.isFriend(Username, sender)){
-			//TODO 
 			//remove a friend
 			
 			String formline = "<form method = \"POST\" action = \"rmFriendServlet\">";
@@ -147,25 +146,46 @@
 			//out.println(rmButton);
 			
 		} else if (!FriendManager.isDuplicateFriendRequest(sender, Username)){
-			//TODO
+			
 			//send a friend request
 			String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
 			String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
 			String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-			String requestButton = "<button type = \"button\">Send Friend Request</button>";
+			String msgline = "<input type = \"text\" name = \"msg\" value = \"Mesages to sent\" >";
+			String requestButton = "<input type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
 			String endForm = "</form>";
 			out.println(formline);
 			out.println(senderline);
 			out.println(receiverline);
+			out.println(msgline);
 			out.println(requestButton);
 			out.println(endForm);
 		} else {
+			// request sent button
 			String sentButton = "<button type=\"button\" disabled>Friend Request Sent</button>";
 			out.println(sentButton);
 		}
 	}
 	
-		
+	// you have friend request button
+	if (Username.equals(sender)){
+		ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+		friendRequests = FriendManager.getFriendRequests(sender);
+		if (friendRequests.size()!=0){
+			// sender has friend requests
+			String formline = "<form method = \"POST\" action = \"friendRequest.jsp\">";
+			String userline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
+			//String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
+			String requestsButton = "<input type = \"submit\" value = \"Friend Requests\" onclick=\"this.disabled=true;this.form.submit();\">";
+			String endForm = "</form>";
+			out.println(formline);
+			out.println(userline);
+			//out.println(receiverline);
+			out.println(requestsButton);
+			out.println(endForm); 
+		}
+	}
+	
 %>
 
 <script>
