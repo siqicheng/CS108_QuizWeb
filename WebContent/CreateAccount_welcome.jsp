@@ -152,7 +152,7 @@
 			String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
 			String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
 			String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-			String msgline = "<input type = \"text\" name = \"msg\" value = \"Mesages to sent\" >";
+			String msgline = "<textarea name = \"msg\" rows = \"3\" cols = \"25\">Mesages to sent </textarea >";
 			String requestButton = "<input type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
 			String endForm = "</form>";
 			out.println(formline);

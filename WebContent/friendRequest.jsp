@@ -67,12 +67,10 @@
 	
 	<form action = "CreateAccount_welcome.jsp" method = "post">
 	<%
-		out.println("<input type = \"hidden\" name = \"sender\" value ="
-				+ "\"" + friend + "\"/>");
+		out.println("<input type = \"hidden\" name = \"sender\" value =" + "\"" + friend + "\"/>");
 	%>
 	<%
-		out.println("<input type = \"hidden\" name = \"name\" value ="
-				+ "\"" + friend + "\"/>");
+		out.println("<input type = \"hidden\" name = \"name\" value =" + "\"" + friend + "\"/>");
 	%>
 	<input type = "submit" value = "My Homepage"/>
 	</form>
