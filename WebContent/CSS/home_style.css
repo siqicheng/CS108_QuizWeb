@@ -176,10 +176,10 @@ a.processing:hover,a.processing:active{background-color:#666;color:#fff}
     float: left;
     height: 24px;
     text-decoration: none solid rgb(17, 17, 17);
-    width: 340px;
+    width: 360px;
     border: 0px none rgb(17, 17, 17);
     font: normal normal normal 12px/19px Helvetica, Arial, sans-serif;
-    
+    margin-left:20px;margin-top:4px;
     outline: rgb(17, 17, 17) none 0px;
 }/*#function-item*/
 
@@ -215,7 +215,7 @@ a.processing:hover,a.processing:active{background-color:#666;color:#fff}
     text-align: left;
     text-decoration: none solid rgb(0, 119, 34);
     border: 0px none rgb(0, 119, 34);
-    font: normal normal normal 20px/24px Helvetica, Arial, sans-serif;
+    font: normal normal normal 16px/24px Helvetica, Arial, sans-serif;
     list-style: none outside none;
     outline: rgb(0, 119, 34) none 0px;
 }/*#item-text*/

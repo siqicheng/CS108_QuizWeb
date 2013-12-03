@@ -27,8 +27,8 @@
 		Question question = questions.get(i);
 		out.print(question.getHTMLwithQuestion(i));
 	}
-%> <input type="hidden" name="quizId" value="<%=quiz.getId()%>">
-   <input type="submit" value="Submit">
+%>
+<input type="submit" value="Submit">
 </form>
 </body>
 </html>

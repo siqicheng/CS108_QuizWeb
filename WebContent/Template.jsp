@@ -17,6 +17,23 @@
 			<div class="logo">
 				<a href="login.jsp"><img src="pic/logo.jpg" width="" height="44"></a>
 			</div>
+			
+			<div id="function-item">
+				<ul id="function-list">
+					<li id="items">
+						<b href="http://www.google.com" id="item-text">Home</b>
+					</li>
+					<li id="items">
+						<b href="http://www.google.com" id="item-text">CreateQuiz</b>
+					</li>
+					<li id="items">
+						<b href="http://www.google.com" id="item-text">Friends</b>
+					</li>
+					<li id="items">
+						<b href="http://www.google.com" id="item-text">Mailbox</b>
+					</li>
+				</ul>
+			</div>
 
 			<div id="search-bar-board">	 
 				<div id="search-bar" >
@@ -30,19 +47,7 @@
 				</div>
 			</div>
 
-			<div id="function-item">
-				<ul id="function-list">
-					<li id="items">
-						<b href="http://www.google.com" id="item-text">Mailbox</b>
-					</li>
-					<li id="items">
-						<b href="http://www.google.com" id="item-text">Friends</b>
-					</li>
-					<li id="items">
-						<b href="http://www.google.com" id="item-text">Edit profile</b>
-					</li>
-				</ul>
-			</div>
+
 	
 			<div class ="text"> 
 				<b> Username </b>
