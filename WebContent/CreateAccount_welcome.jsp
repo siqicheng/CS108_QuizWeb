@@ -16,11 +16,13 @@
 	if (Username.length() < 1)
 		Username = "Guest";
 	String sender = request.getParameter("sender");
+
 	if (sender == null || sender.isEmpty())
 		sender = (String)request.getSession().getAttribute("sender");
 	if (sender == null || sender.isEmpty())	
 		sender = Username;
 	//System.out.println("Sender: "+ sender);
+
 %>
 
 
@@ -152,7 +154,7 @@
 			String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
 			String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
 			String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-			String msgline = "<input type = \"text\" name = \"msg\" value = \"Mesages to sent\" >";
+			String msgline = "<textarea name = \"msg\" rows = \"3\" cols = \"25\">Mesages to sent </textarea >";
 			String requestButton = "<input type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
 			String endForm = "</form>";
 			out.println(formline);
@@ -188,6 +190,17 @@
 	}
 	
 %>
+
+
+
+	<form action = "mailSystem.jsp" method = "post">
+	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");%>
+	<input type = "submit" value = "Mailbox"/>
+	</form>
+
+
+
+
 
 <script>
 function rmfriend(name1, name2){
