@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
 	String sender = request.getParameter("sender");
+	String receiver = request.getParameter("receiver");
 %>
 
 <title>Composing a mail...</title>
@@ -18,13 +19,18 @@
 	//send a mail
 	String formline = "<form method = \"POST\" action = \"sendMailServlet\">";
 	String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
-	String receiverline = "<input type = \"text\" name = \"receiver\" placeholder = \"Receiver\">";
-	String msgline = "<textarea name = \"msg\" rows = \"10\" cols = \"300\">Mails to sent </textarea >";
+	String receiverline = "";
+	if (receiver == null)
+		receiverline = "<input type = \"text\" name = \"receiver\" placeholder = \"Receiver\">";
+	else
+		receiverline = "<input type = \"text\" name = \"receiver\" value = \"" + receiver + "\">";
+	String msgline = "<textarea name = \"msg\" rows = \"10\" cols = \"100\">Mails to sent </textarea >";
 	String requestButton = "<input type = \"submit\" value = \"Send\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
 	String endForm = "</form>";
 	out.println(formline);
 	out.println(senderline);
 	out.println(receiverline);
+	out.println("<br>");
 	out.println(msgline);
 	out.println(requestButton);
 	out.println(endForm);
@@ -32,7 +38,12 @@
 
 
 	<form action = "mailSystem.jsp" method = "post">
-	<%out.println("<input type = \"hidden\" name = \"sender\" value =" + "\"" + sender + "\"/>");%>
+	<%
+	if (receiver == null)
+		out.println("<input type = \"hidden\" name = \"sender\" value =" + "\"" + sender + "\"/>");
+	else
+		out.println("<input type = \"hidden\" name = \"sender\" value =" + "\"" + receiver + "\"/>");
+	%>
 	<input type = "submit" value = "Go Back to Mailbox"/>
 	</form>
 	

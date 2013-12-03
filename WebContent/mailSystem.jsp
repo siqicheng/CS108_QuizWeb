@@ -20,7 +20,12 @@
 	<input type = "submit" value = "Compose"/>
 	</form>
 
-	<table border="1">
+	<h1>Received Emails: </h1>
+
+	<table border="1" class = "fixed">
+	    <col width="100px" />
+    	<col width="500px" />
+    	<col width="200px" />
 	<%
 		ArrayList<Message> messages = MailManager.getMessages(sender);
 		for (Message msg : messages){
@@ -28,8 +33,9 @@
 			
 			out.println("<td>" + msg.getsender() + "</td>");
 			String message = msg.getMessage().length() < 100 ? msg.getMessage() : msg.getMessage().substring(0,100);
-			String form = "<input type = \"submit\" name = \"msg\" value = \"" + message + "\">";
-			out.println("<td>" + form + "</td>");
+			//String form = "<input type = \"submit\" name = \"msg\" value = \"" + message + "\">";
+			String link = "<a href=\"readMail.jsp?sender=" + msg.getsender() + "&receiver=" + msg.getreceiver() + "&message=" + msg.getMessage() + "&date=" + msg.getSentDate()  + "\">" + message;
+			out.println("<td>" + link + "</td>");
 			out.println("<td>" + msg.getSentDate() + "</td>");
 			
 			out.println("</tr>");
