@@ -27,6 +27,7 @@
 	<form action = "deleteMailServlet" method = "post">
 	<%out.println("<input type = \"hidden\" name = \"sender\" value =" + "\"" + sender + "\"/>");%>
 	<%out.println("<input type = \"hidden\" name = \"receiver\" value =" + "\"" + receiver + "\"/>");%>
+	<%out.println("<input type = \"hidden\" name = \"date\" value =" + "\"" + date + "\"/>");%>
 	<input type = "submit" value = "Delete Message"/>
 	</form>
 	

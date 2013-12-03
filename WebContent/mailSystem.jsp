@@ -7,9 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
-	String sender = request.getParameter("sender");
+	String sender = (String)request.getSession().getAttribute("sender");
 	if (sender == null)
-		sender = (String)request.getSession().getAttribute("sender");
+		sender = request.getParameter("sender");
+		
 %>
 <title><%=sender%>'s Mailbox</title>
 </head>

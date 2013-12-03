@@ -32,6 +32,9 @@ public class MailManager {
 	
 	public static boolean sendMessage(String username1, String username2, String msg){
 		connect();
+		//TODO
+		msg.replaceAll("'", "\'");
+		msg.replaceAll("\"", "\\\"");
 		try {
 			if (msg.length() == 0)
 				return false;
@@ -98,11 +101,11 @@ public class MailManager {
 		return list;
 	}
 	
-	public static void deleteMessage(String sender, String receiver){
+	public static void deleteMessage(String sender, String receiver, String date){
 		connect();
 		try {
 			//Delete message
-			String query = "delete from mailTable where sender = \""+ sender + "\" and receiver = \"" + receiver + "\"";
+			String query = "delete from mailTable where sender = \""+ sender + "\" and receiver = \"" + receiver + "\" and senttime = \"" + date + "\"";
 			statement.executeUpdate(query);
 			
 		} catch (SQLException e) {

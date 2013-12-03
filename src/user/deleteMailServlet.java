@@ -1,6 +1,8 @@
 package user;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +36,15 @@ public class deleteMailServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String sender = request.getParameter("sender");
+		String receiver = request.getParameter("receiver");
+		String date = request.getParameter("date");
+		
+		MailManager.deleteMessage(sender, receiver, date);
+		request.getSession().setAttribute("sender", receiver);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("mailSystem.jsp");
+        rd.forward(request,response);
 	}
 
 }

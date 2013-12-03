@@ -41,7 +41,7 @@ public class sendMailServlet extends HttpServlet {
 		String msg = request.getParameter("msg");
 		
 		MailManager.sendMessage(sender, receiver, msg);
-		request.getSession().setAttribute("sender", receiver);
+		request.getSession().setAttribute("sender", sender);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("mailSystem.jsp");
         rd.forward(request,response);
