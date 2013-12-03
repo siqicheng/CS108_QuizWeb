@@ -97,8 +97,7 @@ public class PictureResponseQuestion extends Question {
 	@Override
 	public String getHTMLwithQuestion(int questionNum) {
 		String html_question = this.getHTML(questionNum);
-		String html_answer = "<b>Your answers (use ; as delimiters if more than one legal answer):</b><br>";
-		html_answer += "<b><textarea name=\"answers"+ Integer.toString(questionNum) +"\" rows=\"1\" cols=\"30\"></textarea></b><br>";
+		String html_answer = "<b><textarea name=\"answers"+ Integer.toString(questionNum) +"\" rows=\"1\" cols=\"30\"></textarea></b><br>";
 		return html_question + html_answer;
 	}
 
@@ -106,8 +105,12 @@ public class PictureResponseQuestion extends Question {
 	public String fetchAnswer(HttpServletRequest request, int questionNum) {
 		// TODO Auto-generated method stub
 		String ans = request.getParameter("answer" + Integer.toString(questionNum));
-        if (ans == null)
+        if (ans == null) {
+        	ans = (String)request.getSession().getAttribute("answer" + Integer.toString(questionNum)) ;
+        	if (ans == null) {
                 ans = "";
+        	}
+        }
         return ans;
 	}
 
