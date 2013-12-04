@@ -28,7 +28,7 @@
 			            
 			            <div class="item item-account">
 				            <input type="text" name="name" id="form_email" value="" class="inp" placeholder="username" tabindex="1">
-				            <input type="hidden" value="" name="sender">
+				            
 				            <div class="opt">
 				            	<label for="form_remember">
 				            		<input name="remember" type="checkbox" id="form_remember" tabindex="4">

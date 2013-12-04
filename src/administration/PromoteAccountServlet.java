@@ -12,16 +12,16 @@ import user.AccountManager;
 import user.AdministratorAccount;
 
 /**
- * Servlet implementation class DeleteAccount
+ * Servlet implementation class PromoteAccountServlet
  */
-@WebServlet("/DeleteAccountServlet")
-public class DeleteAccountServlet extends HttpServlet {
+@WebServlet("/PromoteAccountServlet")
+public class PromoteAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteAccountServlet() {
+    public PromoteAccountServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,19 +37,19 @@ public class DeleteAccountServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String deleteId = request.getParameter("name");
+		String promoteId = request.getParameter("name");
 		String adminUser = (String)request.getSession().getAttribute("sender");
 		AdministratorAccount admin = new AdministratorAccount(adminUser);
 		if(!admin.getUserType().equals("s")){
 			response.sendRedirect("CreateAccount_welcome.jsp");
 			return;
 		}
-		if(AccountManager.hasAccount(deleteId)) {
-			admin.deleteAccount(deleteId);
-			
+		if(AccountManager.hasAccount(promoteId)) {
+			String status = request.getParameter("status");
+			admin.setStatus(promoteId, status);
 		} 
 		response.sendRedirect("admin.jsp");
-		
+
 	}
 
 }

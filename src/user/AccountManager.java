@@ -128,6 +128,19 @@ public class AccountManager {
 		return userType;
 	}
     
+	public static void setStatus(String userName, String status){
+		connect();
+		try {
+			statement.executeUpdate("UPDATE userTable SET Status =" + "\"" + status 
+					+ "\" WHERE userName=\"" + userName + "\"");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		close();
+		
+	}
+	
     public static boolean createAnnounce(String announce, String admin){
     	connect();
 		try {
