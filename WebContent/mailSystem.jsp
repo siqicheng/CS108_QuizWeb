@@ -34,9 +34,16 @@
 			
 			out.println("<td>" + msg.getsender() + "</td>");
 			String message = msg.getMessage().length() < 100 ? msg.getMessage() : msg.getMessage().substring(0,100);
+			System.out.println(message);
+			
+			if (message.contains("Take this challenge")){
+				out.println("<td>" + message + "</td>");
+			}
+			else{
 			//String form = "<input type = \"submit\" name = \"msg\" value = \"" + message + "\">";
-			String link = "<a href=\"readMail.jsp?sender=" + msg.getsender() + "&receiver=" + msg.getreceiver() + "&message=" + msg.getMessage() + "&date=" + msg.getSentDate()  + "\">" + message;
-			out.println("<td>" + link + "</td>");
+				String link = "<a href=\"readMail.jsp?sender=" + msg.getsender() + "&receiver=" + msg.getreceiver() + "&message=" + msg.getMessage() + "&date=" + msg.getSentDate()  + "\">" + message;
+				out.println("<td>" + link + "</td>");
+			}
 			out.println("<td>" + msg.getSentDate() + "</td>");
 			
 			out.println("</tr>");
