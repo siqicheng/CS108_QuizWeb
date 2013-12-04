@@ -87,7 +87,7 @@ public class FillInBlankQuestion extends Question{
 		for(String answer : answers){
 			sql += answer + "#";
 		}
-		sql = sql.substring(0, sql.length());
+		sql = sql.substring(0, sql.length()-1);
 		sql += "\",";
 		
 		sql += Integer.toString(5) + ","; /* Score, to be changed */

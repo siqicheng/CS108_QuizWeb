@@ -65,15 +65,18 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 					// might be 0
 					//System.out.println(rs.toString());
 					rs.next();
-					int questionId = rs.getInt("Number");
+					int questionId = rs.getInt("Number")+1;
 					question.setId(questionId);
 					stmt.executeUpdate(question.insertSql(questionId, quizCreator));
-					
+					String query_update = "UPDATE WS SET Number=" + Integer.toString(questionId) + " WHERE Name='" + attr + "';";
+					stmt.executeUpdate(query_update);
 					String query_2 = "SELECT Number FROM WS where Name = 'QuizNum'";
 					ResultSet rs_2 = stmt.executeQuery(query_2);
 					// might be 0
 					rs_2.next();
-					quizId = rs_2.getInt("Number");
+					quizId = rs_2.getInt("Number")+1;
+					String query_2_update = "UPDATE WS SET Number=" + Integer.toString(quizId) + " WHERE Name='QuizNum';";
+					stmt.executeUpdate(query_2_update);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

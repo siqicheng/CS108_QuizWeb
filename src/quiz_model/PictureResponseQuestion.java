@@ -79,8 +79,9 @@ public class PictureResponseQuestion extends Question {
 		/* Answer */
 		sql += "\"";
 		for(String answer : answers){
-			sql += "#" + answer + "#";
+			sql += answer + "#";
 		}
+		sql = sql.substring(0, sql.length()-1);
 		sql += "\",";
 		
 		/* URL */
