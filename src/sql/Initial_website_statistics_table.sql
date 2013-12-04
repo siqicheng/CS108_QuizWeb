@@ -12,9 +12,9 @@ CREATE TABLE WS (
 );
 
 INSERT INTO WS VALUES
-("QuestionResponseNum", 1),
-("PictureResponseNum", 1),
-("FillInBlankNum", 1),
-("MultipleChoiceNum", 1),
-("QuizNum", 2);
+("QuestionResponseNum", 0),
+("PictureResponseNum", 0),
+("FillInBlankNum", 0),
+("MultipleChoiceNum", 0),
+("QuizNum", 0);
 
