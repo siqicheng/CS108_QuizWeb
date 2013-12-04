@@ -10,6 +10,7 @@
 <%
 	//TODO 
 	// check if username is in db
+
 	String Username = request.getParameter("name");
 	/*if (Username == null)
 		Username = (String)request.getSession().getAttribute("name");*/

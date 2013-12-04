@@ -25,6 +25,10 @@ public class AdministratorAccount extends UserAccount {
 		AccountManager.deleteAccount(userName);
 	}
 	
+	public static void setStatus(String userName, String status){
+		AccountManager.setStatus(userName, status);
+	}
+	
 	
 
 }

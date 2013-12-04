@@ -7,12 +7,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
-	String userName = (String)request.getParameter("name");
-	AdministratorAccount admin = new AdministratorAccount(userName);
+	String sender = (String)request.getSession().getAttribute("sender");
+	AdministratorAccount admin = new AdministratorAccount(sender);
 %>
 
 
-<title>Administrator - <%=userName%></title>
+<title>Administrator - <%=sender%></title>
 <link rel="shortcut icon" href="pic/favicon.ico" /> 
 <link rel="stylesheet" href="CSS/home_style.css" type="text/css">
 <!-- COLLECTED CSS -->
@@ -56,19 +56,35 @@
 
 	
 			<div class ="text"> 
-				<b> <%=userName%> </b>
+				<b> <%=sender%> </b>
 			</div>	
 		</div>
 	</div>
 	
 	<div class="wrapper">
+		<h1>Delete account</h1>
 		<form action="DeleteAccountServlet" method="post" >
 			<p>
 				Delete <input type="text" name="name" placeholder="User name">
-				<input type="hidden" name="admin" value="<%=userName%>">
-				<input type="submit" value="Submit">
+				<input type="hidden" name="admin" value="<%=sender%>">
+				<input type="submit" value="Delete">
 			</p>
 		</form>
+		
+		<h1>Promote account</h1>
+		<form action="PromoteAccountServlet" method="post">
+			<p>
+				Set <input type="text" name="name" placeholder="User name">
+				as <select name="status">
+						<option value="u">Normal User</option>
+						<option value="s">Administrator</option>
+					</select>
+				<div class='button'>
+					<input type="submit" value="Change">
+				</div>
+			</p>
+		</form>
+		
 	</div>
 	
 	<div class="wrapper">
