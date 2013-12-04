@@ -48,7 +48,7 @@ public class sendMailServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("mailSystem.jsp");
 			rd.forward(request,response);
         }else{
-        	String link = "";
+        	String link = "<a href=\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "\">Take this challenge</a>";
         	
 			MailManager.sendMessage(sender, receiver, link);
 			request.getSession().setAttribute("sender", sender);
