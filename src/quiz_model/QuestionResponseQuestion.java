@@ -103,8 +103,9 @@ public class QuestionResponseQuestion extends Question{
 		/* Answers */
 		sql += "\"";
 		for(String answer : answers){
-			sql += "#" + answer + "#";
+			sql += answer + "#";
 		}
+		sql = sql.substring(0, sql.length()-1);
 		sql += "\",";
 		
 		sql += Integer.toString(5) + ","; /* Score, to be changed */

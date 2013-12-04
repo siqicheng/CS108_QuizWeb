@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "java.util.*, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
+<%@ page import = "java.util.*, java.util.List, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,12 +15,16 @@
 		Username = (String)request.getSession().getAttribute("name");
 	if (Username.length() < 1)
 		Username = "Guest";
+	request.getSession().setAttribute("name", Username);
+	
 	String sender = request.getParameter("sender");
-
+	
+	
 	if (sender == null || sender.isEmpty())
 		sender = (String)request.getSession().getAttribute("sender");
 	if (sender == null || sender.isEmpty())	
 		sender = Username;
+	request.getSession().setAttribute("sender", sender);
 	//System.out.println("Sender: "+ sender);
 
 
@@ -108,6 +112,20 @@
 			}
 		%>
 	<h2>Achievements</h2>
+	<ul>
+	<%
+		DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+		if (con == null) {
+			request.getSession().setAttribute("dbcon", new DBConnection());
+			con = (DBConnection) request.getSession().getAttribute("dbcon");
+			//System.out.println("hello");
+		}
+		List<String> achievements = con.getAchievements(sender);
+		for (int i = 0; i < achievements.size(); ++i){
+			out.print("<li>" + achievements.get(i) + "</li>");
+		}
+	%>
+	</ul>
 	<h2>Messages</h2>
 <%
 	if(MailManager.hasNewMessage(sender))
@@ -126,23 +144,13 @@
 	
 	
 	<h2>Friends Activities</h2>
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	<form action = "CreateAccount_welcome.jsp" method = "post">
 	<input type = "text" name = "name" placeholder = "Search for friends"/>
 	<% //<input type = "hidden" name = "sender" value = Username/> %>
 	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
 	<input type = "submit" value = "Search"/>
 	</form>
-
-
 
 <%
 	boolean showButton = false;
@@ -212,15 +220,23 @@
 
 
 
+
 	<br>
+
 	<form action = "mailSystem.jsp" method = "post">
 	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");%>
 	<input type = "submit" value = "Mailbox"/>
 	</form>
-
-
-
-
+<% 
+	if (Username.equals(sender)){
+		request.getSession().setAttribute("QuizCreator",sender);
+		out.println("<h2>Create Quiz</h2>");
+		out.println("<form action = \"CreateQuiz.jsp\" method = \"post\">");
+		//out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");
+		out.println("<input type = \"submit\" value = \"Create Quiz\"/>");
+		out.println("</form>");
+	}
+%>
 
 <script>
 function rmfriend(name1, name2){

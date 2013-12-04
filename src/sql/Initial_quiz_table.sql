@@ -15,7 +15,8 @@ DROP TABLE IF EXISTS QI;
 -- remove table if it already exists and start from scratch
 CREATE TABLE QI (
 	QuizID INT,
-	QuizName CHAR(32),
+	QuizName CHAR(100),
+	QuizDescription BLOB,
     CreaterId CHAR(32),
     CreateTime TIMESTAMP,
     QuizTag CHAR(255),
@@ -27,9 +28,9 @@ CREATE TABLE QI (
     isImmediateCorrection BOOLEAN
 );
 
-INSERT INTO QI VALUES
- (0, "FirstQuizEver", "sqcheng", "2013-11-20 04:21:07", "CommonSense#CS","CommonSense",false,false,true,false),
- (1, "QuizExample1", "sqcheng", "2013-11-20 04:22:07", "CommonSense#CS","CommonSense",false,false,true,false);
+-- INSERT INTO QI VALUES
+-- (0, "FirstQuizEver", "sqcheng", "2013-11-20 04:21:07", "CommonSense#CS","CommonSense",false,false,true,false),
+-- (1, "QuizExample1", "sqcheng", "2013-11-20 04:22:07", "CommonSense#CS","CommonSense",false,false,true,false);
 
  -- ======================================================================	
 -- Quiz Questions Mapping (QQ) table. 
@@ -48,14 +49,14 @@ DROP TABLE IF EXISTS QQ;
 CREATE TABLE QQ (
 	QuizID INT,
 	QuestionID INT,
-	QuestionType INT
+	QuestionType CHAR(50)
 );
 
-INSERT INTO QQ VALUES
- (0, 0, 1),
- (0, 0, 2),
- (1, 0, 3),
- (1, 0, 4);
+-- INSERT INTO QQ VALUES
+-- (0, 0, 1),
+-- (0, 0, 2),
+-- (1, 0, 3),
+-- (1, 0, 4);
  
  
  

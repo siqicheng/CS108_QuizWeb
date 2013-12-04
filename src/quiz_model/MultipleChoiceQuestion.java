@@ -102,7 +102,8 @@ public class MultipleChoiceQuestion extends Question{
 		for(String choice : choices){
 			sql += "#" + choice + "#";
 		}
-		sql += "#" + answer + "#";
+		sql += answer + "#";
+		sql = sql.substring(0, sql.length()-1);
 		sql += "\",";
 		
 		/* Answer */
