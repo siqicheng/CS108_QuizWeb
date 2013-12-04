@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="database_connection.*,quiz_model.*,quiz_web.*,java.sql.*,java.util.*"%>
+<%@ page import="database_connection.*,quiz_model.*,quiz_web.*,java.sql.*,java.util.*, java.text.SimpleDateFormat"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,6 +41,23 @@
 		long startTime = (Long) session.getAttribute("startTime");
         long timeElapsed = new java.util.Date().getTime() - startTime;
 		out.println("Elapsed time: "+ timeElapsed +"s<br><br>"); //need to calculate elapesed time
+		
+		/* Insert into quiz history table */
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String start_str = format.format(new Timestamp(startTime));
+		String end_str = format.format(new java.util.Date().getTime());
+		String sender = (String)request.getSession().getAttribute("sender");
+		String score = Integer.toString(totScore);
+		String id = Integer.toString(quiz.getId());
+		String sql = "INSERT INTO quiz_take_history VALUES(\"" + sender + "\"," + id + "," + score + ",\"" + start_str + "\",\"" + end_str + "\");";
+		DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+		con.getStatement().executeUpdate(sql);
+		
+		/* Update Achievement table */
+		con.updateAchievementTable(score, sender, id);
+		
+		/*INSERT INTO quiz_take_history VALUES ("shrink_du", 0, 200, "2013-12-01 05:00:07", "2013-12-01 05:30:07");*/
+		
 	%>
 </table>
 <br>

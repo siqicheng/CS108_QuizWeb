@@ -24,6 +24,7 @@
 		sender = (String)request.getSession().getAttribute("sender");
 	if (sender == null || sender.isEmpty())	
 		sender = Username;
+	request.getSession().setAttribute("sender", sender);
 	//System.out.println("Sender: "+ sender);
 
 %>
