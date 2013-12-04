@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DBConnection {
@@ -132,6 +134,61 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public List<String> getAchievements(String userName){
+		List<String> achievements = new ArrayList<String>();
+		
+		/* Get created quiz number */
+		String query = "SELECT COUNT(*) AS NUM FROM QI WHERE CreaterId = '" + userName + "' GROUP BY CreaterId";
+		int quizNumber = 0;
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			quizNumber = rs.getInt("NUM");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if(quizNumber > 0) achievements.add("Ameateur Author");
+		if(quizNumber > 4) achievements.add("Prolific Author");
+		if(quizNumber > 9) achievements.add("Prodigious Author");
+		
+		/* Get taken quiz number */
+		query = "SELECT COUNT(*) AS NUM FROM quiz_take_history WHERE User_Name = '" + userName + "' GROUP BY User_Name";
+		int takenNumber = 0;
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			takenNumber = rs.getInt("NUM");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (takenNumber > 9) achievements.add("Quiz Machine");
+		
+		/* I am the Greatest */
+		query = "SELECT * FROM Partial_Achievements WHERE User_Name = '" +  userName +"' AND Achievement_Type = 'I am the Greatest';";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			if(rs.isBeforeFirst()) achievements.add("I am the Greatest");;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		/* Practice Makes Perfect */
+		query = "SELECT * FROM Partial_Achievements WHERE User_Name = '" +  userName +"' AND Achievement_Type = 'Practice Makes Perfect';";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			if(rs.isBeforeFirst()) achievements.add("Practice Makes Perfect");;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return achievements;
 	}
 }
 

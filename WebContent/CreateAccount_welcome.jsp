@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "java.util.*, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
+<%@ page import = "java.util.*, java.util.List, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -107,6 +107,20 @@
 			}
 		%>
 	<h2>Achievements</h2>
+	<ul>
+	<%
+		DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+		if (con == null) {
+			request.getSession().setAttribute("dbcon", new DBConnection());
+			con = (DBConnection) request.getSession().getAttribute("dbcon");
+			//System.out.println("hello");
+		}
+		List<String> achievements = con.getAchievements(sender);
+		for (int i = 0; i < achievements.size(); ++i){
+			out.print("<li>" + achievements.get(i) + "</li>");
+		}
+	%>
+	</ul>
 	<h2>Messages</h2>
 	<h2>Friends Activities</h2>
 	
