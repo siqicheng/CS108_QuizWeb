@@ -246,5 +246,13 @@ function rmfriend(name1, name2){
 
 </script>
 
+<form action="AdminAvailableServlet" method="post" >
+	<p>
+		<input type="hidden" name="name" value="<%=Username%>">
+		<input type="submit" value="Administrator">
+	</p>
+</form>
+
+
 </body>
 </html>
