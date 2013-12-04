@@ -40,11 +40,23 @@ public class sendMailServlet extends HttpServlet {
 		String receiver = request.getParameter("receiver");
 		String msg = request.getParameter("msg");
 		
-		MailManager.sendMessage(sender, receiver, msg);
-		request.getSession().setAttribute("sender", sender);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("mailSystem.jsp");
-        rd.forward(request,response);
+		String id = request.getParameter("quizId");
+		if (id.length() == 0){
+			MailManager.sendMessage(sender, receiver, msg);
+			request.getSession().setAttribute("sender", sender);
+
+			RequestDispatcher rd = request.getRequestDispatcher("mailSystem.jsp");
+			rd.forward(request,response);
+        }else{
+        	String link = "<a href=\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "\">Take this challenge</a>";
+        	
+			MailManager.sendMessage(sender, receiver, link);
+			request.getSession().setAttribute("sender", sender);
+			request.getSession().setAttribute("quizId", id);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("QuizSummary.jsp");
+			rd.forward(request,response);
+        }
 	}
 
 }
