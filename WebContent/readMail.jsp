@@ -16,7 +16,7 @@
 </head>
 <body>
 <h1>Message from <%=sender %></h1>
-<p><%=msg %></p>
+<p><% out.println(msg); %></p>
 
 	<form action = "writeMail.jsp" method = "post">
 	<%out.println("<input type = \"hidden\" name = \"sender\" value =" + "\"" + receiver + "\"/>");%>
