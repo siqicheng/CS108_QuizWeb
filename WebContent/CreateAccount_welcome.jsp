@@ -11,20 +11,28 @@
 	//TODO 
 	// check if username is in db
 	String Username = request.getParameter("name");
-	if (Username == null)
-		Username = (String)request.getSession().getAttribute("name");
-	if (Username.length() < 1)
-		Username = "Guest";
-	request.getSession().setAttribute("name", Username);
+	/*if (Username == null)
+		Username = (String)request.getSession().getAttribute("name");*/
+	/*if (Username.length() < 1)
+		Username = "Guest";*/
+	//request.getSession().setAttribute("name", Username);
 	
-	String sender = request.getParameter("sender");
+	String sender = (String)request.getSession().getAttribute("sender");
+	if(sender == null || sender.equals("null")) { /* From login page */
+		sender = new String(Username);
+		request.getSession().setAttribute("sender", sender);
+	}
+	
+	if(Username == null || Username.equals("null")) Username = sender;
+	
+/*	String sender = request.getParameter("sender");
 	
 	
 	if (sender == null || sender.isEmpty())
 		sender = (String)request.getSession().getAttribute("sender");
 	if (sender == null || sender.isEmpty())	
 		sender = Username;
-	request.getSession().setAttribute("sender", sender);
+	request.getSession().setAttribute("sender", sender);*/
 	//System.out.println("Sender: "+ sender);
 
 
