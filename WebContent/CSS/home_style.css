@@ -230,7 +230,7 @@ a.processing:hover,a.processing:active{background-color:#666;color:#fff}
 
 #title-bar .text{float:left;text-align:right; margin-left:10px;}
 #title-bar .text{display:inline-block;*display:inline;zoom:1;color:#666;vertical-align:bottom}
-#title-bar .text b {font-size:22px;line-height:2;font-weight:normal; border: medium; }
+#title-bar .text b {font-size:14px;line-height:2;font-weight:normal; border: medium; margin-top: 5px}
 
 
 

@@ -66,7 +66,6 @@
 		<form action="DeleteAccountServlet" method="post" >
 			<p>
 				Delete <input type="text" name="name" placeholder="User name">
-				<input type="hidden" name="admin" value="<%=sender%>">
 				<input type="submit" value="Delete">
 			</p>
 		</form>
@@ -84,6 +83,17 @@
 				</div>
 			</p>
 		</form>
+		<h1>Create announcement</h1>
+		<form action="NewAnnounceServlet" method="post">
+			<div>
+				<textarea rows="10" cols="40" name="content" placeholder="Write new announcement"></textarea>
+			</div>
+			<input type="submit" value="Post" margin-bottom="35">
+		</form>
+		
+		<h1>Remove Quiz</h1>
+		
+		
 		
 	</div>
 	
