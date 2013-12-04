@@ -194,5 +194,16 @@
 <form action="QuizSummaryPageServlet" method="post">
 <input type="submit" value="GoRockQuiz">
 </form>
+
+<form action="sendMailServlet" method="post">
+<input type="text" name="receiver" placeholder="Share quiz with your friend">
+<%String address = new String("<a href=\\\"QuizSummary.jsp?user_name=#######&quizId=" + id  + "\\\">Take this challenge</a>");  %>
+<input type="submit" value="Share">
+<input type="hidden" name= "sender" value="<%=userName%>">
+<input type="hidden" name="quizId" value="<%=quizId%>">
+
+</form>
+
+
 </body>
 </html>
