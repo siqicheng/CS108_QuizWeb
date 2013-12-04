@@ -10,6 +10,7 @@ import database_connection.DBConnection;
 public class Quiz {
 	int id;
 	String name;
+	String description;
 	String createrId;
 	Timestamp createTime;
 	String tag;
@@ -21,11 +22,12 @@ public class Quiz {
 	ArrayList<Question> questions;
 	int totalScore;
 
-	public Quiz(int id, String name, String createrId, Timestamp createTime, String tag, 
+	public Quiz(int id, String name, String description, String createrId, Timestamp createTime, String tag, 
 			String category, boolean canPractice, boolean isRandom, boolean isOnePage, boolean isImmediateCorrection,
 			ArrayList<Question> questions) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
 		this.createrId = createrId;
 		this.createTime = new Timestamp(createTime.getTime());
 		this.tag = tag;
@@ -37,15 +39,15 @@ public class Quiz {
 		this.questions = questions;
 	}
 	
-	private Question getQuestion(int QuestionID, int QuestionType, Statement stmt) {
+	private Question getQuestion(int QuestionID, String QuestionType, Statement stmt) {
 		Question result;
-		if (QuestionType == 1) {
+		if (QuestionType.matches("QuestionResponse")) {
 			result = new QuestionResponseQuestion(QuestionID, stmt);
-		} else if (QuestionType == 2) {
+		} else if (QuestionType.matches("FillInBlank")) {
 			result = new FillInBlankQuestion(QuestionID, stmt);
-		} else if (QuestionType == 3) {
+		} else if (QuestionType.matches("MultipleChoice")) {
 			result = new MultipleChoiceQuestion(QuestionID, stmt);
-		} else if (QuestionType == 4) {
+		} else if (QuestionType.matches("PictureResponse")) {
 			result = new PictureResponseQuestion(QuestionID, stmt);
 		} else {
 			result = null;
@@ -56,6 +58,7 @@ public class Quiz {
 	public Quiz(int id, DBConnection con) {
 		this.id = id;
 		String quizName = "";
+		String quizDescription = "";
 		String createrId = "";
 		Timestamp createTime = new Timestamp(0);
 		String tag = "";
@@ -72,6 +75,7 @@ public class Quiz {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM QI WHERE QuizID = \"" + id + "\"");
 			rs.next();
 			quizName = rs.getString("QuizName");
+			quizDescription = rs.getString("QuizDescription");
 			createrId = rs.getString("CreaterId");
 			createTime = rs.getTimestamp("CreateTime");
 			tag = rs.getString("QuizTag");
@@ -85,7 +89,7 @@ public class Quiz {
 			Statement stmt2 = (new DBConnection()).getStatement();
 			ResultSet rs2 = stmt2.executeQuery("SELECT * FROM QQ WHERE QuizID = \"" + id + "\"");
 			while (rs2.next()) {
-				int questionType = rs2.getInt("questionType");
+				String questionType = rs2.getString("questionType");
 				int questionId = rs2.getInt("questionId");
 				Question question = getQuestion(questionId, questionType, stmt);
 				if (question != null)
@@ -98,6 +102,7 @@ public class Quiz {
 		}
 		this.name = quizName;
 		this.createrId = createrId;
+		this.description = quizDescription;
 		this.createTime = new Timestamp(createTime.getTime());
 		this.tag = tag;
 		this.category = category;
@@ -144,6 +149,7 @@ public class Quiz {
 		// (0, "FirstQuizEver", "Siqi", "2013-11-20 04:21:07", "#CommonSense##CS#","CommonSense",false,false,true,false),
 		sql += Integer.toString(id) + ","; /* ID */		
 		sql += "\"" + name + "\","; /* quiz name */
+		sql += "\"" + description + "\",";
 		sql += "\"" + createrId + "\",";  /* Creater Id */
 		sql += "\"" + createTime + "\","; 
 		sql += "\"" + tag + "\","; 
@@ -160,7 +166,7 @@ public class Quiz {
 		String sql = "INSERT INTO QQ VALUES(";
 		sql += Integer.toString(id) + ","; /* ID */	
 		sql += Integer.toString(questionId) + ","; /* ID */	
-		sql += questionType + ");"; /* ID */	
+		sql += "\"" +questionType + "\");"; /* ID */	
 
 		return sql;	
 	}

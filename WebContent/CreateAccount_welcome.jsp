@@ -109,23 +109,13 @@
 	<h2>Achievements</h2>
 	<h2>Messages</h2>
 	<h2>Friends Activities</h2>
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	<form action = "CreateAccount_welcome.jsp" method = "post">
 	<input type = "text" name = "name" placeholder = "Search for friends"/>
 	<% //<input type = "hidden" name = "sender" value = Username/> %>
 	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
 	<input type = "submit" value = "Search"/>
 	</form>
-
-
 
 <%
 	boolean showButton = false;
@@ -191,16 +181,20 @@
 	
 %>
 
-
-
 	<form action = "mailSystem.jsp" method = "post">
 	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");%>
 	<input type = "submit" value = "Mailbox"/>
 	</form>
-
-
-
-
+<% 
+	if (Username.equals(sender)){
+		request.getSession().setAttribute("QuizCreator",sender);
+		out.println("<h2>Create Quiz</h2>");
+		out.println("<form action = \"CreateQuiz.jsp\" method = \"post\">");
+		//out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");
+		out.println("<input type = \"submit\" value = \"Create Quiz\"/>");
+		out.println("</form>");
+	}
+%>
 
 <script>
 function rmfriend(name1, name2){

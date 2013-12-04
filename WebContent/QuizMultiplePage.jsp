@@ -29,10 +29,6 @@
 		} else {
 			// next
 			questionNum = Integer.parseInt(questionNumStr)+1;
-			String ans = request.getParameter("answer" + Integer.toString(questionNum-1));
-			if (ans != null) {
-				request.getSession().setAttribute("answer"+Integer.toString(questionNum-1), ans);
-			}
 		}
 	}
 	request.getSession().setAttribute("question",questionNum);

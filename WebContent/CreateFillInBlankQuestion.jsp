@@ -9,7 +9,6 @@
 <body>
 <h1>Add a new Fill-in-the-Blank question</h1>
 <p>Your question should have two parts, with a blank left to be filled by the quiz taker</p>
-
 <form action="CreateFillInBlankServlet" method="post">
 First part of your question:<br>
 <textarea name="part1" rows="4" cols="80"></textarea><br>

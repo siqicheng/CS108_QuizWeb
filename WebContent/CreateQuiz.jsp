@@ -8,7 +8,6 @@
 <title>Create a new quiz</title>
 </head>
 <body>
-
 <%
 ArrayList<Question> questions = (ArrayList<Question>)request.getSession().getAttribute("createdQuestions"); 
 if(questions == null) {
@@ -33,7 +32,12 @@ for(int i = 0; i < questions.size(); ++i){
 <input type="submit" value="Select">
 </form>
 
+
 <form action = "CreateQuizSubmissionServlet" method="post">
+<p>Give quiz a name:<br>
+<textarea name="quizName" rows="1" cols="30"></textarea><br></p>
+<p>Give quiz a description:<br>
+<textarea name="quizDescription" rows="1" cols="30"></textarea><br></p>
 <p>Practice Questions <input type="checkbox" name="practice" value="yes"></p>
 <p>Random Questions <input type="checkbox" name="random" value="yes"></p>
 <p>Page Setting: 
