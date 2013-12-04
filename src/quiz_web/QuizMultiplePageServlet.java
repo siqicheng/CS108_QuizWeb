@@ -42,7 +42,32 @@ public class QuizMultiplePageServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Quiz quiz = (Quiz) request.getSession().getAttribute("Quiz");
 		List<Question> questions = quiz.getQuestions();
-		int questionNum = (Integer) request.getSession().getAttribute("question");
+//		String questionNumStr = request.getParameter("question");
+//		int questionNum;
+//		if (questionNumStr == null) {
+//			questionNum = 0;
+//		} else {
+//			String actionStr = request.getParameter("action");
+//			if (actionStr == null) {
+//				questionNum = Integer.parseInt(questionNumStr);
+//			}
+//			if (actionStr.matches("Back")) {
+//				questionNum = Integer.parseInt(questionNumStr)-1;
+//			} else {
+//				// next
+//				questionNum = Integer.parseInt(questionNumStr)+1;
+//				String ans = request.getParameter("answer" + Integer.toString(questionNum-1));
+//				if (ans != null) {
+//					request.getSession().setAttribute("answer"+Integer.toString(questionNum-1), ans);
+//				}
+//			}
+//		}
+//		request.getSession().setAttribute("question",questionNum);
+		int questionNum = (Integer)request.getSession().getAttribute("question");
+		String ans = request.getParameter("answer" + Integer.toString(questionNum));
+		if (ans != null) {
+			request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans);
+		}
 		if (questionNum == questions.size()-1) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("QuizResultPage.jsp");
 			dispatcher.forward(request, response);
