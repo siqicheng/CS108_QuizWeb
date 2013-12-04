@@ -190,5 +190,33 @@ public class DBConnection {
 		
 		return achievements;
 	}
+	
+	public void updateAchievementTable(String score, String sender, String id){
+		String query = "SELECT Score FROM quiz_take_history WHERE Quiz_Id=" + id + " ORDER BY Score DESC;";
+		boolean insert = false;
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			if(!rs.isBeforeFirst()) insert = true;
+			else {
+				rs.next();
+				int top = rs.getInt("Score");
+				if (Integer.parseInt(score) >= top) insert = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if(insert){
+			String sql = "INSERT INTO Partial_Achievements VALUES(\"" + sender + "\",\"I am the Greatest\");";
+			try {
+				if(statement.isClosed()) generateConnection();
+				statement.executeUpdate(sql);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		}
+	}
 }
 
