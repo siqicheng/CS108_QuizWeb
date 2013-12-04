@@ -59,7 +59,7 @@ public class MailManager {
 			//Insert msg
 			Date SentTime = new Date();
 			Timestamp ts = new Timestamp(SentTime.getTime());
-			query = "insert into mailTable values ('" + username1 + "','" + username2 + "','" + msg + "','" + ts + "')";
+			query = "insert into mailTable values ('" + username1 + "','" + username2 + "','" + msg + "','" + ts + "','" +  "false')";
 			
 			connect();
 			statement.executeUpdate(query);
@@ -85,8 +85,9 @@ public class MailManager {
 				String sendername = rs.getString("sender");
 				String message = rs.getString("message");
 				Date date = rs.getTimestamp("senttime");
+				String hasRead = rs.getString("hasRead");
 
-				Message m = new Message(sendername, receivername, message, date);
+				Message m = new Message(sendername, receivername, message, date, hasRead);
 
 
 				list.add(m);
@@ -114,4 +115,84 @@ public class MailManager {
 		close();
 	}
 
+	
+	public static boolean hasNewMessage(String receivername){
+		ArrayList<Message> list = new ArrayList<Message>();
+		connect();
+		try {
+
+			String query = "select * from mailTable where receiver = \"" + receivername + "\"";
+			ResultSet rs = statement.executeQuery(query);
+			while (rs.next()) {
+				String hasRead = rs.getString("hasRead");
+				String msg = rs.getString("message");
+				if (hasRead.equals("false") && !msg.contains("Take this challenge") ){
+					close();
+					return true;
+				}
+	
+			}
+
+			Collections.sort(list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return false;
+	}
+	
+	public static boolean hasNewChallenge(String receivername){
+		ArrayList<Message> list = new ArrayList<Message>();
+		connect();
+		try {
+
+			String query = "select * from mailTable where receiver = \"" + receivername + "\"";
+			ResultSet rs = statement.executeQuery(query);
+			while (rs.next()) {
+				String hasRead = rs.getString("hasRead");
+				String msg = rs.getString("message");
+				if (hasRead.equals("false") && msg.contains("Take this challenge") ){
+					close();
+					return true;
+				}
+	
+			}
+
+			Collections.sort(list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return false;
+	}
+	
+	
+	public static void setReadState(String sender, String receiver, String date){
+		connect();
+		try {
+			//set hasRead from false to true
+			String query = "update mailTable set hasRead = 'true' where sender = \""+ sender + "\" and receiver = \"" + receiver + "\" and senttime = \"" + date + "\"";
+			statement.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+	}
+	
+	public static void setReadState(String receiver, String date){
+		connect();
+		try {
+			//set hasRead from false to true
+			String query = "update mailTable set hasRead = 'true' where receiver = \"" + receiver + "\" and senttime = \"" + date + "\"";
+			statement.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+	}
+	
 }

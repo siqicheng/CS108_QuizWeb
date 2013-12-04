@@ -23,6 +23,7 @@
 		sender = Username;
 	//System.out.println("Sender: "+ sender);
 
+
 %>
 
 
@@ -108,6 +109,22 @@
 		%>
 	<h2>Achievements</h2>
 	<h2>Messages</h2>
+<%
+	if(MailManager.hasNewMessage(sender))
+		out.println("You have NEW messages!<br>");
+	if(MailManager.hasNewChallenge(sender))
+		out.println("You have NEW challenges!<br>");
+	if (Username.equals(sender)){
+		ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+		friendRequests = FriendManager.getFriendRequests(sender);
+		if (friendRequests.size()!=0){
+			out.println("You have NEW friend requests!<br>");
+		}
+	}
+
+%>
+	
+	
 	<h2>Friends Activities</h2>
 	
 	
@@ -193,6 +210,9 @@
 
 
 
+
+
+	<br>
 	<form action = "mailSystem.jsp" method = "post">
 	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");%>
 	<input type = "submit" value = "Mailbox"/>

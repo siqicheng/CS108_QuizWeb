@@ -9,5 +9,6 @@ CREATE TABLE mailTable (
 	sender CHAR(32),
 	receiver CHAR(32),
 	message BLOB,
-	senttime TIMESTAMP
+	senttime TIMESTAMP,
+	hasRead CHAR(32)
 );

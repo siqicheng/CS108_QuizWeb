@@ -18,6 +18,12 @@
 <h1>Message from <%=sender %></h1>
 <p><% out.println(msg); %></p>
 
+	<%
+		//change the hasRead state from false to true
+		MailManager.setReadState(sender, receiver, date);	
+	%>
+	
+
 	<form action = "writeMail.jsp" method = "post">
 	<%out.println("<input type = \"hidden\" name = \"sender\" value =" + "\"" + receiver + "\"/>");%>
 	<%out.println("<input type = \"hidden\" name = \"receiver\" value =" + "\"" + sender + "\"/>");%>

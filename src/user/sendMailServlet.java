@@ -1,6 +1,8 @@
 package user;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,14 +43,17 @@ public class sendMailServlet extends HttpServlet {
 		String msg = request.getParameter("msg");
 		
 		String id = request.getParameter("quizId");
-		if (id.length() == 0){
+		if (id == null){
 			MailManager.sendMessage(sender, receiver, msg);
 			request.getSession().setAttribute("sender", sender);
 
 			RequestDispatcher rd = request.getRequestDispatcher("mailSystem.jsp");
 			rd.forward(request,response);
         }else{
-        	String link = "<a href=\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "\">Take this challenge</a>";
+        	Date SentTime = new Date();
+			Timestamp ts = new Timestamp(SentTime.getTime());
+        	
+        	String link = "<a href=\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "\"&date='"+ts+"'&challenge='yes' >Take this challenge</a>";
         	
 			MailManager.sendMessage(sender, receiver, link);
 			request.getSession().setAttribute("sender", sender);

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import = "java.sql.*, quiz_model.*, database_connection.*, java.util.Date, java.text.SimpleDateFormat, java.util.Calendar" %>
+<%@ page import = "user.*, java.sql.*, quiz_model.*, database_connection.*, java.util.Date, java.text.SimpleDateFormat, java.util.Calendar" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,6 +15,17 @@
 	}
 	Quiz quiz = new Quiz(quizId, con);
 	request.getSession().setAttribute("Quiz", quiz);
+	
+	
+	
+	//set challenge read state
+	if (request.getParameter("challenge")!= null){
+		String receiver = request.getParameter("user_name");
+		String date = request.getParameter("date");
+		MailManager.setReadState(receiver,date);
+	}
+	
+	
 %>
 <!--<%
 	String id = request.getParameter("quizId");

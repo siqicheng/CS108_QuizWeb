@@ -7,12 +7,14 @@ public class Message implements Comparable<Message>  {
 	private String receiver;
 	private String message;
 	private Date sentDate;
+	private String hasRead;
 	
-	public Message(String sender, String receiver, String message, Date sentDate){
+	public Message(String sender, String receiver, String message, Date sentDate, String hasRead){
 		this.sender = sender;
 		this.receiver = receiver;
 		this.message = message;
 		this.sentDate = sentDate;
+		this.hasRead = hasRead;
 	}
 	
 	public String getsender() {
@@ -31,6 +33,9 @@ public class Message implements Comparable<Message>  {
 		return sentDate;
 	}
 	
+	public String gethasRead(){
+		return hasRead;
+	}
 	
 	@Override
 	public int compareTo(Message o) {
