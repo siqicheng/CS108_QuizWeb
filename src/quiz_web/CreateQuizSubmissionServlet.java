@@ -87,6 +87,8 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 			boolean isImmediateCorrection;
 			String quizName = request.getParameter("quizName");
 			String quizDescription = request.getParameter("quizDescription");
+			String category = request.getParameter("category");
+			String tags = request.getParameter("tags");
 			if (quizName == null) {
 				quizName = "";
 			}
@@ -113,8 +115,8 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 			} else {
 				isImmediateCorrection = request.getParameter("immediate").equals("yes");
 			}
-			Quiz quiz = new Quiz(quizId, quizName, quizDescription, quizCreator, new Timestamp(System.currentTimeMillis()), "tag", 
-					"category", canPractice, isRandom, isOnePage, isImmediateCorrection, questions);
+			Quiz quiz = new Quiz(quizId, quizName, quizDescription, quizCreator, new Timestamp(System.currentTimeMillis()), tags, 
+					category, canPractice, isRandom, isOnePage, isImmediateCorrection, questions);
 			try {
 				stmt.executeUpdate(quiz.insertQISql());
 				for(Question question : questions) {

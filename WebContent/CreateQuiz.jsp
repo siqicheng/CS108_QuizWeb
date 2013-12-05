@@ -38,6 +38,21 @@ for(int i = 0; i < questions.size(); ++i){
 <textarea name="quizName" rows="1" cols="30"></textarea><br></p>
 <p>Give quiz a description:<br>
 <textarea name="quizDescription" rows="1" cols="30"></textarea><br></p>
+<p>Tags: (use # as delimiter e.g. ironman#marvel)<br>
+<textarea name="tags" rows="1" cols="40"></textarea><br></p>
+<p>Category: 
+<select name="category">
+	<option value="All" selected>All</option>
+	<%
+		Category category = new Category();
+	
+		for(int i = 0; i < category.options.length; ++i){
+			out.print("<option value=\"" + category.options[i] + "\">" + category.options[i] + "</option>");
+		}
+	%>
+</select>
+<br>
+
 <p>Practice Questions <input type="checkbox" name="practice" value="yes"></p>
 <p>Random Questions <input type="checkbox" name="random" value="yes"></p>
 <p>Page Setting: 

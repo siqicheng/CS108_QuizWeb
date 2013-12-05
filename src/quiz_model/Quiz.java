@@ -3,6 +3,7 @@ package quiz_model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.sql.*;
 
 import database_connection.DBConnection;
@@ -127,6 +128,22 @@ public class Quiz {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public String getCategory(){
+		return category;
+	}
+	
+	public List<String> getTag(){
+		List<String> tags = new ArrayList<String>();
+		if(tag==null||tag.isEmpty()) return tags;
+		else{
+			 StringTokenizer st = new StringTokenizer(tag, "#");
+			 while (st.hasMoreTokens()) {
+			     tags.add(st.nextToken());
+			 }
+			 return tags;
+		}
 	}
 	
 	public boolean isRandom() {
