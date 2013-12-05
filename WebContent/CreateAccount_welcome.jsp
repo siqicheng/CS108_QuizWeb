@@ -10,15 +10,20 @@
 <%
 	//TODO 
 	// check if username is in db
+
 	String Username = request.getParameter("name");
-	if (Username == null)
-		Username = (String)request.getSession().getAttribute("name");
-	if (Username.length() < 1)
-		Username = "Guest";
-	request.getSession().setAttribute("name", Username);
-	System.out.println("Username: "+ Username);
+
 	
-	String sender = request.getParameter("sender");
+	String sender = (String)request.getSession().getAttribute("sender");
+	if(sender == null || sender.equals("null")) { /* From login page */
+		sender = new String(Username);
+		request.getSession().setAttribute("sender", sender);
+	}
+
+	
+	if(Username == null || Username.equals("null")) Username = sender;
+	
+/*	String sender = request.getParameter("sender");
 	
 	
 	if (sender == null || sender.isEmpty()){
@@ -27,8 +32,13 @@
 	}
 	if (sender == null || sender.isEmpty())	
 		sender = Username;
+<<<<<<< HEAD
 	request.getSession().setAttribute("sender", sender);
 	System.out.println("Sender: "+ sender);
+=======
+	request.getSession().setAttribute("sender", sender);*/
+	//System.out.println("Sender: "+ sender);
+>>>>>>> 3eb8a241799c1ace65ced477e381e33e87b7b824
 
 
 %>
@@ -248,6 +258,14 @@ function rmfriend(name1, name2){
 }
 
 </script>
+
+<form action="AdminAvailableServlet" method="post" >
+	<p>
+		<input type="hidden" name="name" value="<%=Username%>">
+		<input type="submit" value="Administrator">
+	</p>
+</form>
+
 
 </body>
 </html>

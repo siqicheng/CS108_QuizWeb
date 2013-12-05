@@ -60,6 +60,11 @@
 		
 	%>
 </table>
+
+<form action="CreateAccount_welcome.jsp" method="POST">
+<input type="submit" value="Homepage">
+</form>
+
 <br>
 <br>
 

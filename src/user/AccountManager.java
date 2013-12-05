@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.sun.tools.javac.util.List;
 
@@ -46,6 +47,35 @@ public class AccountManager {
 		close();
 		return true;
     }
+	
+	public static boolean deleteAccount(String userName){
+		connect();
+		try {
+			ResultSet rs = statement.executeQuery("SELECT * FROM userTable " +
+					"WHERE userName LIKE \"" + userName + "\"");
+			if(!rs.next()) {
+				System.out.println("This account doesn't exist.");
+				close();
+				return false;
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("Deletion failed 1.");
+			close();
+			return false;
+		}
+//		userName = userName.toLowerCase();
+		try {
+			connect();
+			statement.executeUpdate("DELETE FROM userTable WHERE userName LIKE \"" + userName + "\"");
+		} catch(SQLException e){
+			System.out.println("Deletion failed 2.");
+			close();
+			return false;
+		}
+		close();
+		return true;
+	}
     
     public static boolean hasAccount(String name){
     	if (isProtectedName(name)) return false;
@@ -81,6 +111,122 @@ public class AccountManager {
 		close();
 		return false;
     }
+    
+	public static String getUserType(String userName) {
+		String userType = "";
+		connect();
+		try {
+			ResultSet rs = statement.executeQuery("SELECT Status from userTable WHERE userName = \"" + userName + "\"");
+			if(rs.next() && rs.getString("Status") != null){
+				userType = rs.getString("Status");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		close();
+		return userType;
+	}
+    
+	public static void setStatus(String userName, String status){
+		connect();
+		try {
+			statement.executeUpdate("UPDATE userTable SET Status =" + "\"" + status 
+					+ "\" WHERE userName=\"" + userName + "\"");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		close();
+		
+	}
+	
+    public static boolean createAnnounce(String announce, String admin){
+    	connect();
+		try {
+			ResultSet rs = statement.executeQuery("SHOW TABLES LIKE 'announceTable'");
+			if(!rs.next()){
+				statement.executeUpdate("CREATE TABLE announceTable (Time datetime, content text, admin varchar(20))");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement.executeUpdate("INSERT INTO announceTable VALUES (now(),'"+ announce +"','"+ admin +"')");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		close();
+		return true;
+    }
+    
+	public static Announce getNewAnnounce(){
+		connect();
+		try {
+			ResultSet rs = statement.executeQuery("SELECT * FROM announceTable ORDER BY Time DESC");
+			if(rs.next()){
+				String time = rs.getString("Time");
+				Announce announce = new Announce(time.substring(0,time.length()-2), rs.getString("content"), rs.getString("admin"));
+				close();
+				return announce;
+			}
+		} catch (SQLException e) {
+		}
+		close();
+		return null;
+	}
+
+	public static ArrayList<Announce> getAllAnnounce(){
+		connect();
+		ArrayList<Announce> announceList = new ArrayList<Announce>();
+		try {
+			ResultSet rs = statement.executeQuery("SELECT * FROM announceTable ORDER BY Time DESC");
+			while(rs.next()){
+				Announce announce = new Announce(rs.getString("Time"), rs.getString("content"), rs.getString("admin"));
+				announceList.add(announce);
+			}
+			close();
+			return announceList;
+		} catch (SQLException e) {
+		}
+		close();
+		return null;
+	}
+	
+	public static boolean deleteAnnounce(String time, String admin){
+		connect();
+		try {
+			statement.executeUpdate("DELETE FROM announceTable WHERE Time LIKE '" + time + "' AND admin LIKE '" + admin + "'");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		close();
+		return true;
+	}
+    
+	public static boolean deleteAllAnnounce(){
+		connect();
+		try {
+			statement.executeUpdate("DROP TABLE IF EXISTS announceTable");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		close();
+		return true;
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     private void initialAccountData(){
         createNewAccount("Patrick", getHashCodeSHA("1234"),"s",'m',"siqicheng.fdu@gmail.com");
@@ -128,4 +274,5 @@ public class AccountManager {
 		}
 		return buff.toString();
 	}
+
 }

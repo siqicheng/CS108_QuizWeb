@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
+<%@ page import="user.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%
+	String sender = (String)request.getSession().getAttribute("sender");
+	AdministratorAccount admin = new AdministratorAccount(sender);
+%>
 
-<title>template</title>
+
+<title>Administrator - <%=sender%></title>
 <link rel="shortcut icon" href="pic/favicon.ico" /> 
 <link rel="stylesheet" href="CSS/home_style.css" type="text/css">
 <!-- COLLECTED CSS -->
@@ -50,13 +56,45 @@
 
 	
 			<div class ="text"> 
-				<b> Username </b>
+				<b> <%=sender%> </b>
 			</div>	
 		</div>
 	</div>
 	
 	<div class="wrapper">
-		<a>text</a>
+		<h1>Delete account</h1>
+		<form action="DeleteAccountServlet" method="post" >
+			<p>
+				Delete <input type="text" name="name" placeholder="User name">
+				<input type="submit" value="Delete">
+			</p>
+		</form>
+		
+		<h1>Promote account</h1>
+		<form action="PromoteAccountServlet" method="post">
+			<p>
+				Set <input type="text" name="name" placeholder="User name">
+				as <select name="status">
+						<option value="u">Normal User</option>
+						<option value="s">Administrator</option>
+					</select>
+				<div class='button'>
+					<input type="submit" value="Change">
+				</div>
+			</p>
+		</form>
+		<h1>Create announcement</h1>
+		<form action="NewAnnounceServlet" method="post">
+			<div>
+				<textarea rows="10" cols="40" name="content" placeholder="Write new announcement"></textarea>
+			</div>
+			<input type="submit" value="Post" margin-bottom="35">
+		</form>
+		
+		<h1>Remove Quiz</h1>
+		
+		
+		
 	</div>
 	
 	<div class="wrapper">
