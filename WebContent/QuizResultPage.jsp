@@ -61,6 +61,27 @@
 	%>
 </table>
 
+
+<form action="QuizFeedBackServlet" method="POST">
+<h3>Your feedback: </h3>
+<p>Rate: 
+<select name="rate">
+	<option value="-1" selected>Rate the quiz</option>
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+</select>
+<br>
+Comment:<br>
+<textarea name="review" rows="3" cols="50"></textarea>
+<input type="hidden" name="quizId" value="<%=Integer.toString(quiz.getId())%>">
+<input type="hidden" name="user_name" value="<%=(String)request.getSession().getAttribute("sender")%>">
+<input type="submit" value="submit">
+<br>
+</form>
+
 <form action="CreateAccount_welcome.jsp" method="POST">
 <input type="submit" value="Homepage">
 </form>

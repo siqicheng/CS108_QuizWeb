@@ -31,3 +31,17 @@ CREATE TABLE Partial_Achievements (
 );
 
 -- INSERT INTO Partial_Achievements VALUES ("shrink_du", "I am the Greatest");
+
+-- ======================================================================	
+-- Rates_Table
+-- ======================================================================	
+DROP TABLE IF EXISTS Rates_Table;
+-- remove table if it already exists and start from scratch
+
+CREATE TABLE Rates_Table (
+	QuizID INT,
+	Rate INT,
+	Comment BLOB,
+	UserID CHAR(32),
+	Time TIMESTAMP
+);

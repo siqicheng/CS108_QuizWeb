@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import = "user.*, java.sql.*, quiz_model.*, database_connection.*, java.util.Date,java.util.List,java.text.SimpleDateFormat, java.util.Calendar" %>
+<%@ page import = "user.*, java.sql.*, quiz_model.*, database_connection.*, java.util.Date,java.util.List,java.text.SimpleDateFormat, java.util.Calendar, java.text.DecimalFormat" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -73,12 +73,18 @@
 		if(!first) out.print(",");
 		out.print("<a href=\"TagSearchResult.jsp?tag="+ tag + "\">" + tag + "</a>");
 		first = false;
-	}
-	
-	%></h4>
-<%
-// Tags
+	}	
+	%>
+</h4>
+
+<h4>Average rate: <% 
+double mean =dbcon.averageRate(id);
+if(mean < 0) out.print("no rate yet");
+else out.print((new DecimalFormat("#.##").format(mean))+"/5"); 
 %>
+</h4>
+
+
 <h3>Your historical performance</h3>
 <%	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -215,6 +221,13 @@
 
 
 %>
+<h3>Reviews</h3>
+<%
+	List<String> reviews = dbcon.getReviews(id);
+	if(reviews.size() == 0) out.println("No review yet.");
+	for(int i = 0; i < reviews.size() && i < 10; ++i) out.println(reviews.get(i));
+%>
+
 
 <form action="QuizSummaryPageServlet" method="post">
 <input type="submit" value="GoRockQuiz">
