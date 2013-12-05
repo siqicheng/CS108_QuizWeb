@@ -158,6 +158,28 @@
 	
 	<h2>Friends Activities</h2>
 
+	<form action="CategorySearchResult.jsp" method="POST">
+		<p>Search by Category
+		<select name="category" onchange="this.form.submit()">
+		<option value="All" selected>All</option>
+		<%
+			Category category = new Category();
+		
+			for(int i = 0; i < category.options.length; ++i){
+				out.print("<option value=\"" + category.options[i] + "\">" + category.options[i] + "</option>");
+			}
+		%>
+		</select>
+		<br>
+	</form>
+
+	<form action="TagSearchResult.jsp" method="POST">
+		<p>Search by Tag
+		<input type="text" name="tag" placeholder = "tags..."/>
+		<input type="submit" value="search"/>
+		<br>
+	</form>
+
 	<form action = "CreateAccount_welcome.jsp" method = "post">
 	<input type = "text" name = "name" placeholder = "Search for friends"/>
 	<% //<input type = "hidden" name = "sender" value = Username/> %>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import = "user.*, java.sql.*, quiz_model.*, database_connection.*, java.util.Date, java.text.SimpleDateFormat, java.util.Calendar" %>
+<%@ page import = "user.*, java.sql.*, quiz_model.*, database_connection.*, java.util.Date,java.util.List,java.text.SimpleDateFormat, java.util.Calendar" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -65,6 +65,20 @@
 	%>
 </h4>
 <h4>Creator: <a href="CreateAccount_welcome.jsp?name=<%=quiz.getCreator()%>"><%=quiz.getCreator()%></a></h4>
+<h4>Category: <a href="CategorySearchResult.jsp?category=<%=quiz.getCategory()%>"><%=quiz.getCategory()%></a></h4>
+<h4>Tags: <%
+	List<String> tags = quiz.getTag();
+	boolean first = true;
+	for(String tag:tags){
+		if(!first) out.print(",");
+		out.print("<a href=\"TagSearchResult.jsp?tag="+ tag + "\">" + tag + "</a>");
+		first = false;
+	}
+	
+	%></h4>
+<%
+// Tags
+%>
 <h3>Your historical performance</h3>
 <%	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -28,6 +28,16 @@ public class AdministratorAccount extends UserAccount {
 	public static void setStatus(String userName, String status){
 		AccountManager.setStatus(userName, status);
 	}
+
+
+	public void clearQuizHistory(String quizID) {
+		AccountManager.clearQuizHistory(quizID);
+	}
+
+
+	public void deleteQuiz(String quizID) {
+		AccountManager.deleteQuiz(quizID);
+	}
 	
 	
 
