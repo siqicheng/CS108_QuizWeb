@@ -148,7 +148,7 @@ public class DBConnection {
 			rs.next();
 			quizNumber = rs.getInt("NUM");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		if(quizNumber > 0) achievements.add("Ameateur Author");
@@ -164,7 +164,7 @@ public class DBConnection {
 			rs.next();
 			takenNumber = rs.getInt("NUM");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		if (takenNumber > 9) achievements.add("Quiz Machine");
 		

@@ -33,11 +33,14 @@
 			out.println("<tr>");
 			
 			out.println("<td>" + msg.getsender() + "</td>");
-			String message = msg.getMessage().length() < 100 ? msg.getMessage() : msg.getMessage().substring(0,100);
-			System.out.println(message);
+			String message = msg.getMessage();
+			if (!message.contains("<a href"))
+				message = message.length() < 100 ? message : message.substring(0,100);
 			
-			if (message.contains("Take this challenge")){
+			if (message.contains("<a href")){
 				out.println("<td>" + message + "</td>");
+				System.out.println("----------------");
+				System.out.println(message);
 			}
 			else{
 			//String form = "<input type = \"submit\" name = \"msg\" value = \"" + message + "\">";
