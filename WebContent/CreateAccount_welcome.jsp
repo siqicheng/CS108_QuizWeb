@@ -16,16 +16,19 @@
 	if (Username.length() < 1)
 		Username = "Guest";
 	request.getSession().setAttribute("name", Username);
+	System.out.println("Username: "+ Username);
 	
 	String sender = request.getParameter("sender");
 	
 	
-	if (sender == null || sender.isEmpty())
-		sender = (String)request.getSession().getAttribute("sender");
+	if (sender == null || sender.isEmpty()){
+		if (request.getSession().getAttribute("sender") != null)
+			sender = (String)request.getSession().getAttribute("sender");
+	}
 	if (sender == null || sender.isEmpty())	
 		sender = Username;
 	request.getSession().setAttribute("sender", sender);
-	//System.out.println("Sender: "+ sender);
+	System.out.println("Sender: "+ sender);
 
 
 %>
