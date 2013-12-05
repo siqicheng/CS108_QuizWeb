@@ -23,22 +23,7 @@
 	
 	if(Username == null || Username.equals("null")) Username = sender;
 	
-/*	String sender = request.getParameter("sender");
-	
-	
-	if (sender == null || sender.isEmpty()){
-		if (request.getSession().getAttribute("sender") != null)
-			sender = (String)request.getSession().getAttribute("sender");
-	}
-	if (sender == null || sender.isEmpty())	
-		sender = Username;
-<<<<<<< HEAD
-	request.getSession().setAttribute("sender", sender);
-	System.out.println("Sender: "+ sender);
-=======
-	request.getSession().setAttribute("sender", sender);*/
-	//System.out.println("Sender: "+ sender);
->>>>>>> 3eb8a241799c1ace65ced477e381e33e87b7b824
+
 
 
 %>
