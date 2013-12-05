@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@ page import="user.*"%>
+<%@ page import="java.sql.ResultSet"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,8 +11,17 @@
 <%
 	String sender = (String)request.getSession().getAttribute("sender");
 	AdministratorAccount admin = new AdministratorAccount(sender);
+	AccountManager.connect();
+	AccountManager.statement.executeQuery("select * from quiz_take_history;");
+	ResultSet rs =  AccountManager.statement.executeQuery("SELECT FOUND_ROWS();");
+	rs.next();
+	int numOfHistoryTaken = rs.getInt("FOUND_ROWS()");
+	AccountManager.statement.executeQuery("select * from userTable;");
+	rs = AccountManager.statement.executeQuery("SELECT FOUND_ROWS();");
+	rs.next();
+	int numOfUser = rs.getInt("FOUND_ROWS()");	
+	AccountManager.close();
 %>
-
 
 <title>Administrator - <%=sender%></title>
 <link rel="shortcut icon" href="pic/favicon.ico" /> 
@@ -53,9 +64,7 @@
 				</div>
 			</div>
 
-
-	
-			<div class ="text"> 
+			<div id ="title-bar-text"> 
 				<b> <%=sender%> </b>
 			</div>	
 		</div>
@@ -78,9 +87,7 @@
 						<option value="u">Normal User</option>
 						<option value="s">Administrator</option>
 					</select>
-				<div class='button'>
 					<input type="submit" value="Change">
-				</div>
 			</p>
 		</form>
 		<h1>Create announcement</h1>
@@ -91,9 +98,23 @@
 			<input type="submit" value="Post" margin-bottom="35">
 		</form>
 		
-		<h1>Remove Quiz</h1>
+		<h1>Manage Quiz</h1>
+		<form action="ManageQuizServlet" method="post">
+			<p>
+				<input type="text" name="quiz" placeholder="QuizID">
+				<select name="operation">
+					<option value="1">Clear taken history</option>
+					<option value="2">Delete quiz</option>
+				</select>
+				<input type="submit">
+
+			</p>
+		</form>
 		
-		
+		<h1>Num of users</h1>
+		<a><%=numOfUser%></a>
+		<h1>Num of quiz taken</h1>
+		<a><%=numOfHistoryTaken%></a>
 		
 	</div>
 	
