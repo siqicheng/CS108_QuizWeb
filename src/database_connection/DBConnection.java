@@ -309,5 +309,19 @@ public class DBConnection {
 		/* Update achievement */
 		if(quizNumber == 1 ) {}
 	}
+	
+	public String getQuizDescription(String quizId){
+		String query = "SELECT QuizDescription FROM QI WHERE QuizID=" + quizId + ";";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			String description = rs.getString("QuizDescription");
+			return description;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
 

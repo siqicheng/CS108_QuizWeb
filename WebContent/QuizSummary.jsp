@@ -124,6 +124,12 @@
 	<div class="wrapper">	
 		<h2><%=quiz.getName()%></h2>
 		<h4>
+			<%
+				String description = dbcon.getQuizDescription(id);
+				out.println("Description: " + description);
+				out.println("<br></br>");
+				
+			%>
 			<% 
 				int freq = dbcon.getQuizTimes(id);
 				if (freq == 0) out.println("The quiz has never been taken yet. You can be the first taker!");
@@ -131,7 +137,7 @@
 					int score = dbcon.getAverageScore(id);
 					int time = dbcon.getAverageTime(id);
 					String t_str = String.format("%d:%02d:%02d", time/3600, (time%3600)/60, (time%60));
-					String output = "The quiz have been taken for "+ Integer.toString(freq) + " times, with average score of " + Integer.toString(score) + ", and the average time of " + t_str + ".";
+					String output = "Statistics: The quiz have been taken for "+ Integer.toString(freq) + " times, with average score of " + Integer.toString(score) + ", and the average time of " + t_str + ".";
 					out.println(output);
 				}
 			%>
@@ -306,7 +312,7 @@
 		<%
 			if(!sender.equals("")){
 				out.println("<form action=\"QuizSummaryPageServlet\" method=\"post\">");
-				out.println("input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
+				out.println("<input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
 				out.println("</form>");
 			}else{
 				out.println("<h3>Register and rock the quiz</h3>");
