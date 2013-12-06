@@ -121,7 +121,7 @@
 	</div>
 	
 	<div class="wrapper">
-			<h1>Welcome <%=Username%></h1>
+			<h1><%=Username%></h1>
 	<%
 
 		if(Username.equals(sender) && !sender.equals("")){

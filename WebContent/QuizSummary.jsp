@@ -333,8 +333,7 @@
 		</form>
 		
 		<%
-			if (!sender.equals(""))
-				out.println("<input type=\"submit\" value=\"Share\" id = \"green-button\" form =\"email\" >");
+
 		%>
 		
 		<form action="sendMailServlet" method="post" id = "report">
@@ -343,30 +342,40 @@
 			<input type="hidden" name="quizId" value="<%=quizId%>">
 		</form>
 		
-		<%
+		<%	
 			if (!sender.equals(""))
-				out.println("<input type=\"submit\" value=\"Report\" id = \"yellow-button\" form =\"report\" >");
+				out.println("<input type=\"submit\" value=\"Share with friends\" id = \"green-button\" form =\"email\" >");
+			if (!sender.equals(""))
+				out.println("<input type=\"submit\" value=\"Report to admin\" id = \"yellow-button\" form =\"report\" >");
 		%>
 		
-		<form action="ManageQuizServlet" method="post" id = "AdminDelete">
-			<p>
-				<input type="hidden" name="quiz" id = "basic-input" value="<%=id %>">
-				<select name="operation" id ="green-button">
-					<option value="1">Clear taken history</option>
-					<option value="2">Delete quiz</option>
-				</select>
 
-			</p>
-		</form>
-		
 		
 		</div>
 		<%
 			AdministratorAccount admin = new  AdministratorAccount(sender);
 			boolean isAdmin = admin.getUserType().equals("s");
 			if (!sender.equals("") && isAdmin)
-				out.println("<input type=\"submit\" value=\"Submit\" id = \"red-button\" form =\"AdminDelete\" >");
+				out.println("<h2>Administration</h2>");
 		%>
+		<form action="ManageQuizServlet" method="post" id = "AdminDelete">
+			<p>
+				<input type="hidden" name="quiz" id = "basic-input" value="<%=id %>">
+
+				<select name="operation" id ="red-button">
+					<option value="1">Clear taken history</option>
+					<option value="2">Delete quiz</option>
+				</select>
+		<%
+
+			if (!sender.equals("") && isAdmin)
+				out.println("<input type=\"submit\" value=\"Delete\" id = \"red-button\" form =\"AdminDelete\" >");
+		%>
+
+			</p>
+		</form>
+		
+
 		
 	</div>
 	
