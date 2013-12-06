@@ -4,24 +4,92 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%
+	String sender = (String) request.getSession().getAttribute("sender");
+%>
 <title>New Fill-in-the-Blank question</title>
+<link rel="shortcut icon" href="pic/favicon.ico" /> 
+<link rel="stylesheet" href="CSS/home_style.css" type="text/css">
+<!-- COLLECTED CSS -->
 </head>
 <body>
-<h1>Add a new Fill-in-the-Blank question</h1>
-<p>Your question should have two parts, with a blank left to be filled by the quiz taker</p>
-<form action="CreateFillInBlankServlet" method="post">
-First part of your question:<br>
-<textarea name="part1" rows="4" cols="80"></textarea><br>
-Second part of your question:<br>
-<textarea name="part2" rows="4" cols="80"></textarea><br>
-Your answers (use ; as delimiters if more than one legal answer): <br>
-<textarea name="answers" rows="4" cols="80"></textarea><br>
-<input type="submit" value="Add"/>
-</form>
+	<div id="title-bar">
+		<div class="wrapper">
+			<div class="logo">
+				<a href="login.jsp"><img src="pic/logo.jpg" width="" height="44"></a>
+			</div>
+			
+			<div id="function-item">
+				<ul id="function-list">
+					<li id="items">
+						<a href="CreateAccount_welcome.jsp" id="item-text">Home</a>
+					</li>
+					<li id="items">
+						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
+					</li>
+					<li id="items">
+						<a href="friendlist.jsp?sender=<%=sender%>" id="item-text">Friends</a>
+					</li>
+					<li id="items">
+						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
+					</li>
+				</ul>
+			</div>
 
-<form action="CreateQuiz.jsp">
-<input type="submit" value="Back">
-</form>
+			<div id="search-bar-board">	 
+				<div id="search-bar" >
+					<form method="POST" id="search-form" action="TagSearchResult.jsp" >
+						<input type="text" id="search-text" name="tag" placeholder="Searching tags..." />
+	
+						<button type="submit" class="magnify-button" id="search-buttom">
+							<i  id="search-buttom-glass"></i>
+						</button>
+					</form> 
+				</div>
+			</div>
+
+			<div id ="title-bar-text"> 
+				<b> <%=sender%> </b>
+			</div>	
+		</div>
+	</div>
+
+	<div class="wrapper">
+		<h1>Add a new Fill-in-the-Blank question</h1>
+		<p>Your question should have two parts, with a blank left to be filled by the quiz taker</p>
+		<form action="CreateFillInBlankServlet" method="post" id = "question">
+		First part of your question:<br>
+		<textarea name="part1" rows="4" cols="80" id = "big-input"></textarea><br>
+		Second part of your question:<br>
+		<textarea name="part2" rows="4" cols="80" id = "big-input"></textarea><br>
+		Your answers (use ; as delimiters if more than one legal answer): <br>
+		<textarea name="answers" rows="4" cols="80" id = "big-input"></textarea><br>
+		</form>
+		
+		<form action="CreateQuiz.jsp" id = "back"></form>
+		<input type="submit" value="Add" id = "red-button" form = "question"/>
+		<input type="submit" value="Back" id = "green-button" form = "back" >
+		
+	</div>
+	
+	<div class="wrapper">
+		<div id="ft">
+			<span class="fleft">
+			  <a> Copyright © 2013 <%="IQuizYOU"%> , all rights reserved</a><br>
+			  <a> Quick Links</a><br> 
+			  <a href="http://www.stanford.edu/">Stanford University</a><br>
+			  <a href="http://www.stanford.edu/class/cs108/">CS 108 -- Object Oriented System Design</a><br>
+			</span>
+		
+			<span class="fright">
+			    <a>About us</a>
+			    · <a href="http://www.linkedin.com/pub/siqi-cheng/64/696/250">Siqi</a>
+			    · <a href="http://www.linkedin.com/pub/wenxiao-du/58/ab8/778">Wenxiao</a>
+			    · <a href="http://www.linkedin.com/pub/haoran-li/52/46b/a0">Haoran</a>
+			    · <a href="http://www.linkedin.com/pub/hao-zhang/36/b80/a35">Hao</a>
+			</span>
+  		</div>
+	</div>
 
 </body>
 </html>

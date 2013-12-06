@@ -17,7 +17,7 @@
 	String sender = (String)request.getSession().getAttribute("sender");
 	if(sender == null || sender.equals("null")) { /* From login page */
 		sender = new String(Username);
-		request.getSession().setAttribute("sender", sender);
+		request.getSession(). setAttribute("sender", sender);
 	}
 
 	
@@ -53,8 +53,8 @@
 			</div>
 			<div id="search-bar-board">	 
 				<div id="search-bar" >
-					<form method="GET" id="search-form" action="http://www.google.com" >
-						<input type="text" id="search-text" name="q" placeholder="searching..." />
+					<form method="POST" id="search-form" action="TagSearchResult.jsp" >
+						<input type="text" id="search-text" name="tag" placeholder="Searching tags..." />
 	
 						<button type="submit" class="magnify-button" id="search-buttom">
 							<i  id="search-buttom-glass"></i>
@@ -116,7 +116,7 @@
 		
 				<form action="CategorySearchResult.jsp" method="POST">
 				<p>Search by Category
-				<select name="category" onchange="this.form.submit()">
+				<select name="category" onchange="this.form.submit()" id = "yellow-button">
 				<option value="All" selected>All</option>
 				<%
 					Category category = new Category();
@@ -128,22 +128,13 @@
 				</select>
 				<br>
 			</form>
-		
-			<form action="TagSearchResult.jsp" method="POST">
-				<p>Search by Tag
-				<input type="text" name="tag" placeholder = "tags..."/>
-				<input type="submit" value="search"/>
-				<br>
-			</form>
-		
-			<form action = "FriendSearchServlet" method = "post">
-			<input type = "text" name = "name" placeholder = "Search for friends"/>
-			<% //<input type = "hidden" name = "sender" value = Username/> %>
-			<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
-			<input type = "submit" value = "Search"/>
-			</form>
-		
 
+		
+			<form method="POST"  action="FriendSearchServlet" >
+				<input type="text" id="search-text" name="name" placeholder="Search for peoples..." />
+				<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
+				<input type="submit" value="search" id = "red-button"/>
+			</form> 
 	</div>
 	
 	
