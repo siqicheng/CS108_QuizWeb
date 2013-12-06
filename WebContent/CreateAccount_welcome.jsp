@@ -99,6 +99,25 @@
 	
 	<div class="wrapper">
 			<h1>Welcome <%=Username%></h1>
+	<%
+		//set and unset privacy
+		String privacy = FriendManager.getPrivacy(sender);
+		if("true".equals(privacy)){
+			// unset privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
+			out.println("<input id=\"red-button\" type = \"submit\" value = \"Public to All\"/>");
+			out.println("</form>");
+		} else {
+			//set privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
+			out.println("<input id=\"green-button\" type = \"submit\" value = \"Anonymous to Non Friends\"/>");
+			out.println("</form>");
+		}
+	%>
 			<h2>Announcements</h2>
 		
 			<h2>Popular Quiz</h2>
@@ -318,27 +337,7 @@
 				<button type="submit" id="red-button">Administrator</button>
 			</p>
 		</form>
-			<%
-		//set and unset privacy
-		String privacy = FriendManager.getPrivacy(sender);
-		if("true".equals(privacy)){
-			// unset privacy
-			out.println("<form action = \"privacyServlet\" method = \"post\">");
-			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
-			out.println("<input type = \"submit\" value = \"Public to All\"/>");
-			out.println("</form>");
-		} else {
-			//set privacy
-			out.println("<form action = \"privacyServlet\" method = \"post\">");
-			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
-			out.println("<input type = \"submit\" value = \"Anonymous to Non Friends\"/>");
-			out.println("</form>");
-		}
-	
-	
-	%>
+
 	</div>
 	
 	
