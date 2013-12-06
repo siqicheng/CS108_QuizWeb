@@ -5,16 +5,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login IQuizYOU</title>
+<link rel="shortcut icon" href="pic/favicon.ico" /> 
 <link rel="stylesheet" href="CSS/login_try_again.css" type="text/css">
 <!-- COLLECTED CSS -->
 </head>
 <body>
+	<div id="title-bar">
+	  	<div class="wrapper">
+		    <div class="reg">    
+		        <a href="CreateAccount_new_account.jsp" class="register-buttom"> Register</a>
+		        <div class="ad-info">
+		        	<b>More challenge, more knowledge</b>
+		        </div>
+		    </div>
+	  	</div>  	
+	</div>
+
 
 
 <div class="wrapper">
-	<div id="header">
-    	<a>Login IQuizYou</a>
-  	</div>
 
 	<div id="content">
 	  	<h1>Please provide valid input</h1>
@@ -41,9 +50,7 @@
 		    <div class="item">
 		    <label>&nbsp;</label>
 	        <input type="submit" value="Login" name="login" class="btn-submit" tabindex="5"><br><br><br>
-	        <a>Don't have an IQuizYou ID?</a><br><br>
-	        <label>&nbsp;</label>
-	        <a rel="nofollow" href="CreateAccount_new_account.jsp" class = "lnk-reg" >Register Now</a>
+	        
 		    </div>
 		</form>
 		</div>
@@ -51,7 +58,7 @@
 		
 		<ul id="side-nav" class="aside">
 		
-			<li><img src="pic/Jokes2.jpg" width="480" height="540"></li>
+			<li><img src="pic/what.jpg" width="540" height="360"></li>
 		
   		</ul>
 	</div>

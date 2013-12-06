@@ -144,23 +144,44 @@ function clearError(el) {
 }
 
 </script>
-
+<%
+	String sender = (String)request.getSession().getAttribute("sender");
+%>
 <title>Create Account</title>
+<link rel="shortcut icon" href="pic/favicon.ico" /> 
 <link rel="stylesheet" href="CSS/login_try_again.css" type="text/css">
 <!-- COLLECTED CSS -->
 </head>
 <body>
 
+	<div id="title-bar">
+	  	<div class="wrapper">
+		    <div class="reg">    
+		        <a href="CreateAccount_new_account.jsp" class="register-buttom"> Register</a>
+		        <div class="ad-info">
+		        	<b>More challenge, more knowledge</b>
+		        </div>
+		    </div>
+	  	</div>  	
+	</div>
+
+
 <div class="wrapper">
-	<div id="header">
-    	<a>Login IQuizYou</a>
-  	</div>
 
 	<div id="content">
+
 	  	<h1>Join Us!</h1>
 	  	<div class="article">
+	  	
       
-
+		 <%
+		 if(request.getParameter("checkname") != null){
+	  		if(request.getParameter("checkname").equals("inuse")){
+				out.println("<c>Name In Use</c>");
+			}
+	  	}
+	  	%>
+	  	
 		<form id="lzform" name="lzform" method="post" action="AccountCreationServlet" OnSubmit="return validateForm()">
 		    
 		    <div id="item-error" style="display: none;">
@@ -221,7 +242,7 @@ function clearError(el) {
 		
 		<ul id="side-nav" class="aside">
 		
-			<li><img src="pic/Jokes1.jpg" width="480" height="540"></li>
+			<li><img src="pic/what.jpg" width="540" height="360"></li>
 		
   		</ul>
 </div>
