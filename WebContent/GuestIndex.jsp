@@ -74,11 +74,39 @@
 			<h1>Welcome <%=Username%></h1>
 
 			<h2>Announcements</h2>
+			
+			<%
+			DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+			if (con == null) {
+				request.getSession().setAttribute("dbcon", new DBConnection());
+				con = (DBConnection) request.getSession().getAttribute("dbcon");
+				//System.out.println("hello");
+			}
+			
+			Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
+			if(stmt == null) {
+		    	stmt = (new DBConnection()).getStatement();
+		    	request.getSession().setAttribute("db_connection", stmt);
+			}
+			
+			List<String> announcements = con.getAnnouncement();
+			if(announcements.isEmpty()) out.println("No announcement.");
+			else {
+				out.println("<ul>");
+				for(String announcement : announcements){
+					String[] parts = announcement.split("#");
+					String time = parts[0];
+					String content = parts[1];
+					out.println("<li>"+ time + "	" + content + "</li>");
+				}
+				out.println("</ul>");
+			}
+			%>
 		
 			<h2>Popular Quiz</h2>
 			<ul>
 					<%
-						Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
+						stmt = (Statement) request.getSession().getAttribute("db_connection");
 						if(stmt == null) {
 					    	stmt = (new DBConnection()).getStatement();
 					    	request.getSession().setAttribute("db_connection", stmt);
