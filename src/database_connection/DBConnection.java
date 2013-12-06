@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -193,7 +194,10 @@ public class DBConnection {
 		return achievements;
 	}
 	
-	public void updateAchievementTable(String score, String sender, String id){
+	public void updateAchievementTable_Taken(String score, String sender, String id){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = format.format(new Timestamp(System.currentTimeMillis()));
+		/* step 1: I am the Greatest */
 		String query = "SELECT Score FROM quiz_take_history WHERE Quiz_Id=" + id + " ORDER BY Score DESC;";
 		boolean insert = false;
 		try {
@@ -209,15 +213,31 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		
-		if(insert){
-			String sql = "INSERT INTO Partial_Achievements VALUES(\"" + sender + "\",\"I am the Greatest\");";
+		if(insert){	// To Achievement_History
+			
+			String sql = "INSERT INTO Achievement_History VALUES('" + sender + "', 'I am the Greatest', '" + time + "');"; 
+			//String sql = "INSERT INTO Partial_Achievements VALUES(\"" + sender + "\",\"I am the Greatest\");";
 			try {
 				if(statement.isClosed()) generateConnection();
 				statement.executeUpdate(sql);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
+			} catch (SQLException e) {}		
+		}
+		
+		/* step 2: Quiz Machine */
+		query = "SELECT COUNT(*) AS NUM FROM quiz_take_history WHERE User_Name = '" + sender + "' GROUP BY User_Name";
+		int takenNumber = 0;
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			takenNumber = rs.getInt("NUM");
+		} catch (SQLException e) {}
+		if (takenNumber == 10) {
+			String sql = "INSERT INTO Achievement_History VALUES('" + sender + "', 'Quiz Machine', '" + time + "');";
+			try {
+				if(statement.isClosed()) generateConnection();
+				statement.executeUpdate(sql);
+			} catch (SQLException e) {}	
 		}
 	}
 	
@@ -306,8 +326,31 @@ public class DBConnection {
 			quizNumber = rs.getInt("NUM");
 		} catch (SQLException e) {}
 		
+		
 		/* Update achievement */
-		if(quizNumber == 1 ) {}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = format.format(new Timestamp(System.currentTimeMillis()));
+		
+		if(quizNumber == 1 ) {
+			query = "INSERT INTO Achievement_History VALUES('" + sender + "', 'Amateur Author', '" + time + "');"; 
+			try {
+				statement.executeUpdate(query);
+			} catch (SQLException e) {}
+		}
+		
+		if(quizNumber == 5 ) {
+			query = "INSERT INTO Achievement_History VALUES('" + sender + "', 'Prolific Author', '" + time + "');"; 
+			try {
+				statement.executeUpdate(query);
+			} catch (SQLException e) {}
+		}
+		
+		if(quizNumber == 10 ) {
+			query = "INSERT INTO Achievement_History VALUES('" + sender + "', 'Prodigious Author', '" + time + "');"; 
+			try {
+				statement.executeUpdate(query);
+			} catch (SQLException e) {}
+		}
 	}
 }
 

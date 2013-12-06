@@ -101,7 +101,7 @@
 		con.getStatement().executeUpdate(sql);
 		
 		/* Update Achievement table */
-		con.updateAchievementTable(score, sender, id);
+		con.updateAchievementTable_Taken(score, sender, id);
 		
 		/*INSERT INTO quiz_take_history VALUES ("shrink_du", 0, 200, "2013-12-01 05:00:07", "2013-12-01 05:30:07");*/
 		

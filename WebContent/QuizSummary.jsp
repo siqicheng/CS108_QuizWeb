@@ -306,7 +306,7 @@
 		<%
 			if(!sender.equals("")){
 				out.println("<form action=\"QuizSummaryPageServlet\" method=\"post\">");
-				out.println("input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
+				out.println("<input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
 				out.println("</form>");
 			}else{
 				out.println("<h3>Register and rock the quiz</h3>");
