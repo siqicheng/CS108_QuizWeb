@@ -341,5 +341,11 @@ function rmfriend(name1, name2){
 </form>
 
 
+<form action = "friendlist.jsp" method = "post">
+<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
+<input type = "submit" value = "FriendList"/>
+</form>
+
+
 </body>
 </html>
