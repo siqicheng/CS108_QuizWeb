@@ -97,11 +97,13 @@
 		
 		<form action="CreateMultipleChoiceMultipleAnswerQuestion.jsp">
 		<input type="hidden" name="createAnswerNumber" value="<%=answerNumber+1%>">
+		<input type="hidden" name="choiceNumber" value="<%=choiceNumber%>">
 		<input type="submit" value="More legal answers" id = "yellow-button"/>
 		</form>
 		
 		<form action="CreateMultipleChoiceMultipleAnswerQuestion.jsp">
 		<input type="hidden" name="choiceNumber" value="<%=choiceNumber+1%>">
+		<input type="hidden" name="createAnswerNumber" value="<%=answerNumber%>">
 		<input type="submit" value="More choices" id = "yellow-button"/>
 		</form>
 		
