@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -272,7 +274,40 @@ public class DBConnection {
 	}
 	
 	public List<String> getAnnouncement(){
-		String queyr = "SELECT Time, content FROM announceTable";
+		List<String> announcements = new ArrayList<String>();
+		String query = "SELECT Time, content FROM announceTable ORDER BY Time DESC;";
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			while(rs.next() && announcements.size() < 11){
+				Date time = rs.getTimestamp("Time");
+				String time_str = format.format(time);
+				String content = rs.getString("content");
+				announcements.add(time_str + "#" + content);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return announcements;
+	}
+	
+	public void updateAchievement_CreateQuiz(String sender){
+		/* Get current created number */
+		String query = "SELECT COUNT(*) AS NUM FROM QI WHERE CreaterId = '" + sender + "' GROUP BY CreaterId";
+		int quizNumber = 0;
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			quizNumber = rs.getInt("NUM");
+		} catch (SQLException e) {}
+		
+		/* Update achievement */
+		if(quizNumber == 1 ) {}
 	}
 }
 

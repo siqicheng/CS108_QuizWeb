@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "java.util.*, java.util.List, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder;" %>
+<%@ page import = "java.util.*, java.util.List, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder, java.text.DecimalFormat;" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -100,26 +100,61 @@
 	<div class="wrapper">
 			<h1>Welcome <%=Username%></h1>
 			<h2>Announcements</h2>
+			<%
+			DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+			if (con == null) {
+				request.getSession().setAttribute("dbcon", new DBConnection());
+				con = (DBConnection) request.getSession().getAttribute("dbcon");
+				//System.out.println("hello");
+			}
+			
+			Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
+			if(stmt == null) {
+		    	stmt = (new DBConnection()).getStatement();
+		    	request.getSession().setAttribute("db_connection", stmt);
+			}
+			
+			List<String> announcements = con.getAnnouncement();
+			if(announcements.isEmpty()) out.println("No announcement.");
+			else {
+				out.println("<ul>");
+				for(String announcement : announcements){
+					String[] parts = announcement.split("#");
+					String time = parts[0];
+					String content = parts[1];
+					out.println("<li>"+ time + "	" + content + "</li>");
+				}
+				out.println("</ul>");
+			}
+			%>		
 		
 			<h2>Popular Quiz</h2>
 			<ul>
 					<%
-						Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
+						/*Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
 						if(stmt == null) {
 					    	stmt = (new DBConnection()).getStatement();
 					    	request.getSession().setAttribute("db_connection", stmt);
-						}
+						}*/
 					
-						ResultSet rs = stmt.executeQuery("SELECT QuizName, Quiz_Id, Number FROM (SELECT Quiz_Id, COUNT(*) as Number FROM quiz_take_history GROUP BY Quiz_Id) AS tmp, QI WHERE tmp.Quiz_Id = QI.QuizID ORDER BY Number DESC;");
+						String query = "SELECT QI.QuizID, QuizName, AVG(Rate) AS AVE_RATE FROM Rates_Table, QI WHERE QI.QuizID = Rates_Table.QuizID Group By QuizID ORDER BY AVE_RATE DESC;";
+						
+						//ResultSet rs = stmt.executeQuery("SELECT QuizName, Quiz_Id, Number FROM (SELECT Quiz_Id, COUNT(*) as Number FROM quiz_take_history GROUP BY Quiz_Id) AS tmp, QI WHERE tmp.Quiz_Id = QI.QuizID ORDER BY Number DESC;");
+						ResultSet rs = stmt.executeQuery(query);
 						int counter_1 = 0;
 						while (rs.next() && counter_1 < 15) {
 							String name = rs.getString("QuizName");
-							String id = Integer.toString(rs.getInt("Quiz_Id"));
+							String id = Integer.toString(rs.getInt("QuizID"));
+							//System.out.println(rs.getString("AVE_RATE"));
+							float r = rs.getFloat("AVE_RATE");
+							//System.out.println(rate);
+							String rate = (new DecimalFormat("#.##").format(r));
 							String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
-									+ name + "</a></li>";
+									+ name + "</a>" + "		rate: " + rate  + "</li>";
 							out.println(line);
 							++counter_1;
 						}
+
 					%>
 				</ul>
 			<h2>Latest Quiz</h2>
@@ -140,7 +175,7 @@
 			<h2>Recent Activities</h2>
 				<ul>
 					<%
-						String query = "SELECT QuizID, QuizName, Score, End_Time FROM QI, quiz_take_history WHERE QI.QuizID = quiz_take_history.Quiz_Id AND User_Name = \"" + Username + "\" order by Start_Time DESC;";
+						query = "SELECT QuizID, QuizName, Score, End_Time FROM QI, quiz_take_history WHERE QI.QuizID = quiz_take_history.Quiz_Id AND User_Name = \"" + Username + "\" order by Start_Time DESC;";
 						rs = stmt.executeQuery(query);
 						int counter = 0;
 						while (rs.next() && counter < 15) {
@@ -176,7 +211,7 @@
 			<h2>Achievements</h2>
 			<ul>
 			<%
-				DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+				con = (DBConnection) request.getSession().getAttribute("dbcon");
 				if (con == null) {
 					request.getSession().setAttribute("dbcon", new DBConnection());
 					con = (DBConnection) request.getSession().getAttribute("dbcon");

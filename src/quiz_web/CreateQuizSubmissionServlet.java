@@ -155,6 +155,10 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 			questions.clear();
 			request.setAttribute("createdQuestions", questions);
 		} 
+		
+		/* Update Achievement */
+		
+		
 		RequestDispatcher dispatch = request.getRequestDispatcher("CreateAccount_welcome.jsp");
 		dispatch.forward(request, response);
 	}
