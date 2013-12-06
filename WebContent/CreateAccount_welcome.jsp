@@ -97,7 +97,7 @@ window.onload=function(){
 					</li>
 				</ul>
 			</div>
-
+		</div>
 
 	
 	<%
@@ -251,77 +251,6 @@ window.onload=function(){
 				}
 			}
 		%>
-	<h2>Achievements</h2>
-	<ul>
-	<%
-		DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
-		if (con == null) {
-			request.getSession().setAttribute("dbcon", new DBConnection());
-			con = (DBConnection) request.getSession().getAttribute("dbcon");
-			//System.out.println("hello");
-		}
-		List<String> achievements = con.getAchievements(sender);
-		for (int i = 0; i < achievements.size(); ++i){
-			out.print("<li>" + achievements.get(i) + "</li>");
-		}
-	%>
-	</ul>
-	<h2>Messages</h2>
-<%
-	if(MailManager.hasNewMessage(sender))
-		out.println("You have NEW Messages!<br>");
-	if(MailManager.hasNewChallenge(sender))
-		out.println("You have NEW Challenges!<br>");
-	if (Username.equals(sender)){
-		ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
-		friendRequests = FriendManager.getFriendRequests(sender);
-		if (friendRequests.size()!=0){
-			out.println("You have NEW Friend requests!<br>");
-		}
-	}
-
-%>
-	
-	
-	<h2>Friends Activities</h2>
-
-	<form action="CategorySearchResult.jsp" method="POST">
-		<p>Search by Category
-		<select name="category" onchange="this.form.submit()">
-		<option value="All" selected>All</option>
-		<%
-			Category category = new Category();
-		%>
-		</select>
-		<br>
-	</form>
-
-	<form action="TagSearchResult.jsp" method="POST">
-		<p>Search by Tag
-		<input type="text" name="tag" placeholder = "tags..."/>
-		<input type="submit" value="search"/>
-		<br>
-	</form>
-
-	<form action = "CreateAccount_welcome.jsp" method = "post">
-	<input type = "text" name = "name" placeholder = "Search for friends"/>
-	<% //<input type = "hidden" name = "sender" value = Username/> %>
-	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
-	<input type = "submit" value = "Search"/>
-	</form>
-
-<%	//TODO
-	// if the input friend name is not valid, ask to input again	
-%>
-
-<%
-	boolean showButton = false;
-	
-	if (sender != null && !Username.equals(sender)){
-		if(FriendManager.isFriend(Username, sender)){
-			//remove a friend
-
-			
 			
 			<h2>Friends Activities</h2>
 		
