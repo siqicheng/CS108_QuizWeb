@@ -59,7 +59,6 @@
 			<div class="logo">
 				<a href="login.jsp"><img src="pic/logo.jpg" width="" height="44"></a>
 			</div>
-			
 			<div id="function-item">
 				<ul id="function-list">
 					<li id="items">
@@ -76,6 +75,7 @@
 					</li>
 				</ul>
 			</div>
+
 
 			<div id="search-bar-board">	 
 				<div id="search-bar" >

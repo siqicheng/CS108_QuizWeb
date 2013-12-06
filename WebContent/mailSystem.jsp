@@ -18,11 +18,13 @@
 <!-- COLLECTED CSS -->
 </head>
 <body>
+
 	<div id="title-bar">
 		<div class="wrapper">
 			<div class="logo">
 				<a href="login.jsp"><img src="pic/logo.jpg" width="" height="44"></a>
 			</div>
+
 			
 			<div id="function-item">
 				<ul id="function-list">

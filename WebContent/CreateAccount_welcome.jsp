@@ -28,12 +28,51 @@
 
 %>
 
+<%
+	String saveCookie = request.getParameter("remember");
+
+%>
+	<form id="ini" action = "saveCookieServlet" method = "post">
+	<% out.println("<input type = \"hidden\" name = \"cookiename\" value =" + "\""+sender + "\"/>"); %>
+	<% out.println("<input type = \"hidden\" name = \"savecookie\" value =" + "\""+saveCookie + "\"/>"); %>
+	</form>
+	
+<%
+	String onetime2 = (String)request.getAttribute("once");
+	boolean jump2 = (onetime2 == null || "null".equals(onetime2));
+	if (jump2 && Username.equals(sender)){
+		System.out.println("fuck");
+		out.println("<script type=\"text/javascript\">");
+		out.println("window.onload=function(){document.getElementById('ini').submit();}");
+		out.println("</script>");
+
+	}
+
+
+%>
+
+
+<!--<script type="text/javascript">
+window.onload=function(){
+	<% String onetime = (String)request.getAttribute("once"); %>
+	var onetimeJS = "<%=onetime%>"; 
+	<% boolean jump = (onetime == null || "null".equals(onetime));%>
+	var jumpJS = new Boolean('<%=jump%>');
+	if(jumpJS){
+		alert("shabi");
+    	document.getElementById('ini').submit(); 
+	}
+}
+</script>
+
+
 
 
 <title><%=Username%></title>
 <link rel="shortcut icon" href="pic/favicon.ico" /> 
 <link rel="stylesheet" href="CSS/home_style.css" type="text/css">
 <!-- COLLECTED CSS -->
+
 </head>
 <body>
 	<div id="title-bar">
@@ -59,6 +98,35 @@
 				</ul>
 			</div>
 
+
+	
+	<%
+		//set and unset privacy
+		String privacy = FriendManager.getPrivacy(sender);
+		if("true".equals(privacy)){
+			// unset privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
+			out.println("<input type = \"submit\" value = \"Public to All\"/>");
+			out.println("</form>");
+		} else {
+			//set privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
+			out.println("<input type = \"submit\" value = \"Anonymous to Non Friends\"/>");
+			out.println("</form>");
+		}
+	
+	
+	%>
+	
+	
+	
+	
+
+
 			<div id="search-bar-board">	 
 				<div id="search-bar" >
 					<form method="GET" id="search-form" action="http://www.google.com" >
@@ -70,6 +138,7 @@
 					</form> 
 				</div>
 			</div>
+
 
 			<div id ="title-bar-text"> 
 				<b> <%=sender%> </b>
@@ -181,8 +250,77 @@
 					out.println("You have NEW friend requests!<br>");
 				}
 			}
-		
 		%>
+	<h2>Achievements</h2>
+	<ul>
+	<%
+		DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+		if (con == null) {
+			request.getSession().setAttribute("dbcon", new DBConnection());
+			con = (DBConnection) request.getSession().getAttribute("dbcon");
+			//System.out.println("hello");
+		}
+		List<String> achievements = con.getAchievements(sender);
+		for (int i = 0; i < achievements.size(); ++i){
+			out.print("<li>" + achievements.get(i) + "</li>");
+		}
+	%>
+	</ul>
+	<h2>Messages</h2>
+<%
+	if(MailManager.hasNewMessage(sender))
+		out.println("You have NEW Messages!<br>");
+	if(MailManager.hasNewChallenge(sender))
+		out.println("You have NEW Challenges!<br>");
+	if (Username.equals(sender)){
+		ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+		friendRequests = FriendManager.getFriendRequests(sender);
+		if (friendRequests.size()!=0){
+			out.println("You have NEW Friend requests!<br>");
+		}
+	}
+
+%>
+	
+	
+	<h2>Friends Activities</h2>
+
+	<form action="CategorySearchResult.jsp" method="POST">
+		<p>Search by Category
+		<select name="category" onchange="this.form.submit()">
+		<option value="All" selected>All</option>
+		<%
+			Category category = new Category();
+		%>
+		</select>
+		<br>
+	</form>
+
+	<form action="TagSearchResult.jsp" method="POST">
+		<p>Search by Tag
+		<input type="text" name="tag" placeholder = "tags..."/>
+		<input type="submit" value="search"/>
+		<br>
+	</form>
+
+	<form action = "CreateAccount_welcome.jsp" method = "post">
+	<input type = "text" name = "name" placeholder = "Search for friends"/>
+	<% //<input type = "hidden" name = "sender" value = Username/> %>
+	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
+	<input type = "submit" value = "Search"/>
+	</form>
+
+<%	//TODO
+	// if the input friend name is not valid, ask to input again	
+%>
+
+<%
+	boolean showButton = false;
+	
+	if (sender != null && !Username.equals(sender)){
+		if(FriendManager.isFriend(Username, sender)){
+			//remove a friend
+
 			
 			
 			<h2>Friends Activities</h2>
@@ -322,6 +460,12 @@
   		</div>
 	</div>
 	
+
+
+<form action = "friendlist.jsp" method = "post">
+<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
+<input type = "submit" value = "FriendList"/>
+</form>
 
 
 </body>

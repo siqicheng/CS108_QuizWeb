@@ -26,6 +26,7 @@
 </head>
 <body>
 
+
 	<div id="title-bar">
 		<div class="wrapper">
 			<div class="logo">
@@ -97,5 +98,6 @@
 			</span>
   		</div>
 	</div>
+
 </body>
 </html>

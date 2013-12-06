@@ -73,6 +73,12 @@ public class Quiz {
 			result = new MultipleChoiceQuestion(QuestionID, stmt);
 		} else if (QuestionType.matches("PictureResponse")) {
 			result = new PictureResponseQuestion(QuestionID, stmt);
+		} else if (QuestionType.matches("QuestionResponseMultiAnswer")) {
+			result = new QuestionResponseMultiAnswerQuestion(QuestionID, stmt);
+		} else if (QuestionType.matches("MultipleChoiceMultipleAnswer")) {
+			result = new MultipleChoiceMultipleAnswerQuestion(QuestionID, stmt);
+		} else if (QuestionType.matches("Matching")) {
+			result = new MatchingQuestion(QuestionID, stmt);
 		} else {
 			result = null;
 		}

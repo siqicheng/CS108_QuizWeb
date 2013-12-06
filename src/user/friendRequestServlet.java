@@ -42,7 +42,7 @@ public class friendRequestServlet extends HttpServlet {
 		
 		FriendManager.sendFriendRequest(sender, receiver, msg);
 		request.getSession().setAttribute("name", sender);
-		request.getSession().setAttribute("sender", receiver);
+		request.getSession().setAttribute("sender", sender);
 		
         RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
         rd.forward(request,response);

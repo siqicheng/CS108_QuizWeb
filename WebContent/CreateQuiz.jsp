@@ -85,11 +85,16 @@ for(int i = 0; i < questions.size(); ++i){
 <h2>Step One</h2>
 <h3>Select a question type to add: </h3>
 <form action = "CreateQuestionTypeServlet" method="post">
-<p><input type="radio" name="type" value="QuestionResponseQuestion" checked> <b>Question-Response</b></p>
-<p><input type="radio" name="type" value="FillInBlankQuestion"> <b>Fill in the Blank</b></p>
-<p><input type="radio" name="type" value="MultipleChoiceQuestion"> <b>Multiple Choice</b></p>
-<p><input type="radio" name="type" value="PictureResponseQuestion"> <b>Picture Response</b></p>
+
+<p><input type="radio" name="type" value="QuestionResponseQuestion" checked> Question-Response</p>
+<p><input type="radio" name="type" value="QuestionResponseQuestionMultiAnswer" checked> Question-Response Multi-Answer</p>
+<p><input type="radio" name="type" value="FillInBlankQuestion"> Fill in the Blank</p>
+<p><input type="radio" name="type" value="MultipleChoiceQuestion"> Multiple Choice</p>
+<p><input type="radio" name="type" value="MultipleChoiceMultipleAnswerQuestion" checked> Multiple Choice with Multiple Answers</p>
+<p><input type="radio" name="type" value="PictureResponseQuestion"> Picture Response</p>
+<p><input type="radio" name="type" value="MatchingQuestion"> Matching</p>
 <input type="submit" value="Select" id = "red-button">
+
 </form>
 
 <h2>Step Two</h2>

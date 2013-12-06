@@ -1,6 +1,7 @@
 package quiz_web;
 
 import java.io.IOException;
+import java.util.*;
 import java.util.Date;
 import java.util.List;
 
@@ -57,8 +58,8 @@ public class ResultSinglePageServlet extends HttpServlet {
         int curScore = 0;
         for (int i = 0; i < questions.size(); i++) {
         	Question q = questions.get(i);
-        	String ans = q.fetchAnswer(request, i);
-            curScore += q.getScore(ans);
+        	ArrayList<String> ansList = q.fetchAnswer(request, i);
+            curScore += q.getScore(ansList);
         }
 
         long startTime = (Long) session.getAttribute("startTime");

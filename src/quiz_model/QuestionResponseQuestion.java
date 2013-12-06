@@ -19,15 +19,6 @@ public class QuestionResponseQuestion extends Question{
 		this.question = question;
 		this.answers = new ArrayList<String>(answers);
 	}
-
-	public QuestionResponseQuestion(int id, JSONObject json){
-		super(id);
-		this.question = json.optString("question");
-		this.answers = new ArrayList<String>();
-		for(int i = 0; i < json.length() - 1; ++i){
-			answers.add(json.optString("answer" + i));
-		}
-	}
 	
 	public QuestionResponseQuestion(int id, Statement stmt) {
 		super(id);
@@ -40,7 +31,7 @@ public class QuestionResponseQuestion extends Question{
 			rs.next();
 			question = rs.getString("Question");
 			ansStr = rs.getString("Answer");
-			String[] answerList = ansStr.split("#blank#");
+			String[] answerList = ansStr.split("%");
 			for (String answer: answerList) {
 				answers.add(answer);
 			}
@@ -55,25 +46,10 @@ public class QuestionResponseQuestion extends Question{
 		this.answers = new ArrayList<String>(answers);
 	}
 
-	public QuestionResponseQuestion(JSONObject json){
-		super();
-		this.question = json.optString("question");
-		this.answers = new ArrayList<String>();
-		for(int i = 0; i < json.length() - 1; ++i){
-			answers.add(json.optString("answer" + i));
-		}
-	}
-
 	@Override
 	public String getHTML(int questionNum) {
 		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
 		return html_question;
-	}
-	
-	public static void main(String[] args) {
-		for(int i = 0; i < 10; ++i) {
-			System.out.println("answer"+i);
-		}
 	}
 
 	@Override
@@ -104,12 +80,12 @@ public class QuestionResponseQuestion extends Question{
 		/* Answers */
 		sql += "\"";
 		for(String answer : answers){
-			sql += answer + "#";
+			sql += answer + "%";
 		}
 		sql = sql.substring(0, sql.length()-1);
 		sql += "\",";
 		
-		sql += Integer.toString(5) + ","; /* Score, to be changed */
+		sql += Integer.toString(score) + ","; /* Score, to be changed */
 		sql += "\"" + "#NULL#" + "\","; /* Tag, to be changed */
 		sql += "0);"; /* Time */
 		
@@ -125,8 +101,9 @@ public class QuestionResponseQuestion extends Question{
 	}
 
 	@Override
-	public String fetchAnswer(HttpServletRequest request, int questionNum) {
+	public ArrayList<String> fetchAnswer(HttpServletRequest request, int questionNum) {
 		// TODO Auto-generated method stub
+		ArrayList<String> ansList = new ArrayList<String> ();
 		String ans = request.getParameter("answer" + Integer.toString(questionNum));
         if (ans == null) {
         	ans = (String)request.getSession().getAttribute("answer" + Integer.toString(questionNum)) ;
@@ -134,12 +111,13 @@ public class QuestionResponseQuestion extends Question{
                 ans = "";
         	}
         }
-        return ans;
+        return ansList;
 	}
 
 	@Override
-	public int getScore(String ans) {
+	public int getScore(ArrayList<String> ansList) {
 		// TODO Auto-generated method stub
+		String ans = ansList.get(0);
 		for (String s: answers) {
 			if (s.trim().toLowerCase().matches(ans.trim().toLowerCase())) {
 				return score;
@@ -149,8 +127,9 @@ public class QuestionResponseQuestion extends Question{
 	}
 
 	@Override
-	public String getHTMLwithQuestionResult(int questionNum, String userAns, int curScore) {
+	public String getHTMLwithQuestionResult(int questionNum, ArrayList<String> userAnsList, int curScore) {
 		// TODO Auto-generated method stub
+		String userAns = userAnsList.get(0);
 		String html_question = getHTML(questionNum);
 		String html_user_answer = "<b>Your answer:</b> " + userAns + "</br><br>";
 		String ansStr = "";
@@ -165,7 +144,12 @@ public class QuestionResponseQuestion extends Question{
 		} else {
 			html_correct += "<b>You are wrong!</b>" + "</br><br>";
 		}
-		
 		return html_question + html_user_answer + html_correct_answer + html_correct;
+	}
+
+	@Override
+	public int getAnswerNum() {
+		// TODO Auto-generated method stub
+		return 1;
 	}
 }

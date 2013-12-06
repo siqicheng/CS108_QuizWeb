@@ -10,13 +10,21 @@
 	int questionNum;
 	if (questionNumStr == null) questionNum = 0;
 	else questionNum = Integer.parseInt(questionNumStr);
-	
-	String ans = request.getParameter("answer" + Integer.toString(questionNum));
-	//if (ans != null) {
-		request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans);
-	//}
 	Question q = questions.get(questionNum);
-	int curScore = q.getScore(ans);
+	int answerNum = q.getAnswerNum();
+	ArrayList<String> ansList = new ArrayList<String> ();
+	if (answerNum == 1) {
+		String ans = request.getParameter("answer" + Integer.toString(questionNum));
+		request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans);
+		ansList.add(ans);
+	} else {
+		for (int i = 0; i < answerNum; i++) {
+			String ans = request.getParameter("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
+			request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans);
+	        ansList.add(ans);
+		}
+	}	
+	int curScore = q.getScore(ansList);
 	
 %>
 <head>
@@ -39,7 +47,7 @@
 	String input = "<input type=\"hidden\" name=\"question\" value=\""+ Integer.toString(questionNum)+"\">";
 	out.print(input);
 	//System.out.println(input);
-	out.print(q.getHTMLwithQuestionResult(questionNum, ans, curScore));
+	out.print(q.getHTMLwithQuestionResult(questionNum, ansList, curScore));
 %>
 <input type="submit" value="Submit" disabled>
 <input type="submit" value="<%=button%>">
