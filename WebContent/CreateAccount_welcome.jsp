@@ -246,7 +246,7 @@
 				<br>
 			</form>
 		
-			<form action = "CreateAccount_welcome.jsp" method = "post">
+			<form action = "FriendSearchServlet" method = "post">
 			<input type = "text" name = "name" placeholder = "Search for friends"/>
 			<% //<input type = "hidden" name = "sender" value = Username/> %>
 			<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
