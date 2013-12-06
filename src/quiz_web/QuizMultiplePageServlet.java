@@ -64,9 +64,16 @@ public class QuizMultiplePageServlet extends HttpServlet {
 //		}
 //		request.getSession().setAttribute("question",questionNum);
 		int questionNum = (Integer)request.getSession().getAttribute("question");
-		String ans = request.getParameter("answer" + Integer.toString(questionNum));
+		String[] ans = request.getParameterValues("answer" + Integer.toString(questionNum));
 		if (ans != null) {
-			request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans);
+			if (ans.length == 1) {
+				request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans);
+			} else {
+				for (int i = 0; i < ans.length; i++) {
+					request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans);
+				}
+				request.getSession().setAttribute("anserNum",ans.length);
+			}
 		}
 		if (questionNum == questions.size()-1) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("QuizResultPage.jsp");
