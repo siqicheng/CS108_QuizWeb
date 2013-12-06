@@ -34,7 +34,7 @@ public class MultipleChoiceQuestion extends Question{
 			question = rs.getString("Question");
 			answer = rs.getString("Answer");
 			choiceStr = rs.getString("Choices");
-			String [] choicesList = choiceStr.split("%");
+			String [] choicesList = choiceStr.split("#");
 			for (String choice: choicesList) {
 				//System.out.println(choice);
 				choices.add(choice);
@@ -100,7 +100,7 @@ public class MultipleChoiceQuestion extends Question{
 		/* Choices */
 		sql += "\"";
 		for(String choice : choices){
-			sql += choice + "%";
+			sql += choice + "#";
 		}
 		sql = sql.substring(0, sql.length()-1);
 		sql += "\",";
