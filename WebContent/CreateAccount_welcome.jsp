@@ -22,9 +22,6 @@
 
 	
 	if(Username == null || Username.equals("null")) Username = sender;
-	
-
-
 
 %>
 
@@ -50,22 +47,6 @@
 
 
 %>
-
-
-<!--<script type="text/javascript">
-window.onload=function(){
-	<% String onetime = (String)request.getAttribute("once"); %>
-	var onetimeJS = "<%=onetime%>"; 
-	<% boolean jump = (onetime == null || "null".equals(onetime));%>
-	var jumpJS = new Boolean('<%=jump%>');
-	if(jumpJS){
-		alert("shabi");
-    	document.getElementById('ini').submit(); 
-	}
-}
-</script>
-
-
 
 
 <title><%=Username%></title>
@@ -97,36 +78,6 @@ window.onload=function(){
 					</li>
 				</ul>
 			</div>
-		</div>
-
-	
-	<%
-		//set and unset privacy
-		String privacy = FriendManager.getPrivacy(sender);
-		if("true".equals(privacy)){
-			// unset privacy
-			out.println("<form action = \"privacyServlet\" method = \"post\">");
-			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
-			out.println("<input type = \"submit\" value = \"Public to All\"/>");
-			out.println("</form>");
-		} else {
-			//set privacy
-			out.println("<form action = \"privacyServlet\" method = \"post\">");
-			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
-			out.println("<input type = \"submit\" value = \"Anonymous to Non Friends\"/>");
-			out.println("</form>");
-		}
-	
-	
-	%>
-	
-	
-	
-	
-
-
 			<div id="search-bar-board">	 
 				<div id="search-bar" >
 					<form method="GET" id="search-form" action="http://www.google.com" >
@@ -367,6 +318,27 @@ window.onload=function(){
 				<button type="submit" id="red-button">Administrator</button>
 			</p>
 		</form>
+			<%
+		//set and unset privacy
+		String privacy = FriendManager.getPrivacy(sender);
+		if("true".equals(privacy)){
+			// unset privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
+			out.println("<input type = \"submit\" value = \"Public to All\"/>");
+			out.println("</form>");
+		} else {
+			//set privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
+			out.println("<input type = \"submit\" value = \"Anonymous to Non Friends\"/>");
+			out.println("</form>");
+		}
+	
+	
+	%>
 	</div>
 	
 	
