@@ -53,7 +53,12 @@ public class sendMailServlet extends HttpServlet {
         	Date SentTime = new Date();
 			Timestamp ts = new Timestamp(SentTime.getTime());
         	
-        	String link = "<a href=\\\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "&date="+ts+"&challenge=yes \\\">Take this challenge</a>";
+			String show = new String();
+			if (receiver.equals("admin"))
+				show = "This quiz is reported to be inappropriate";
+			else
+				show = "Take this challenge";
+        	String link = "<a href=\\\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "&date="+ts+"&challenge=yes \\\">" + show +"</a>";
         	
 			MailManager.sendMessage(sender, receiver, link);
 			request.getSession().setAttribute("sender", sender);

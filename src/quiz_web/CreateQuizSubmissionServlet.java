@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database_connection.DBConnection;
+
 import quiz_model.Question;
 import quiz_model.Quiz;
 import xml.Xmlparser;
@@ -157,7 +159,8 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 		} 
 		
 		/* Update Achievement */
-		
+		DBConnection con = new DBConnection();
+		con.updateAchievement_CreateQuiz(quizCreator);
 		
 		RequestDispatcher dispatch = request.getRequestDispatcher("CreateAccount_welcome.jsp");
 		dispatch.forward(request, response);

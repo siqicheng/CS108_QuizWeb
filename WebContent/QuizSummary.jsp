@@ -123,6 +123,12 @@
 	<div class="wrapper">	
 		<h2><%=quiz.getName()%></h2>
 		<h4>
+			<%
+				String description = dbcon.getQuizDescription(id);
+				out.println("Description: " + description);
+				out.println("<br></br>");
+				
+			%>
 			<% 
 				int freq = dbcon.getQuizTimes(id);
 				if (freq == 0) out.println("The quiz has never been taken yet. You can be the first taker!");
@@ -130,7 +136,7 @@
 					int score = dbcon.getAverageScore(id);
 					int time = dbcon.getAverageTime(id);
 					String t_str = String.format("%d:%02d:%02d", time/3600, (time%3600)/60, (time%60));
-					String output = "The quiz have been taken for "+ Integer.toString(freq) + " times, with average score of " + Integer.toString(score) + ", and the average time of " + t_str + ".";
+					String output = "Statistics: The quiz have been taken for "+ Integer.toString(freq) + " times, with average score of " + Integer.toString(score) + ", and the average time of " + t_str + ".";
 					out.println(output);
 				}
 			%>
@@ -325,10 +331,41 @@
 			<input type="hidden" name= "sender" value="<%=userName%>">
 			<input type="hidden" name="quizId" value="<%=quizId%>">
 		</form>
-		</div>
+		
 		<%
 			if (!sender.equals(""))
 				out.println("<input type=\"submit\" value=\"Share\" id = \"green-button\" form =\"email\" >");
+		%>
+		
+		<form action="sendMailServlet" method="post" id = "report">
+			<input id = basic-input type="hidden" name= "receiver" value=admin>
+			<input type="hidden" name= "sender" value="<%=userName%>">
+			<input type="hidden" name="quizId" value="<%=quizId%>">
+		</form>
+		
+		<%
+			if (!sender.equals(""))
+				out.println("<input type=\"submit\" value=\"Report\" id = \"yellow-button\" form =\"report\" >");
+		%>
+		
+		<form action="ManageQuizServlet" method="post" id = "AdminDelete">
+			<p>
+				<input type="hidden" name="quiz" id = "basic-input" value="<%=id %>">
+				<select name="operation" id ="green-button">
+					<option value="1">Clear taken history</option>
+					<option value="2">Delete quiz</option>
+				</select>
+
+			</p>
+		</form>
+		
+		
+		</div>
+		<%
+			AdministratorAccount admin = new  AdministratorAccount(sender);
+			boolean isAdmin = admin.getUserType().equals("s");
+			if (!sender.equals("") && isAdmin)
+				out.println("<input type=\"submit\" value=\"Submit\" id = \"red-button\" form =\"AdminDelete\" >");
 		%>
 		
 	</div>
