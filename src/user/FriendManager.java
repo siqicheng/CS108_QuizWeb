@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
 import database_connection.DBConnection;
 
@@ -64,9 +65,9 @@ public class FriendManager {
 		return false;
 	}
 	
-	public static ArrayList<String> getFriends(String username){
+	public static HashSet<String> getFriends(String username){
 		connect();
-		ArrayList<String> friendlist = new ArrayList<String>();
+		HashSet<String> friendlist = new HashSet<String>();
 		try {
 						
 			String query = "select friendname from friendTable where (username = " + "\"" + username +  "\"" +")";

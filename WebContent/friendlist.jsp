@@ -19,7 +19,7 @@ if(sender == null || sender.equals("null")) { /* From login page */
 <body>
 <h1><%=sender %>'s friends</h1>
 	<%
-		ArrayList<String> friendlist = FriendManager.getFriends(sender);
+		HashSet<String> friendlist = FriendManager.getFriends(sender);
 		for (String friend : friendlist){
 			out.println("<a href=\"CreateAccount_welcome.jsp?name=" + friend + "&sender=" + sender + "\">" + friend + "</a>");
 		}

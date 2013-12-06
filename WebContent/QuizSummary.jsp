@@ -62,16 +62,42 @@
 			<div id="function-item">
 				<ul id="function-list">
 					<li id="items">
-						<a href="CreateAccount_welcome.jsp" id="item-text">Home</a>
+						<%
+							String index = new String();
+							if (sender.equals(""))
+								index = "GuestIndex.jsp";
+							else
+								index = "CreateAccount_welcome.jsp";
+								
+						%>
+						<a href="<%=index %>" id="item-text">Home</a>
 					</li>
 					<li id="items">
-						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
+						<%
+							String createQ = new String();
+							if (!sender.equals(""))
+								out.println("<a href=\"CreateQuiz.jsp\" id=\"item-text\">CreateQuiz</a>");
+								
+						%>
+						<!--<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>-->
 					</li>
 					<li id="items">
-						<a href="http://www.google.com" id="item-text">Friends</a>
+						<%
+							String friendG = new String();
+							if (!sender.equals(""))
+								out.println("<a href=\"http://www.google.com\" id=\"item-text\">Friends</a>");
+								
+						%>
+<!--						<a href="http://www.google.com" id="item-text">Friends</a>-->
 					</li>
 					<li id="items">
-						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
+						<%
+							String mailG = new String();
+							if (!sender.equals(""))
+								out.println("<a href=\"mailSystem.jsp\" id=\"item-text\">Mailbox</a>");
+								
+						%>
+<!--						<a href="mailSystem.jsp" id="item-text">Mailbox</a>-->
 					</li>
 				</ul>
 			</div>
@@ -278,18 +304,35 @@
 		
 		<h2>Let's get started!</h2>
 		<div>
-		<form action="QuizSummaryPageServlet" method="post">
-			<input type="submit" value="GoRockQuiz" id = "red-button" >
-		</form>
+		<%
+			if(!sender.equals("")){
+				out.println("<form action=\"QuizSummaryPageServlet\" method=\"post\">");
+				out.println("input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
+				out.println("</form>");
+			}else{
+				out.println("<h3>Register and rock the quiz</h3>");
+			}
+		%>
+		
+<!--		<form action="QuizSummaryPageServlet" method="post">-->
+<!--			<input type="submit" value="GoRockQuiz" id = "red-button" >-->
+<!--		</form>-->
 		
 		<form action="sendMailServlet" method="post" id = "email">
-			<input id = "basic-input" type="text" name="receiver" placeholder="Share quiz with your friend">
+			<%
+			if (!sender.equals(""))
+				out.println("<input id = \"basic-input\" type=\"text\" name=\"receiver\" placeholder=\"Share quiz with your friend\">");
+			%>
 			<%String address = new String("<a href=\\\"QuizSummary.jsp?user_name=#######&quizId=" + id  + "\\\">Take this challenge</a>");  %>
 			<input type="hidden" name= "sender" value="<%=userName%>">
 			<input type="hidden" name="quizId" value="<%=quizId%>">
 		</form>
 		</div>
-		<input type="submit" value="Share" id = "green-button" form ="email" >
+		<%
+			if (!sender.equals(""))
+				out.println("<input type=\"submit\" value=\"Share\" id = \"green-button\" form =\"email\" >");
+		%>
+		
 	</div>
 	
 		<div class="wrapper">

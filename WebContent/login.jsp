@@ -45,7 +45,7 @@
 
 			            <div class="item-submit">
 			                <input type="submit" value="Login" class="login-submit" tabindex="4">
-			                <input type="submit" value="Guest" class="guest-submit" tabindex="4" onclick="form.action='CreateAccount_welcome.jsp';">
+			                <input type="submit" value="Guest" class="guest-submit" tabindex="4" onclick="form.action='GuestIndex.jsp';">
 			            </div>
 			        </fieldset>
     			</form>
