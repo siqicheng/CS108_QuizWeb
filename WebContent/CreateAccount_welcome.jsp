@@ -97,7 +97,7 @@ window.onload=function(){
 					</li>
 				</ul>
 			</div>
-
+		</div>
 
 	
 	<%
