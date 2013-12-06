@@ -27,8 +27,11 @@ public class Xmlparser {
 	boolean isImmediateCorrection;
 	ArrayList<Question> questions;
 
+	static final String path = "/Users/derekdu/Desktop/Academy/CS108/CS108_QuizWeb/WebContent/XML/";
+	
 	public Xmlparser(String xml){
-		System.out.println(xml);
+		//System.out.println(xml);
+		xml = path + xml;
 		Document doc = parseXmlFile(xml);
 		Element elements = doc.getDocumentElement();
 		

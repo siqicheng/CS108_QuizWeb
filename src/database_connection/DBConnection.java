@@ -255,11 +255,11 @@ public class DBConnection {
 					int rate = rs.getInt("Rate");
 					String rate_str;
 					if(rate < 0) rate_str = "no rate";
-					else rate_str = Integer.toString(rate) + "/5";
+					else rate_str = "rate: " + Integer.toString(rate) + "/5";
 					
 					String comment = rs.getString("Comment");
 					
-					String whole = name_str + " " + rate_str + "<br>" + comment + "<br>";
+					String whole = name_str + " " + rate_str + "	" + comment + "<br>";
 					results.add(whole);
 				}
 				
@@ -269,6 +269,10 @@ public class DBConnection {
 		}
 		
 		return results;
+	}
+	
+	public List<String> getAnnouncement(){
+		String queyr = "SELECT Time, content FROM announceTable";
 	}
 }
 
