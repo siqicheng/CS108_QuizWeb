@@ -340,7 +340,7 @@
 		<%
 			boolean showButton = false;
 			
-			if (sender != null && !Username.equals(sender)){
+			if (sender != null && !Username.equals(sender) && !sender.equals("")){
 				if(FriendManager.isFriend(Username, sender)){
 					//remove a friend
 					

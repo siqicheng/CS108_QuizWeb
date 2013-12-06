@@ -314,7 +314,8 @@
 				out.println("<input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
 				out.println("</form>");
 			}else{
-				out.println("<h3>Register and rock the quiz</h3>");
+				out.println("<form action=\"CreateAccount_new_account.jsp\" method=\"post\">");
+				out.println("<input type=\"submit\" id=\"red-button\" value=\"Register and Rock the quiz\">");
 			}
 		%>
 		
@@ -358,18 +359,19 @@
 			if (!sender.equals("") && isAdmin)
 				out.println("<h2>Administration</h2>");
 		%>
+		
 		<form action="ManageQuizServlet" method="post" id = "AdminDelete">
 			<p>
 				<input type="hidden" name="quiz" id = "basic-input" value="<%=id %>">
-
-				<select name="operation" id ="red-button">
-					<option value="1">Clear taken history</option>
-					<option value="2">Delete quiz</option>
-				</select>
 		<%
 
-			if (!sender.equals("") && isAdmin)
+			if (!sender.equals("") && isAdmin){
+				out.println("<select name=\"operation\" id =\"red-button\">");
+				out.println("<option value=\"1\">Clear taken history</option>");
+				out.println("<option value=\"2\">Delete quiz</option>");
+				out.println("</select>");
 				out.println("<input type=\"submit\" value=\"Delete\" id = \"red-button\" form =\"AdminDelete\" >");
+			}
 		%>
 
 			</p>
