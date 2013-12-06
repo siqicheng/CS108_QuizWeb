@@ -15,14 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/CreateQuestionTypeServlet")
 public class CreateQuestionTypeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CreateQuestionTypeServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public CreateQuestionTypeServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,8 +45,13 @@ public class CreateQuestionTypeServlet extends HttpServlet {
 			dispatch = request.getRequestDispatcher("CreateMultipleChoiceQuestion.jsp");
 		} else if (type.equals("PictureResponseQuestion")){
 			dispatch = request.getRequestDispatcher("CreatePictureResponseQuestion.jsp");
+		} else if (type.equals("QuestionResponseQuestionMultiAnswer")){
+			dispatch = request.getRequestDispatcher("CreateQuestionResponseMultiAnswerQuestion.jsp");
+		} else if (type.equals("MultipleChoiceMultipleAnswerQuestion")){
+			dispatch = request.getRequestDispatcher("CreateMultipleChoiceMultipleAnswerQuestion.jsp");
+		} else if (type.equals("MatchingQuestion")){
+			dispatch = request.getRequestDispatcher("CreateMatchingQuestion.jsp");
 		} else dispatch = null;
-		
 		dispatch.forward(request, response);
 	}
 

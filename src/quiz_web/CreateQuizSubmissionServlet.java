@@ -67,7 +67,8 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 					rs.next();
 					int questionId = rs.getInt("Number")+1;
 					question.setId(questionId);
-					stmt.executeUpdate(question.insertSql(questionId, quizCreator));
+					String insert = question.insertSql(questionId, quizCreator);
+					stmt.executeUpdate(insert);
 					String query_update = "UPDATE WS SET Number=" + Integer.toString(questionId) + " WHERE Name='" + attr + "';";
 					stmt.executeUpdate(query_update);
 					String query_2 = "SELECT Number FROM WS where Name = 'QuizNum'";

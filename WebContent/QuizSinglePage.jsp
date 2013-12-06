@@ -25,7 +25,8 @@
 <%
 	for (int i = 0; i < questions.size(); i++) {
 		Question question = questions.get(i);
-		out.print(question.getHTMLwithQuestion(i));
+		String toPrint = question.getHTMLwithQuestion(i);
+		out.print(toPrint);
 	}
 %>
 <input type="submit" value="Submit">

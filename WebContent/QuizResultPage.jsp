@@ -32,10 +32,10 @@
 		int totScore = 0;
 		for (int i = 0; i < questions.size(); i++) {
 			Question q = questions.get(i);
-			String ans = q.fetchAnswer(request, i);
-			int curScore = q.getScore(ans);
+			ArrayList<String> ansList = q.fetchAnswer(request, i);
+			int curScore = q.getScore(ansList);
 			totScore += curScore;
-			out.print(q.getHTMLwithQuestionResult(i, ans, curScore));
+			out.print(q.getHTMLwithQuestionResult(i, ansList, curScore));
 		}
 		out.println("Score: " + totScore + "<br><br>"); 
 		long startTime = (Long) session.getAttribute("startTime");

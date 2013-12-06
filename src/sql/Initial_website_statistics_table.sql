@@ -16,5 +16,8 @@ INSERT INTO WS VALUES
 ("PictureResponseNum", 0),
 ("FillInBlankNum", 0),
 ("MultipleChoiceNum", 0),
+("QuestionResponseMultiAnswerNum",0),
+("MultipleChoiceMultipleAnswerNum",0),
+("MatchingNum",0),
 ("QuizNum", 0);
 
