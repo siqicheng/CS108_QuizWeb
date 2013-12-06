@@ -82,7 +82,12 @@
 						<!--<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>-->
 					</li>
 					<li id="items">
-						<a href="friendlist.jsp?sender=<%=sender%>" id="item-text">Friends</a>
+						<%
+							String friendQ = new String();
+							if (!sender.equals(""))
+								out.println("<a href=\"friendlist.jsp?sender="+sender + "id=\"item-text\">Friends</a>");
+								
+						%>
 					</li>
 					<li id="items">
 						<%
