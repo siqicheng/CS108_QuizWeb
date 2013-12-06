@@ -36,11 +36,12 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 			question = rs.getString("Question");
 			answerStr = rs.getString("Answer");
 			choiceStr = rs.getString("Choices");
+			score = rs.getInt("Score");
 			String [] answersList = answerStr.split("#");
 			for (String answerS : answersList) {
 				answers.add(answerS);
 			}
-			String [] choicesList = choiceStr.split("%");
+			String [] choicesList = choiceStr.split("#");
 			for (String choice: choicesList) {
 				//System.out.println(choice);
 				choices.add(choice);
@@ -112,7 +113,7 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 
 	@Override
 	public String insertSql(int id, String user) {
-		String sql = "INSERT INTO MC VALUES(";
+		String sql = "INSERT INTO MCMA VALUES(";
 		sql += Integer.toString(id) + ","; /* ID */
 		sql += "\"" + user + "\","; /* User name */
 
@@ -212,12 +213,6 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 		//			return 0;
 		//		}
 
-		int userAnswerNum = 0;
-		for (String s: ansList) {
-			if (answers.contains(s)) {
-				userAnswerNum += 1;
-			}
-		}
 		int correctAnswerNum = 0;
 		for (String s:answers) {
 			if (ansList.contains(s)) {
@@ -229,7 +224,7 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 				return 0;
 			}
 		} 
-		if (userAnswerNum == correctAnswerNum) {
+		if (correctAnswerNum == answers.size()) {
 			return this.score;
 		} else {
 			return super.perScore;
@@ -241,6 +236,7 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 			int curScore) {
 		// TODO Auto-generated method stub
 		//String userAns = userAnsList.get(0);
+		System.out.println("Score" + score);
 		String html_question = getHTML(questionNum);
 		String html_user_answer = "<b>Your answer:</b> ";
 		for (String userAns:userAnsList) {
