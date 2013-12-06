@@ -111,6 +111,7 @@ public class QuestionResponseQuestion extends Question{
                 ans = "";
         	}
         }
+        ansList.add(ans);
         return ansList;
 	}
 

@@ -45,3 +45,15 @@ CREATE TABLE Rates_Table (
 	UserID CHAR(32),
 	Time TIMESTAMP
 );
+
+-- ======================================================================	
+-- Achievement History Table
+-- ======================================================================	
+DROP TABLE IF EXISTS Achievement_History;
+-- remove table if it already exists and start from scratch
+
+CREATE TABLE Achievement_History (
+	User_Name CHAR(32),
+	Achievement CHAR(50),
+	Time TIMESTAMP
+);
