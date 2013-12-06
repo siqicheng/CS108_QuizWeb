@@ -8,6 +8,14 @@
 <title>Create a new quiz</title>
 </head>
 <body>
+<h3>Create by loading XML</h3>
+<form action="CreateQuizSubmissionServlet" method="post">
+<input type="text"	name="filepath">
+<input type="submit" value="Load">
+<input type="hidden" name="xml" value="dummy">
+<input type="hidden" name="action" value="Submit">
+</form>
+
 <%
 ArrayList<Question> questions = (ArrayList<Question>)request.getSession().getAttribute("createdQuestions"); 
 if(questions == null) {

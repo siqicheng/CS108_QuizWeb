@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import xml.Xmlparser;
+
 import database_connection.DBConnection;
 
 public class Quiz {
@@ -40,6 +42,25 @@ public class Quiz {
 		this.isOnePage = isOnePage;
 		this.isImmediateCorrection = isImmediateCorrection;
 		this.questions = questions;
+	}
+	
+	public Quiz(Xmlparser xml, int id, String createrId, Timestamp createTime){
+		this.id = id;
+		this.name = xml.getName();
+		this.description = xml.getDescription();
+		this.createrId = createrId;
+		this.createTime = new Timestamp(createTime.getTime());
+		this.tag = "All";
+		this.category = xml.getCategory();
+		this.canPractice = xml.isCanPractice();
+		this.isRandom = xml.isRandom();
+		this.isOnePage = xml.isOnePage();
+		this.isImmediateCorrection = xml.isImmediateCorrection();
+		this.questions = new ArrayList<Question>(xml.getQuestions());
+	}
+	
+	public Quiz(String xmlFile){
+		this.tag = "All";	/* No 'tag' in xml file */
 	}
 	
 	private Question getQuestion(int QuestionID, String QuestionType, Statement stmt) {
