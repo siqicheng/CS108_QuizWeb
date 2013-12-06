@@ -316,8 +316,30 @@
 			}
 		%>
 			<%
-				if (!sender.equals(""))
+				if (!sender.equals("")){
 					out.println("<h2>Friends Activities</h2>");
+					HashSet<String> friends = FriendManager.getFriends(sender);
+					//System.out.println(sender);
+					//System.out.println(friends);
+					List<Activity> activities = new ArrayList<Activity>();
+					for(String friend : friends){
+						List<Activity> tmp = ActivityManger.getActivities(friend);
+						activities.addAll(tmp);
+					}
+					Collections.sort(activities);
+					if(!activities.isEmpty()){
+						out.println("<ul>");
+						int count = 0;
+						for(Activity a : activities){
+							if (count > 10) break;
+							out.println("<li>" + a.toString() + "</li>");
+							count ++;
+						}
+						out.println("</ul>");
+					} else {
+						out.println("No new activities.<br>");
+					}
+				}
 			%>
 		
 			<form action="CategorySearchResult.jsp" method="POST">
