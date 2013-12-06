@@ -56,13 +56,13 @@
 	
 
 	<div class="wrapper">
-		<h1>Add a new Multiple-Choice Multiple-Answer question</h1>
-		<p>Your question should have multiple choices, there can be multiple legal answers as specified by you</p>
+		<h2>Add a new Multiple-Choice Multiple-Answer question</h2>
+		<p><b>Your question should have multiple choices, there can be multiple legal answers as specified by you</b></p>
 		
 		<form action="CreateMultipleChoiceMultipleAnswerServlet" method="post">
-		<b>Question: </b><br>
+		<h2>Question: </h2>
 		<textarea name="question" rows="3" cols="80" id = "big-input"></textarea><br>
-		<b>Correct answers:</b><br>
+		<h2>Correct answers:</h2>
 		<% 
 		String an = request.getParameter("createAnswerNumber");
 		int answerNumber;
@@ -70,12 +70,12 @@
 		else answerNumber = Integer.parseInt(an);
 		
 		for (int i = 0; i < answerNumber; ++i){
-			String html = "answer" + i + ": ";
+			String html = "answer" + i + ": &nbsp&nbsp&nbsp";
 			html += "<textarea name = \"" + "createAnswer" + i + "\" rows=\"1\" cols=\"50\" id = \"big-input\"></textarea><br>";
 			out.print("<b>" + html + "</b>");
 		}
 		%>
-		<b>Other choices: </b><br>
+		<h2>Other choices: </h2>
 		<%
 		
 		String cn = request.getParameter("choiceNumber");
@@ -85,32 +85,35 @@
 		else choiceNumber = Integer.parseInt(cn);
 		
 		for (int i = 0; i < choiceNumber; ++i){
-			String html = "choice" + i + ": ";
+			String html = "choice" + i + ": &nbsp&nbsp&nbsp&nbsp";
 			html += "<textarea name = \"" + "choice" + i + "\" rows=\"1\" cols=\"50\" id = \"big-input\"></textarea><br>";
 			out.print("<b>" + html + "</b>");
 		}
 		%>
-		<input type="hidden" name="createAnswerNumber" value="<%=answerNumber%>">
+		<input type="hidden" name="createAnswerNumber" value="<%=answerNumber%>" id= "question-submit">
 		<input type="hidden" name="choiceNumber" value="<%=choiceNumber%>">
-		<input type="submit" value="Add" id = "red-button"/>
+		
 		</form>
 		
-		<form action="CreateMultipleChoiceMultipleAnswerQuestion.jsp">
+		<form action="CreateMultipleChoiceMultipleAnswerQuestion.jsp" id= "legal-answer">
 		<input type="hidden" name="createAnswerNumber" value="<%=answerNumber+1%>">
-		<input type="submit" value="More legal answers" id = "yellow-button"/>
+		
 		</form>
 		
-		<form action="CreateMultipleChoiceMultipleAnswerQuestion.jsp">
+		<form action="CreateMultipleChoiceMultipleAnswerQuestion.jsp" id= "choices">
 		<input type="hidden" name="choiceNumber" value="<%=choiceNumber+1%>">
-		<input type="submit" value="More choices" id = "yellow-button"/>
+		<input type="submit" value="More answers" id = "yellow-button" form = "legal-answer"/>
+		<input type="submit" value="More choices" id = "blue-button" form = "choices"/>
 		</form>
 		
-		<form action="CreateQuiz.jsp">
-		<input type="submit" value="Back" id = "green-button">
+		<form action="CreateQuiz.jsp" id = "back">
+		<input type="submit" value="Add" id = "red-button" form = "question-submit"/>
+		<input type="submit" value="Back" id = "green-button" form = "back">
 		</form>
 	</div>
 	
-		<div class="wrapper">
+
+	<div class="wrapper">
 		<div id="ft">
 			<span class="fleft">
 			  <a> Copyright © 2013 <%="IQuizYOU"%> , all rights reserved</a><br>

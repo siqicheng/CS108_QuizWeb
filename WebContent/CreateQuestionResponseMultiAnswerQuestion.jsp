@@ -60,10 +60,10 @@
 		<h2>Add a new Question-Response Multi-Answer question</h2>
 		
 		
-		<form action="CreateQuestionResponseMultiAnswerServlet" method="post">
-		<b>Your question:</b><br>
+		<form action="CreateQuestionResponseMultiAnswerServlet" method="post" id = "question-submit">
+		<h2>Your question:</h2>
 		<textarea name="question" rows="4" cols="80" id = "big-input"></textarea><br>
-		<b>Your answers (use ; as delimiters if more than one legal answer): </b><br>
+		<h2>Your answers: </h2>
 		<%
 		String an = request.getParameter("answerNumber");
 		int answerNumber;
@@ -72,19 +72,21 @@
 		
 		for (int i = 0; i < answerNumber; ++i) {
 			String html = "answer" + i + ": ";
-			html += "<textarea name = \"" + "answer" + i + "\" rows=\"1\" cols=\"50\" id = \"big-input\" ></textarea><br>";
+			html += "<textarea name = \"" + "answer" + i + "\" rows=\"1\" cols=\"50\" id = \"big-input\"  placeholder = \"use ; as delimiters if more than one legal answer\" ></textarea><br>";
 			out.print("<b>" + html + "</b>");
 		}
 		%>
 		<p><b>Is Answer Ordered </b><input type="checkbox" name="isOrdered" value="yes"></p>
 		<input type="hidden" name="answerNumber" value="<%=answerNumber%>">
-		<input type="submit" value="Add" id = "red-button" />
 		</form>
-		<form action="CreateQuestionResponseMultiAnswerQuestion.jsp">
-		<input type="hidden" name="answerNumber" value="<%=answerNumber+1%>">
-		<input type="submit" value="Add Another Answer" id = "yellow-button"/>
+		
+		
+		<form action="CreateQuestionResponseMultiAnswerQuestion.jsp" >
+		<input type="hidden" name="answerNumber" value="<%=answerNumber+1%>" >
+		<input type="submit" value="Add Another Answer" id = "yellow-button" />
 		</form>
 		<form action="CreateQuiz.jsp">
+		<input type="submit" value="Add" id = "red-button" form = "question-submit" />
 		<input type="submit" value="Back" id = "green-button">
 		</form>
 	</div>
