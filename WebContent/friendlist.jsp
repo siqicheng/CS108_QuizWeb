@@ -66,7 +66,23 @@ if(sender == null || sender.equals("null")) { /* From login page */
 	<div class="wrapper">
 		<h1><%=sender %>'s friends</h1>
 			<%
-				ArrayList<String> friendlist = FriendManager.getFriends(sender);
+					ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+					friendRequests = FriendManager.getFriendRequests(sender);
+					if (friendRequests.size()!=0){
+						// sender has friend requests
+						String formline = "<form method = \"POST\" action = \"friendRequest.jsp\">";
+						String userline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
+						//String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
+						String requestsButton = "<input id=\"green-button\" type = \"submit\" value = \"Friend Requests\" onclick=\"this.disabled=true;this.form.submit();\">";
+						String endForm = "</form>";
+						out.println(formline);
+						out.println(userline);
+						//out.println(receiverline);
+						out.println(requestsButton);
+						out.println(endForm); 
+					}
+					
+				HashSet<String> friendlist = FriendManager.getFriends(sender);
 				for (String friend : friendlist){
 					out.println("<a href=\"CreateAccount_welcome.jsp?name=" + friend + "&sender=" + sender + "\">" + friend + "</a><br>");
 				}

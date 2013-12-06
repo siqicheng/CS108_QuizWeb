@@ -13,8 +13,7 @@
 
 	String Username = request.getParameter("name");
 
-	String sender = (String) request.getSession()
-			.getAttribute("sender");
+	String sender = (String) request.getSession().getAttribute("sender");
 	if (sender == null || sender.equals("null")) { /* From login page */
 		sender = new String(Username);
 		request.getSession().setAttribute("sender", sender);
@@ -88,8 +87,9 @@
 						<%
 							String friendG = new String();
 							if (!sender.equals(""))
-								out.println("<a href=\"http://www.google.com\" id=\"item-text\">Friends</a>");
+								out.println("<a href=\"friendlist.jsp?sender=" + sender + "\" id=\"item-text\">Friends</a>");
 						%>
+						
 <!--						<a href="http://www.google.com" id="item-text">Friends</a>-->
 					</li>
 					<li id="items">
@@ -347,7 +347,7 @@
 					String formline = "<form method = \"POST\" action = \"rmFriendServlet\">";
 					String userline = "<input type = \"hidden\" name = \"username\" value = \"" + Username + "\">";
 					String friendline = "<input type = \"hidden\" name = \"friendname\" value = \"" + sender + "\">";
-					String rmButton = "<input type = \"submit\" value = \"Remove Friend\" name = \"rmbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
+					String rmButton = "<input id = \"green-button\" type = \"submit\" value = \"Remove Friend\" name = \"rmbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
 					String endForm = "</form>";
 					out.println(formline);
 					out.println(userline);
@@ -364,8 +364,8 @@
 					String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
 					String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
 					String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-					String msgline = "<textarea name = \"msg\" rows = \"3\" cols = \"25\">Mesages to sent </textarea >";
-					String requestButton = "<input type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
+					String msgline = "<textarea id = \"big-input\" name = \"msg\" rows = \"3\" cols = \"25\" placeholder=\"Messages to sent\" ></textarea >";
+					String requestButton = "<input id = \"green-button\" type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
 					String endForm = "</form>";
 					out.println(formline);
 					out.println(senderline);
@@ -375,7 +375,7 @@
 					out.println(endForm);
 				} else {
 					// request sent button
-					String sentButton = "<button type=\"button\" disabled>Friend Request Sent</button>";
+					String sentButton = "<button id = \"gray-button\" type=\"button\" disabled>Friend Request Sent</button>";
 					out.println(sentButton);
 				}
 			}
@@ -395,15 +395,23 @@
 		
 		</script>
 		
-		<form action="AdminAvailableServlet" method="post">
-			<p>
-				<input type="hidden" name="name" value="<%=Username%>">
-				<button type="submit" id="red-button">Administrator</button>
-			</p>
-		</form>
+		
+		<%
+			AdministratorAccount admin = new  AdministratorAccount(Username);
+			
+			if(sender.equals(Username)){
+				if(admin.getUserType().equals("s")){
+					// unset privacy
+					out.println("<form action=\"AdminAvailableServlet\" method=\"post\">");
+					out.println("<input type=\"hidden\" name=\"who\" value=\""+ Username + "\">");
+					out.println("<button type=\"submit\" id=\"red-button\">Administrator</button>");
+					out.println("</form>");
+				}
+			}
+		
+		%>
 
 	</div>
-	
 	
 	<div class="wrapper">
 		<div id="ft">

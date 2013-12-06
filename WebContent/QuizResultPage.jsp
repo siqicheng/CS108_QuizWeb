@@ -68,7 +68,7 @@
 	</div>
 
 <div class="wrapper">
-<h1><%=quiz.getName() %></h1>
+<h2><%=quiz.getName() %></h2>
 <table border="1">
 	<%
 		//out.println("<tr>");
@@ -84,10 +84,10 @@
 			totScore += curScore;
 			out.print(q.getHTMLwithQuestionResult(i, ansList, curScore));
 		}
-		out.println("Score: " + totScore + "<br><br>"); 
+		out.println("<b>Score: " + totScore + "<br><br>"); 
 		long startTime = (Long) session.getAttribute("startTime");
         long timeElapsed = new java.util.Date().getTime() - startTime;
-		out.println("Elapsed time: "+ timeElapsed +"s<br><br>"); //need to calculate elapesed time
+		out.println("Elapsed time: "+ timeElapsed +"s<br><br></b>"); //need to calculate elapesed time
 		
 		/* Insert into quiz history table */
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -110,9 +110,9 @@
 
 
 <form action="QuizFeedBackServlet" method="POST">
-<h3>Your feedback: </h3>
-<p>Rate: 
-<select name="rate">
+<h2>Your feedback: </h2>
+<p><b>Rate: </b><br>
+<select name="rate" id = "green-button">
 	<option value="-1" selected>Rate the quiz</option>
 	<option value="1">1</option>
 	<option value="2">2</option>
@@ -121,20 +121,13 @@
 	<option value="5">5</option>
 </select>
 <br>
-Comment:<br>
-<textarea name="review" rows="3" cols="50"></textarea>
+<b>Comment:</b><br>
+<textarea name="review" rows="3" cols="50" id = "big-input"></textarea>
 <input type="hidden" name="quizId" value="<%=Integer.toString(quiz.getId())%>">
 <input type="hidden" name="user_name" value="<%=(String)request.getSession().getAttribute("sender")%>">
-<input type="submit" value="submit">
-<br>
+<input type="submit" value="submit" id = "red-button">
 </form>
 
-<form action="CreateAccount_welcome.jsp" method="POST">
-<input type="submit" value="Homepage">
-</form>
-
-<br>
-<br>
 </div>
 	<div class="wrapper">
 		<div id="ft">

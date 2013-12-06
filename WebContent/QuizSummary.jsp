@@ -85,8 +85,7 @@
 						<%
 							String friendQ = new String();
 							if (!sender.equals(""))
-								out.println("<a href=\"friendlist.jsp?sender="+sender + "id=\"item-text\">Friends</a>");
-								
+								out.println("<a href=\"friendlist.jsp?sender=" + sender + "\" id=\"item-text\">Friends</a>");
 						%>
 					</li>
 					<li id="items">
@@ -306,7 +305,7 @@
 		<%
 			if(!sender.equals("")){
 				out.println("<form action=\"QuizSummaryPageServlet\" method=\"post\">");
-				out.println("input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
+				out.println("<input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
 				out.println("</form>");
 			}else{
 				out.println("<h3>Register and rock the quiz</h3>");
@@ -334,7 +333,7 @@
 		
 	</div>
 	
-		<div class="wrapper">
+	<div class="wrapper">
 		<div id="ft">
 			<span class="fleft">
 			  <a> Copyright © 2013 <%="IQuizYOU"%> , all rights reserved</a><br>

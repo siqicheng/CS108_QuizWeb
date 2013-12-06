@@ -37,7 +37,7 @@ public class AdminAvailableServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AdministratorAccount admin = new  AdministratorAccount(request.getParameter("name"));
+		AdministratorAccount admin = new  AdministratorAccount(request.getParameter("who"));
 		if(!admin.getUserType().equals("s")){
 			RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
             rd.forward(request,response);
