@@ -251,4 +251,61 @@ public class FriendManager {
 	}
 	
 	
+	public static String getPrivacy(String username){
+		connect();
+		try {
+			String query = "select username, isPrivate from privacyTable where (username = " + 
+					"\"" + username + "\"" +")";
+			
+			
+			ResultSet rs = statement.executeQuery(query);//pst.executeQuery();
+			if (rs.next()) {
+				String privacy = rs.getString("isPrivate");
+				close();
+				return privacy;
+		    }else{
+		    	createPrivacy(username);
+		    }
+			
+			close();
+			return "false";
+			
+		} catch (SQLException e) {
+			close();
+			e.printStackTrace();
+		}
+		close();
+		return "false";
+	}
+	
+	
+	public static void setPrivacy(String username, String privacy){
+		connect();
+		try {
+			//set hasRead from false to true
+			String query = "update privacyTable set isPrivate =\""+ privacy + "\" where username = \"" + username + "\"";
+			statement.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+	}
+	
+	public static void createPrivacy(String username){
+		connect();
+		try {			
+			//Insert request
+			String query = "insert into privacyTable values ('" + username + "','false')";
+			statement.executeUpdate(query);
+			close();
+			return;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return;
+	}
+	
 }

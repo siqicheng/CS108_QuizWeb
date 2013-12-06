@@ -142,7 +142,10 @@
 			int time = rs.getInt("Length");
 			String t_str = String.format("%d:%02d:%02d", time/3600, (time%3600)/60, (time%60));
 			out.println("<tr>");
-			out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + u_name + "&sender=" + userName + "\">" + u_name + "</a></td>");
+			if (!FriendManager.isFriend(u_name, userName) && FriendManager.getPrivacy(u_name).equals("true"))
+				out.println("<td>Anonymous</td>");
+			else
+				out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + u_name + "&sender=" + userName + "\">" + u_name + "</a></td>");
 			out.println("<td>" + Integer.toString(score) + "</td>");
 			out.println("<td>" + t_str + "</td>");
 			out.println("</tr>");
@@ -176,7 +179,10 @@
 			int time = rs.getInt("Length");
 			String t_str = String.format("%d:%02d:%02d", time/3600, (time%3600)/60, (time%60));
 			out.println("<tr>");
-			out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + "&sender=" + userName +"\">" + u_name + "</a></td>");
+			if (!FriendManager.isFriend(u_name, userName) && FriendManager.getPrivacy(u_name).equals("true"))
+				out.println("<td>Anonymous</td>");
+			else
+				out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + "&sender=" + userName +"\">" + u_name + "</a></td>");
 			out.println("<td>" + Integer.toString(score) + "</td>");
 			out.println("<td>" + t_str + "</td>");
 			out.println("</tr>");
@@ -203,7 +209,10 @@
 			String end_str = format.format(end);
 
 			out.println("<tr>");
-			out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + "&sender=" + userName +"\">" + u_name + "</a></td>");
+			if (!FriendManager.isFriend(u_name, userName) && FriendManager.getPrivacy(u_name).equals("true"))
+				out.println("<td>Anonymous</td>");
+			else
+				out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + "&sender=" + userName +"\">" + u_name + "</a></td>");
 			out.println("<td>" + Integer.toString(score) + "</td>");
 			out.println("<td>" + t_str + "</td>");
 			out.println("<td>" + end_str + "</td>");

@@ -28,13 +28,76 @@
 
 %>
 
+<%
+	String saveCookie = request.getParameter("remember");
+
+%>
+	<form id="ini" action = "saveCookieServlet" method = "post">
+	<% out.println("<input type = \"hidden\" name = \"cookiename\" value =" + "\""+sender + "\"/>"); %>
+	<% out.println("<input type = \"hidden\" name = \"savecookie\" value =" + "\""+saveCookie + "\"/>"); %>
+	</form>
+	
+<%
+	String onetime2 = (String)request.getAttribute("once");
+	boolean jump2 = (onetime2 == null || "null".equals(onetime2));
+	if (jump2 && Username.equals(sender)){
+		System.out.println("fuck");
+		out.println("<script type=\"text/javascript\">");
+		out.println("window.onload=function(){document.getElementById('ini').submit();}");
+		out.println("</script>");
+
+	}
 
 
-<title><%=Username%></title>
+%>
+
+
+<!--<script type="text/javascript">
+window.onload=function(){
+	<% String onetime = (String)request.getAttribute("once"); %>
+	var onetimeJS = "<%=onetime%>"; 
+	<% boolean jump = (onetime == null || "null".equals(onetime));%>
+	var jumpJS = new Boolean('<%=jump%>');
+	if(jumpJS){
+		alert("shabi");
+    	document.getElementById('ini').submit(); 
+	}
+}
+</script>
+
+
+
+--><title><%=Username%></title>
 </head>
 <body>
 
 	<h1>Welcome <%=Username%></h1>
+	
+	<%
+		//set and unset privacy
+		String privacy = FriendManager.getPrivacy(sender);
+		if("true".equals(privacy)){
+			// unset privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
+			out.println("<input type = \"submit\" value = \"Public to All\"/>");
+			out.println("</form>");
+		} else {
+			//set privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
+			out.println("<input type = \"submit\" value = \"Anonymous to Non Friends\"/>");
+			out.println("</form>");
+		}
+	
+	
+	%>
+	
+	
+	
+	
 	<h2>Announcements</h2>
 
 	<h2>Popular Quiz</h2>
@@ -127,14 +190,14 @@
 	<h2>Messages</h2>
 <%
 	if(MailManager.hasNewMessage(sender))
-		out.println("You have NEW messages!<br>");
+		out.println("You have NEW Messages!<br>");
 	if(MailManager.hasNewChallenge(sender))
-		out.println("You have NEW challenges!<br>");
+		out.println("You have NEW Challenges!<br>");
 	if (Username.equals(sender)){
 		ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
 		friendRequests = FriendManager.getFriendRequests(sender);
 		if (friendRequests.size()!=0){
-			out.println("You have NEW friend requests!<br>");
+			out.println("You have NEW Friend requests!<br>");
 		}
 	}
 
@@ -171,6 +234,10 @@
 	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
 	<input type = "submit" value = "Search"/>
 	</form>
+
+<%	//TODO
+	// if the input friend name is not valid, ask to input again	
+%>
 
 <%
 	boolean showButton = false;

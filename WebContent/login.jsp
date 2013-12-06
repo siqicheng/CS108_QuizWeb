@@ -15,7 +15,10 @@
 <link rel="stylesheet" href="CSS/login_style.css" type="text/css">
 <!-- COLLECTED CSS -->
 </head>
-
+<script type="text/javascript" src="checkcookies.js"></script>
+<script type="text/javascript">
+        window.onload = checkCookie();
+</script>
 <body>
 	<div id="title-bar">
   		<div class="wrapper">

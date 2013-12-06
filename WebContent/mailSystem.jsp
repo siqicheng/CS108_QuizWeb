@@ -32,7 +32,8 @@
 		for (Message msg : messages){
 			out.println("<tr>");
 			
-			out.println("<td>" + msg.getsender() + "</td>");
+			String writeLink = "<a href=\"writeMail.jsp?sender=" + msg.getreceiver() + "&receiver=" + msg.getsender()+ "\">" + msg.getsender();
+			out.println("<td>" + writeLink + "</td>");
 			String message = msg.getMessage();
 			if (!message.contains("<a href"))
 				message = message.length() < 100 ? message : message.substring(0,100);
