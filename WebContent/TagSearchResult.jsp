@@ -30,19 +30,42 @@
 				<a href="login.jsp"><img src="pic/logo.jpg" width="" height="44"></a>
 			</div>
 			
-			<div id="function-item">
+		<div id="function-item">
 				<ul id="function-list">
 					<li id="items">
-						<a href="CreateAccount_welcome.jsp" id="item-text">Home</a>
+						<%
+							String index = new String();
+							if (sender.equals(""))
+								index = "GuestIndex.jsp";
+							else
+								index = "CreateAccount_welcome.jsp";
+						%>
+						<a href="<%=index%>" id="item-text">Home</a>
 					</li>
 					<li id="items">
-						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
+						<%
+							String createQ = new String();
+							if (!sender.equals(""))
+								out.println("<a href=\"CreateQuiz.jsp\" id=\"item-text\">CreateQuiz</a>");
+						%>
+						<!--<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>-->
 					</li>
 					<li id="items">
-						<a href="friendlist.jsp?sender=<%=sender%>" id="item-text">Friends</a>
+						<%
+							String friendG = new String();
+							if (!sender.equals(""))
+								out.println("<a href=\"friendlist.jsp?sender=" + sender + "\" id=\"item-text\">Friends</a>");
+						%>
+						
+<!--						<a href="http://www.google.com" id="item-text">Friends</a>-->
 					</li>
 					<li id="items">
-						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
+						<%
+							String mailG = new String();
+							if (!sender.equals(""))
+								out.println("<a href=\"mailSystem.jsp\" id=\"item-text\">Mailbox</a>");
+						%>
+<!--						<a href="mailSystem.jsp" id="item-text">Mailbox</a>-->
 					</li>
 				</ul>
 			</div>

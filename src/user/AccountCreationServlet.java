@@ -37,7 +37,7 @@ public class AccountCreationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if(AccountManager.hasAccount(request.getParameter("name"))){
-            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_name_in_use.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_new_account.jsp?checkname=inuse");
             rd.forward(request,response);
         }
         else{

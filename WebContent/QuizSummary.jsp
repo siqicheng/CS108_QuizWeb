@@ -314,7 +314,8 @@
 				out.println("<input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
 				out.println("</form>");
 			}else{
-				out.println("<h3>Register and rock the quiz</h3>");
+				out.println("<form action=\"CreateAccount_new_account.jsp\" method=\"post\">");
+				out.println("<input type=\"submit\" id=\"red-button\" value=\"Register and Rock the quiz\">");
 			}
 		%>
 		
@@ -333,8 +334,7 @@
 		</form>
 		
 		<%
-			if (!sender.equals(""))
-				out.println("<input type=\"submit\" value=\"Share\" id = \"green-button\" form =\"email\" >");
+
 		%>
 		
 		<form action="sendMailServlet" method="post" id = "report">
@@ -343,30 +343,41 @@
 			<input type="hidden" name="quizId" value="<%=quizId%>">
 		</form>
 		
-		<%
+		<%	
 			if (!sender.equals(""))
-				out.println("<input type=\"submit\" value=\"Report\" id = \"yellow-button\" form =\"report\" >");
+				out.println("<input type=\"submit\" value=\"Share with friends\" id = \"green-button\" form =\"email\" >");
+			if (!sender.equals(""))
+				out.println("<input type=\"submit\" value=\"Report to admin\" id = \"yellow-button\" form =\"report\" >");
 		%>
 		
-		<form action="ManageQuizServlet" method="post" id = "AdminDelete">
-			<p>
-				<input type="hidden" name="quiz" id = "basic-input" value="<%=id %>">
-				<select name="operation" id ="green-button">
-					<option value="1">Clear taken history</option>
-					<option value="2">Delete quiz</option>
-				</select>
 
-			</p>
-		</form>
-		
 		
 		</div>
 		<%
 			AdministratorAccount admin = new  AdministratorAccount(sender);
 			boolean isAdmin = admin.getUserType().equals("s");
 			if (!sender.equals("") && isAdmin)
-				out.println("<input type=\"submit\" value=\"Submit\" id = \"red-button\" form =\"AdminDelete\" >");
+				out.println("<h2>Administration</h2>");
 		%>
+		
+		<form action="ManageQuizServlet" method="post" id = "AdminDelete">
+			<p>
+				<input type="hidden" name="quiz" id = "basic-input" value="<%=id %>">
+		<%
+
+			if (!sender.equals("") && isAdmin){
+				out.println("<select name=\"operation\" id =\"red-button\">");
+				out.println("<option value=\"1\">Clear taken history</option>");
+				out.println("<option value=\"2\">Delete quiz</option>");
+				out.println("</select>");
+				out.println("<input type=\"submit\" value=\"Delete\" id = \"red-button\" form =\"AdminDelete\" >");
+			}
+		%>
+
+			</p>
+		</form>
+		
+
 		
 	</div>
 	

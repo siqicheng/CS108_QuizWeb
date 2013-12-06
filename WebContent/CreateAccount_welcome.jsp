@@ -121,7 +121,7 @@
 	</div>
 	
 	<div class="wrapper">
-			<h1>Welcome <%=Username%></h1>
+			<h1><%=Username%></h1>
 	<%
 
 		if(Username.equals(sender) && !sender.equals("")){
@@ -316,8 +316,30 @@
 			}
 		%>
 			<%
-				if (!sender.equals(""))
+				if (!sender.equals("")){
 					out.println("<h2>Friends Activities</h2>");
+					HashSet<String> friends = FriendManager.getFriends(sender);
+					//System.out.println(sender);
+					//System.out.println(friends);
+					List<Activity> activities = new ArrayList<Activity>();
+					for(String friend : friends){
+						List<Activity> tmp = ActivityManger.getActivities(friend);
+						activities.addAll(tmp);
+					}
+					Collections.sort(activities);
+					if(!activities.isEmpty()){
+						out.println("<ul>");
+						int count = 0;
+						for(Activity a : activities){
+							if (count > 10) break;
+							out.println("<li>" + a.toString() + "</li>");
+							count ++;
+						}
+						out.println("</ul>");
+					} else {
+						out.println("No new activities.<br>");
+					}
+				}
 			%>
 		
 			<form action="CategorySearchResult.jsp" method="POST">
@@ -340,7 +362,7 @@
 		<%
 			boolean showButton = false;
 			
-			if (sender != null && !Username.equals(sender)){
+			if (sender != null && !Username.equals(sender) && !sender.equals("")){
 				if(FriendManager.isFriend(Username, sender)){
 					//remove a friend
 					
