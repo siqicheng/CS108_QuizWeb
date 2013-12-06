@@ -1,9 +1,14 @@
 package quiz_model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.*;
+import java.util.StringTokenizer;
+
+import xml.Xmlparser;
 
 import database_connection.DBConnection;
 
@@ -37,6 +42,25 @@ public class Quiz {
 		this.isOnePage = isOnePage;
 		this.isImmediateCorrection = isImmediateCorrection;
 		this.questions = questions;
+	}
+	
+	public Quiz(Xmlparser xml, int id, String createrId, Timestamp createTime){
+		this.id = id;
+		this.name = xml.getName();
+		this.description = xml.getDescription();
+		this.createrId = createrId;
+		this.createTime = new Timestamp(createTime.getTime());
+		this.tag = "All";
+		this.category = xml.getCategory();
+		this.canPractice = xml.isCanPractice();
+		this.isRandom = xml.isRandom();
+		this.isOnePage = xml.isOnePage();
+		this.isImmediateCorrection = xml.isImmediateCorrection();
+		this.questions = new ArrayList<Question>(xml.getQuestions());
+	}
+	
+	public Quiz(String xmlFile){
+		this.tag = "All";	/* No 'tag' in xml file */
 	}
 	
 	private Question getQuestion(int QuestionID, String QuestionType, Statement stmt) {
@@ -133,6 +157,22 @@ public class Quiz {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public String getCategory(){
+		return category;
+	}
+			
+	public List<String> getTag(){
+		List<String> tags = new ArrayList<String>();
+		if(tag==null||tag.isEmpty()) return tags;
+		else{
+			 StringTokenizer st = new StringTokenizer(tag, "#");
+			 while (st.hasMoreTokens()) {
+			     tags.add(st.nextToken());
+			 }
+			 return tags;
+		}
 	}
 	
 	public boolean isRandom() {

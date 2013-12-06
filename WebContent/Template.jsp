@@ -21,16 +21,16 @@
 			<div id="function-item">
 				<ul id="function-list">
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">Home</b>
+						<a href="http://www.google.com" id="item-text">Home</a>
 					</li>
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">CreateQuiz</b>
+						<a href="http://www.google.com" id="item-text">CreateQuiz</a>
 					</li>
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">Friends</b>
+						<a href="http://www.google.com" id="item-text">Friends</a>
 					</li>
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">Mailbox</b>
+						<a href="http://www.google.com" id="item-text">Mailbox</a>
 					</li>
 				</ul>
 			</div>

@@ -15,14 +15,14 @@ public class AccountManager {
 	
 	public final static String ATTRIBUTE_NAME = "Account Manager";
 	public static List<String> protectedNameList;
-	private static Statement statement; 
+	public static Statement statement; 
 	
 	public AccountManager() {
 		addProtectedName();
 		initialAccountData();
 	}
 
-	private static void connect() {
+	public static void connect() {
 		statement = (new DBConnection()).getStatement();
 	}
 	
@@ -82,7 +82,7 @@ public class AccountManager {
     	connect();
 		try {
 			ResultSet rs = statement.executeQuery("SELECT * FROM userTable " +
-					"WHERE UserName = \"" + name + "\"");
+					"WHERE UserName = \"" + name + "\"");			
 			if(rs.next()) {
 				close();
 				return true;
@@ -219,7 +219,45 @@ public class AccountManager {
 		return true;
 	}
     
-    
+
+	public static boolean hasQuiz(String quizID) {
+    	connect();
+		try {
+			ResultSet rs = statement.executeQuery("SELECT * FROM QI " +
+					"WHERE QuizID = \"" + quizID + "\"");
+			if(rs.next()) {
+				close();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return false;
+	}
+
+	public static void clearQuizHistory(String quizID) {
+		connect();
+		try {
+			statement.executeUpdate("DELETE FROM quiz_take_history Where Quiz_Id = \"" + quizID + "\"");
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+	}
+
+	public static void deleteQuiz(String quizID) {
+		connect();
+		try {
+			statement.executeUpdate("DELETE FROM quiz_take_history Where Quiz_Id = \"" + quizID + "\"");
+			statement.executeUpdate("DELETE FROM QI Where QuizID = \"" + quizID + "\"");
+			statement.executeUpdate("DELETE FROM QQ Where QuizID = \"" + quizID + "\"");
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+	}
     
     
     
@@ -274,5 +312,6 @@ public class AccountManager {
 		}
 		return buff.toString();
 	}
+
 
 }

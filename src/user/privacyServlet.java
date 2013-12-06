@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AccountCreationServlet
+ * Servlet implementation class privacyServlet
  */
-@WebServlet("/AccountCreationServlet")
-public class AccountCreationServlet extends HttpServlet {
+@WebServlet("/privacyServlet")
+public class privacyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccountCreationServlet() {
+    public privacyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,18 +35,16 @@ public class AccountCreationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		if(AccountManager.hasAccount(request.getParameter("name"))){
-            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_name_in_use.jsp");
-            rd.forward(request,response);
-        }
-        else{
-        	AccountManager.createNewAccount(request.getParameter("name"),request.getParameter("password"),
-        			"u", request.getParameter("gender").charAt(0), request.getParameter("email"));
-        	FriendManager.createPrivacy(request.getParameter("name"));
-            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
-            rd.forward(request,response);
-        }	
+		// TODO Auto-generated method stub
+		String user = request.getParameter("user");
+		String privacy = request.getParameter("privacy");
+		
+		FriendManager.setPrivacy(user, privacy);
+		request.getSession().setAttribute("name", user);
+		request.getSession().setAttribute("sender", user);
+		
+        RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
+        rd.forward(request,response);
 	}
 
 }

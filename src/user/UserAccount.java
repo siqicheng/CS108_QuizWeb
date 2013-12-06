@@ -14,5 +14,9 @@ public class UserAccount {
 	public String getUserType(){
 		return AccountManager.getUserType(userName);
 	}
+	
+	public boolean hasQuiz(String quizID) {
+		return AccountManager.hasQuiz(quizID);
+	}
 
 }

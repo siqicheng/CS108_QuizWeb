@@ -33,8 +33,8 @@ public class MailManager {
 	public static boolean sendMessage(String username1, String username2, String msg){
 		connect();
 		//TODO
-		msg.replaceAll("'", "\'");
-		msg.replaceAll("\"", "\\\"");
+		//msg.replaceAll("'", "\'");
+		//msg.replaceAll("\"", "\\\"");
 		try {
 			if (msg.length() == 0)
 				return false;

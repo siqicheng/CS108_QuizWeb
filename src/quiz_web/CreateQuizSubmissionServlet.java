@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import quiz_model.Question;
 import quiz_model.Quiz;
+import xml.Xmlparser;
 
 /**
  * Servlet implementation class CreateQuizSubmissionServlet
@@ -43,7 +44,19 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Question> questions = (ArrayList<Question>)request.getSession().getAttribute("createdQuestions"); 
+		ArrayList<Question> questions;
+		boolean isXml;
+		if(request.getParameter("xml")!=null) isXml = true;
+		else isXml =  false;
+		Xmlparser xml = null;
+		
+		if(isXml){
+			String path = request.getParameter("filepath");
+			xml = new Xmlparser(path);
+			questions = xml.getQuestions();
+		} else {
+			questions = (ArrayList<Question>)request.getSession().getAttribute("createdQuestions"); 
+		}
 		
 		if(questions == null) {
 			questions = new ArrayList<Question>();
@@ -82,40 +95,51 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			boolean canPractice;
-			boolean isRandom;
-			boolean isOnePage;
-			boolean isImmediateCorrection;
-			String quizName = request.getParameter("quizName");
-			String quizDescription = request.getParameter("quizDescription");
-			if (quizName == null) {
-				quizName = "";
-			}
-			if (quizDescription == null) {
-				quizDescription = "";
-			}
-			if (request.getParameter("practice") == null) {
-				canPractice = false;
+			
+			
+			Quiz quiz;
+			if(isXml){
+				quiz = new Quiz(xml, quizId, quizCreator, new Timestamp(System.currentTimeMillis()));
 			} else {
-				canPractice = request.getParameter("practice").equals("yes");
+				boolean canPractice;
+				boolean isRandom;
+				boolean isOnePage;
+				boolean isImmediateCorrection;
+				String quizName = request.getParameter("quizName");
+				String quizDescription = request.getParameter("quizDescription");
+				String category = request.getParameter("category");
+				String tags = request.getParameter("tags");
+				if (quizName == null) {
+					quizName = "";
+				}
+				if (quizDescription == null) {
+					quizDescription = "";
+				}
+				if (request.getParameter("practice") == null) {
+					canPractice = false;
+				} else {
+					canPractice = request.getParameter("practice").equals("yes");
+				}
+				if (request.getParameter("random") == null) {
+					isRandom = false;
+				} else {
+					isRandom= request.getParameter("random").equals("yes");
+				}
+				if (request.getParameter("page_setting") == null) {
+					isOnePage = true;
+				} else {
+					isOnePage = request.getParameter("page_setting").equals("one");
+				}
+				if (request.getParameter("immediate") == null) {
+					isImmediateCorrection = false;
+				} else {
+					isImmediateCorrection = request.getParameter("immediate").equals("yes");
+				}
+				quiz = new Quiz(quizId, quizName, quizDescription, quizCreator, new Timestamp(System.currentTimeMillis()), tags, 
+						category, canPractice, isRandom, isOnePage, isImmediateCorrection, questions);
 			}
-			if (request.getParameter("random") == null) {
-				isRandom = false;
-			} else {
-				isRandom= request.getParameter("random").equals("yes");
-			}
-			if (request.getParameter("page_setting") == null) {
-				isOnePage = true;
-			} else {
-				isOnePage = request.getParameter("page_setting").equals("one");
-			}
-			if (request.getParameter("immediate") == null) {
-				isImmediateCorrection = false;
-			} else {
-				isImmediateCorrection = request.getParameter("immediate").equals("yes");
-			}
-			Quiz quiz = new Quiz(quizId, quizName, quizDescription, quizCreator, new Timestamp(System.currentTimeMillis()), "tag", 
-					"category", canPractice, isRandom, isOnePage, isImmediateCorrection, questions);
+			
+			
 			try {
 				stmt.executeUpdate(quiz.insertQISql());
 				for(Question question : questions) {

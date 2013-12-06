@@ -148,7 +148,7 @@ public class DBConnection {
 			rs.next();
 			quizNumber = rs.getInt("NUM");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		if(quizNumber > 0) achievements.add("Ameateur Author");
@@ -164,7 +164,7 @@ public class DBConnection {
 			rs.next();
 			takenNumber = rs.getInt("NUM");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		if (takenNumber > 9) achievements.add("Quiz Machine");
 		
@@ -217,6 +217,58 @@ public class DBConnection {
 				e.printStackTrace();
 			}		
 		}
+	}
+	
+	public double averageRate(String quizId){
+		String query = "SELECT SUM(Rate) AS TOTAL, COUNT(*) AS NUM FROM Rates_Table WHERE QuizID=" + quizId + " GROUP BY QuizID";
+		double result = -1;
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			if(!rs.isBeforeFirst()) return result;
+			else {
+				rs.next();
+				int total = rs.getInt("TOTAL");
+				int num = rs.getInt("NUM");
+				return (double)total/num;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public List<String> getReviews(String quizId){
+		List<String> results = new ArrayList<String>();
+		String query = "SELECT UserID, Rate, Comment FROM Rates_Table WHERE QuizID=" + quizId + " ORDER BY Time DESC;";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			if(!rs.isBeforeFirst()) {
+				results.add("No review yet.");
+			} else {
+				while(rs.next()){
+					String name = rs.getString("UserID");
+					String name_str = "<a href=\"CreateAccount_welcome.jsp?name=" + name +"\">" + name + "</a>";
+					
+					int rate = rs.getInt("Rate");
+					String rate_str;
+					if(rate < 0) rate_str = "no rate";
+					else rate_str = Integer.toString(rate) + "/5";
+					
+					String comment = rs.getString("Comment");
+					
+					String whole = name_str + " " + rate_str + "<br>" + comment + "<br>";
+					results.add(whole);
+				}
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return results;
 	}
 }
 

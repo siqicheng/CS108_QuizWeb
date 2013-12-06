@@ -1,4 +1,4 @@
-package user;
+package administration;
 
 import java.io.IOException;
 
@@ -9,17 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import user.AdministratorAccount;
+
 /**
- * Servlet implementation class AccountCreationServlet
+ * Servlet implementation class ManageQuizServlet
  */
-@WebServlet("/AccountCreationServlet")
-public class AccountCreationServlet extends HttpServlet {
+@WebServlet("/ManageQuizServlet")
+public class ManageQuizServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AccountCreationServlet() {
+    public ManageQuizServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,18 +37,22 @@ public class AccountCreationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		if(AccountManager.hasAccount(request.getParameter("name"))){
-            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_name_in_use.jsp");
-            rd.forward(request,response);
-        }
-        else{
-        	AccountManager.createNewAccount(request.getParameter("name"),request.getParameter("password"),
-        			"u", request.getParameter("gender").charAt(0), request.getParameter("email"));
-        	FriendManager.createPrivacy(request.getParameter("name"));
-            RequestDispatcher rd = request.getRequestDispatcher("CreateAccount_welcome.jsp");
-            rd.forward(request,response);
-        }	
+		String quizID = request.getParameter("quiz");
+		String adminUser = (String)request.getSession().getAttribute("sender");
+		AdministratorAccount admin = new AdministratorAccount(adminUser);
+		if(!admin.getUserType().equals("s")){
+			response.sendRedirect("CreateAccount_welcome.jsp");
+			return;
+		}
+		if(admin.hasQuiz(quizID)) {
+			String op = request.getParameter("operation");
+			admin.clearQuizHistory(quizID);
+			if(op.equals("2")) admin.deleteQuiz(quizID);
+		} 
+		
+        RequestDispatcher rd = request.getRequestDispatcher("admin.jsp");
+        rd.forward(request,response);
+		
 	}
 
 }

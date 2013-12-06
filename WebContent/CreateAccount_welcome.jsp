@@ -12,112 +12,243 @@
 	// check if username is in db
 
 	String Username = request.getParameter("name");
-	/*if (Username == null)
-		Username = (String)request.getSession().getAttribute("name");*/
-	/*if (Username.length() < 1)
-		Username = "Guest";*/
-	//request.getSession().setAttribute("name", Username);
+
 	
 	String sender = (String)request.getSession().getAttribute("sender");
 	if(sender == null || sender.equals("null")) { /* From login page */
 		sender = new String(Username);
 		request.getSession().setAttribute("sender", sender);
 	}
+
 	
 	if(Username == null || Username.equals("null")) Username = sender;
 	
-/*	String sender = request.getParameter("sender");
+
+
+
+%>
+
+<%
+	String saveCookie = request.getParameter("remember");
+
+%>
+	<form id="ini" action = "saveCookieServlet" method = "post">
+	<% out.println("<input type = \"hidden\" name = \"cookiename\" value =" + "\""+sender + "\"/>"); %>
+	<% out.println("<input type = \"hidden\" name = \"savecookie\" value =" + "\""+saveCookie + "\"/>"); %>
+	</form>
 	
-	
-	if (sender == null || sender.isEmpty())
-		sender = (String)request.getSession().getAttribute("sender");
-	if (sender == null || sender.isEmpty())	
-		sender = Username;
-	request.getSession().setAttribute("sender", sender);*/
-	//System.out.println("Sender: "+ sender);
+<%
+	String onetime2 = (String)request.getAttribute("once");
+	boolean jump2 = (onetime2 == null || "null".equals(onetime2));
+	if (jump2 && Username.equals(sender)){
+		System.out.println("fuck");
+		out.println("<script type=\"text/javascript\">");
+		out.println("window.onload=function(){document.getElementById('ini').submit();}");
+		out.println("</script>");
+
+	}
 
 
 %>
 
 
+<!--<script type="text/javascript">
+window.onload=function(){
+	<% String onetime = (String)request.getAttribute("once"); %>
+	var onetimeJS = "<%=onetime%>"; 
+	<% boolean jump = (onetime == null || "null".equals(onetime));%>
+	var jumpJS = new Boolean('<%=jump%>');
+	if(jumpJS){
+		alert("shabi");
+    	document.getElementById('ini').submit(); 
+	}
+}
+</script>
+
+
+
 
 <title><%=Username%></title>
+<link rel="shortcut icon" href="pic/favicon.ico" /> 
+<link rel="stylesheet" href="CSS/home_style.css" type="text/css">
+<!-- COLLECTED CSS -->
+
 </head>
 <body>
-
-	<h1>Welcome <%=Username%></h1>
-	<h2>Announcements</h2>
-
-	<h2>Popular Quiz</h2>
-	<ul>
-			<%
-				Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
-				if(stmt == null) {
-			    	stmt = (new DBConnection()).getStatement();
-			    	request.getSession().setAttribute("db_connection", stmt);
-				}
+	<div id="title-bar">
+		<div class="wrapper">
+			<div class="logo">
+				<a href="login.jsp"><img src="pic/logo.jpg" width="" height="44"></a>
+			</div>
 			
-				ResultSet rs = stmt.executeQuery("SELECT QuizName, Quiz_Id, Number FROM (SELECT Quiz_Id, COUNT(*) as Number FROM quiz_take_history GROUP BY Quiz_Id) AS tmp, QI WHERE tmp.Quiz_Id = QI.QuizID ORDER BY Number DESC;");
-				int counter_1 = 0;
-				while (rs.next() && counter_1 < 15) {
-					String name = rs.getString("QuizName");
-					String id = Integer.toString(rs.getInt("Quiz_Id"));
-					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
+			<div id="function-item">
+				<ul id="function-list">
+					<li id="items">
+						<a href="CreateAccount_welcome.jsp" id="item-text">Home</a>
+					</li>
+					<li id="items">
+						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
+					</li>
+					<li id="items">
+						<a href="http://www.google.com" id="item-text">Friends</a>
+					</li>
+					<li id="items">
+						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
+					</li>
+				</ul>
+			</div>
+
+
+	
+	<%
+		//set and unset privacy
+		String privacy = FriendManager.getPrivacy(sender);
+		if("true".equals(privacy)){
+			// unset privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
+			out.println("<input type = \"submit\" value = \"Public to All\"/>");
+			out.println("</form>");
+		} else {
+			//set privacy
+			out.println("<form action = \"privacyServlet\" method = \"post\">");
+			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
+			out.println("<input type = \"submit\" value = \"Anonymous to Non Friends\"/>");
+			out.println("</form>");
+		}
+	
+	
+	%>
+	
+	
+	
+	
+
+
+			<div id="search-bar-board">	 
+				<div id="search-bar" >
+					<form method="GET" id="search-form" action="http://www.google.com" >
+						<input type="text" id="search-text" name="q" placeholder="searching..." />
+	
+						<button type="submit" class="magnify-button" id="search-buttom">
+							<i  id="search-buttom-glass"></i>
+						</button>
+					</form> 
+				</div>
+			</div>
+
+
+			<div id ="title-bar-text"> 
+				<b> <%=sender%> </b>
+			</div>	
+		</div>
+	</div>
+	
+	<div class="wrapper">
+			<h1>Welcome <%=Username%></h1>
+			<h2>Announcements</h2>
+		
+			<h2>Popular Quiz</h2>
+			<ul>
+					<%
+						Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
+						if(stmt == null) {
+					    	stmt = (new DBConnection()).getStatement();
+					    	request.getSession().setAttribute("db_connection", stmt);
+						}
+					
+						ResultSet rs = stmt.executeQuery("SELECT QuizName, Quiz_Id, Number FROM (SELECT Quiz_Id, COUNT(*) as Number FROM quiz_take_history GROUP BY Quiz_Id) AS tmp, QI WHERE tmp.Quiz_Id = QI.QuizID ORDER BY Number DESC;");
+						int counter_1 = 0;
+						while (rs.next() && counter_1 < 15) {
+							String name = rs.getString("QuizName");
+							String id = Integer.toString(rs.getInt("Quiz_Id"));
+							String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
+									+ name + "</a></li>";
+							out.println(line);
+							++counter_1;
+						}
+					%>
+				</ul>
+			<h2>Latest Quiz</h2>
+				<ul>
+					<%
+						rs = stmt.executeQuery("SELECT QuizID, QuizName FROM QI order by CreateTime DESC;");
+						int counter_0 = 0;
+						while (rs.next() && counter_0 < 15) {
+							String name = rs.getString("QuizName");
+							String id = Integer.toString(rs.getInt("QuizID"));
+							String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
+									+ name + "</a></li>";
+							out.println(line);
+							++counter_0;
+						}
+					%>
+				</ul>
+			<h2>Recent Activities</h2>
+				<ul>
+					<%
+						String query = "SELECT QuizID, QuizName, Score, End_Time FROM QI, quiz_take_history WHERE QI.QuizID = quiz_take_history.Quiz_Id AND User_Name = \"" + Username + "\" order by Start_Time DESC;";
+						rs = stmt.executeQuery(query);
+						int counter = 0;
+						while (rs.next() && counter < 15) {
+							String name = rs.getString("QuizName");
+							String id = Integer.toString(rs.getInt("QuizID"));
+							String score = Integer.toString(rs.getInt("Score"));
+							String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rs.getTimestamp("End_Time"));
+							String line = "<li>Finished quiz <a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
+									+ name + "</a> at "+ endTime + " and earned " + score +  " points</li>";
+							out.println(line);
+							++counter;
+						}
+					%>
+				</ul>
+				<%
+					query = "SELECT QuizID, QuizName FROM QI WHERE CreaterId = '"+ Username + "' ORDER BY CreateTime DESC;";
+					rs = stmt.executeQuery(query);
+					if (rs.isBeforeFirst()){ /* rs not empty */
+						out.println("<h2>Created Quiz</h2>");
+						out.println("<ul>");
+						int counter_2 = 0;
+						while (rs.next() && counter < 15) {
+							String name = rs.getString("QuizName");
+							String id = Integer.toString(rs.getInt("QuizID"));
+							String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
 							+ name + "</a></li>";
-					out.println(line);
-					++counter_1;
-				}
-			%>
-		</ul>
-	<h2>Latest Quiz</h2>
-		<ul>
+							out.println(line);
+							++counter_2;
+						}
+						out.println("</ul>");
+					}
+				%>
+			<h2>Achievements</h2>
+			<ul>
 			<%
-				rs = stmt.executeQuery("SELECT QuizID, QuizName FROM QI order by CreateTime DESC;");
-				int counter_0 = 0;
-				while (rs.next() && counter_0 < 15) {
-					String name = rs.getString("QuizName");
-					String id = Integer.toString(rs.getInt("QuizID"));
-					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
-							+ name + "</a></li>";
-					out.println(line);
-					++counter_0;
+				DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
+				if (con == null) {
+					request.getSession().setAttribute("dbcon", new DBConnection());
+					con = (DBConnection) request.getSession().getAttribute("dbcon");
+					//System.out.println("hello");
+				}
+				List<String> achievements = con.getAchievements(sender);
+				for (int i = 0; i < achievements.size(); ++i){
+					out.print("<li>" + achievements.get(i) + "</li>");
 				}
 			%>
-		</ul>
-	<h2>Recent Activities</h2>
-		<ul>
-			<%
-				String query = "SELECT QuizID, QuizName, Score, End_Time FROM QI, quiz_take_history WHERE QI.QuizID = quiz_take_history.Quiz_Id AND User_Name = \"" + Username + "\" order by Start_Time DESC;";
-				rs = stmt.executeQuery(query);
-				int counter = 0;
-				while (rs.next() && counter < 15) {
-					String name = rs.getString("QuizName");
-					String id = Integer.toString(rs.getInt("QuizID"));
-					String score = Integer.toString(rs.getInt("Score"));
-					String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(rs.getTimestamp("End_Time"));
-					String line = "<li>Finished quiz <a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
-							+ name + "</a> at "+ endTime + " and earned " + score +  " points</li>";
-					out.println(line);
-					++counter;
-				}
-			%>
-		</ul>
+			</ul>
+			<h2>Messages</h2>
 		<%
-			query = "SELECT QuizID, QuizName FROM QI WHERE CreaterId = '"+ Username + "' ORDER BY CreateTime DESC;";
-			rs = stmt.executeQuery(query);
-			if (rs.isBeforeFirst()){ /* rs not empty */
-				out.println("<h2>Created Quiz</h2>");
-				out.println("<ul>");
-				int counter_2 = 0;
-				while (rs.next() && counter < 15) {
-					String name = rs.getString("QuizName");
-					String id = Integer.toString(rs.getInt("QuizID"));
-					String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
-					+ name + "</a></li>";
-					out.println(line);
-					++counter_2;
+			if(MailManager.hasNewMessage(sender))
+				out.println("You have NEW messages!<br>");
+			if(MailManager.hasNewChallenge(sender))
+				out.println("You have NEW challenges!<br>");
+			if (Username.equals(sender)){
+				ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+				friendRequests = FriendManager.getFriendRequests(sender);
+				if (friendRequests.size()!=0){
+					out.println("You have NEW friend requests!<br>");
 				}
-				out.println("</ul>");
 			}
 		%>
 	<h2>Achievements</h2>
@@ -138,14 +269,14 @@
 	<h2>Messages</h2>
 <%
 	if(MailManager.hasNewMessage(sender))
-		out.println("You have NEW messages!<br>");
+		out.println("You have NEW Messages!<br>");
 	if(MailManager.hasNewChallenge(sender))
-		out.println("You have NEW challenges!<br>");
+		out.println("You have NEW Challenges!<br>");
 	if (Username.equals(sender)){
 		ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
 		friendRequests = FriendManager.getFriendRequests(sender);
 		if (friendRequests.size()!=0){
-			out.println("You have NEW friend requests!<br>");
+			out.println("You have NEW Friend requests!<br>");
 		}
 	}
 
@@ -154,6 +285,24 @@
 	
 	<h2>Friends Activities</h2>
 
+	<form action="CategorySearchResult.jsp" method="POST">
+		<p>Search by Category
+		<select name="category" onchange="this.form.submit()">
+		<option value="All" selected>All</option>
+		<%
+			Category category = new Category();
+		%>
+		</select>
+		<br>
+	</form>
+
+	<form action="TagSearchResult.jsp" method="POST">
+		<p>Search by Tag
+		<input type="text" name="tag" placeholder = "tags..."/>
+		<input type="submit" value="search"/>
+		<br>
+	</form>
+
 	<form action = "CreateAccount_welcome.jsp" method = "post">
 	<input type = "text" name = "name" placeholder = "Search for friends"/>
 	<% //<input type = "hidden" name = "sender" value = Username/> %>
@@ -161,105 +310,161 @@
 	<input type = "submit" value = "Search"/>
 	</form>
 
+<%	//TODO
+	// if the input friend name is not valid, ask to input again	
+%>
+
 <%
 	boolean showButton = false;
 	
 	if (sender != null && !Username.equals(sender)){
 		if(FriendManager.isFriend(Username, sender)){
 			//remove a friend
+
 			
-			String formline = "<form method = \"POST\" action = \"rmFriendServlet\">";
-			String userline = "<input type = \"hidden\" name = \"username\" value = \"" + Username + "\">";
-			String friendline = "<input type = \"hidden\" name = \"friendname\" value = \"" + sender + "\">";
-			String rmButton = "<input type = \"submit\" value = \"Remove Friend\" name = \"rmbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
-			String endForm = "</form>";
-			out.println(formline);
-			out.println(userline);
-			out.println(friendline);
-			out.println(rmButton);
-			out.println(endForm);
 			
-			//String rmButton = "<button onclick=\"rmfriend('" + Username + "','" + sender + "');this.disabled=true;\">Remove Friend</button>";
-			//out.println(rmButton);
+			<h2>Friends Activities</h2>
+		
+			<form action="CategorySearchResult.jsp" method="POST">
+				<p>Search by Category
+				<select name="category" onchange="this.form.submit()">
+				<option value="All" selected>All</option>
+				<%
+					Category category = new Category();
+				
+					for(int i = 0; i < category.options.length; ++i){
+						out.print("<option value=\"" + category.options[i] + "\">" + category.options[i] + "</option>");
+					}
+				%>
+				</select>
+				<br>
+			</form>
+		
+			<form action="TagSearchResult.jsp" method="POST">
+				<p>Search by Tag
+				<input type="text" name="tag" placeholder = "tags..."/>
+				<input type="submit" value="search"/>
+				<br>
+			</form>
+		
+			<form action = "CreateAccount_welcome.jsp" method = "post">
+			<input type = "text" name = "name" placeholder = "Search for friends"/>
+			<% //<input type = "hidden" name = "sender" value = Username/> %>
+			<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
+			<input type = "submit" value = "Search"/>
+			</form>
+		
+		<%
+			boolean showButton = false;
 			
-		} else if (!FriendManager.isDuplicateFriendRequest(sender, Username)){
+			if (sender != null && !Username.equals(sender)){
+				if(FriendManager.isFriend(Username, sender)){
+					//remove a friend
+					
+					String formline = "<form method = \"POST\" action = \"rmFriendServlet\">";
+					String userline = "<input type = \"hidden\" name = \"username\" value = \"" + Username + "\">";
+					String friendline = "<input type = \"hidden\" name = \"friendname\" value = \"" + sender + "\">";
+					String rmButton = "<input type = \"submit\" value = \"Remove Friend\" name = \"rmbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
+					String endForm = "</form>";
+					out.println(formline);
+					out.println(userline);
+					out.println(friendline);
+					out.println(rmButton);
+					out.println(endForm);
+					
+					//String rmButton = "<button onclick=\"rmfriend('" + Username + "','" + sender + "');this.disabled=true;\">Remove Friend</button>";
+					//out.println(rmButton);
+					
+				} else if (!FriendManager.isDuplicateFriendRequest(sender, Username)){
+					
+					//send a friend request
+					String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
+					String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
+					String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
+					String msgline = "<textarea name = \"msg\" rows = \"3\" cols = \"25\">Mesages to sent </textarea >";
+					String requestButton = "<input type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
+					String endForm = "</form>";
+					out.println(formline);
+					out.println(senderline);
+					out.println(receiverline);
+					out.println(msgline);
+					out.println(requestButton);
+					out.println(endForm);
+				} else {
+					// request sent button
+					String sentButton = "<button type=\"button\" disabled>Friend Request Sent</button>";
+					out.println(sentButton);
+				}
+			}
 			
-			//send a friend request
-			String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
-			String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
-			String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-			String msgline = "<textarea name = \"msg\" rows = \"3\" cols = \"25\">Mesages to sent </textarea >";
-			String requestButton = "<input type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
-			String endForm = "</form>";
-			out.println(formline);
-			out.println(senderline);
-			out.println(receiverline);
-			out.println(msgline);
-			out.println(requestButton);
-			out.println(endForm);
-		} else {
-			// request sent button
-			String sentButton = "<button type=\"button\" disabled>Friend Request Sent</button>";
-			out.println(sentButton);
+			// you have friend request button
+			if (Username.equals(sender)){
+				ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+				friendRequests = FriendManager.getFriendRequests(sender);
+				if (friendRequests.size()!=0){
+					// sender has friend requests
+					String formline = "<form method = \"POST\" action = \"friendRequest.jsp\">";
+					String userline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
+					//String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
+					String requestsButton = "<input type = \"submit\" value = \"Friend Requests\" onclick=\"this.disabled=true;this.form.submit();\">";
+					String endForm = "</form>";
+					out.println(formline);
+					out.println(userline);
+					//out.println(receiverline);
+					out.println(requestsButton);
+					out.println(endForm); 
+				}
+			}
+			
+		%>
+		
+		<% 
+			if (Username.equals(sender)){
+				request.getSession().setAttribute("QuizCreator",sender);
+			}
+		%>
+		
+		<script>
+		function rmfriend(name1, name2){
+			FriendManager.rmFriendship(name1, name2);
+			alert("Welcome ");
 		}
-	}
+		
+		</script>
+		
+		<form action="AdminAvailableServlet" method="post">
+			<p>
+				<input type="hidden" name="name" value="<%=Username%>">
+				<button type="submit" id="red-button">Administrator</button>
+			</p>
+		</form>
+	</div>
 	
-	// you have friend request button
-	if (Username.equals(sender)){
-		ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
-		friendRequests = FriendManager.getFriendRequests(sender);
-		if (friendRequests.size()!=0){
-			// sender has friend requests
-			String formline = "<form method = \"POST\" action = \"friendRequest.jsp\">";
-			String userline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
-			//String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-			String requestsButton = "<input type = \"submit\" value = \"Friend Requests\" onclick=\"this.disabled=true;this.form.submit();\">";
-			String endForm = "</form>";
-			out.println(formline);
-			out.println(userline);
-			//out.println(receiverline);
-			out.println(requestsButton);
-			out.println(endForm); 
-		}
-	}
 	
-%>
+	<div class="wrapper">
+		<div id="ft">
+			<span class="fleft">
+			  <a> Copyright � 2013 <%="IQuizYOU"%> , all rights reserved</a><br>
+			  <a> Quick Links</a><br> 
+			  <a href="http://www.stanford.edu/">Stanford University</a><br>
+			  <a href="http://www.stanford.edu/class/cs108/">CS 108 -- Object Oriented System Design</a><br>
+			</span>
+		
+			<span class="fright">
+			    <a>About us</a>
+			    � <a href="http://www.linkedin.com/pub/siqi-cheng/64/696/250">Siqi</a>
+			    � <a href="http://www.linkedin.com/pub/wenxiao-du/58/ab8/778">Wenxiao</a>
+			    � <a href="http://www.linkedin.com/pub/haoran-li/52/46b/a0">Haoran</a>
+			    � <a href="http://www.linkedin.com/pub/hao-zhang/36/b80/a35">Hao</a>
+			</span>
+  		</div>
+	</div>
+	
 
 
-
-
-
-
-	<br>
-
-	<form action = "mailSystem.jsp" method = "post">
-	<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");%>
-	<input type = "submit" value = "Mailbox"/>
-	</form>
-<% 
-	if (Username.equals(sender)){
-		request.getSession().setAttribute("QuizCreator",sender);
-		out.println("<h2>Create Quiz</h2>");
-		out.println("<form action = \"CreateQuiz.jsp\" method = \"post\">");
-		//out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");
-		out.println("<input type = \"submit\" value = \"Create Quiz\"/>");
-		out.println("</form>");
-	}
-%>
-
-<script>
-function rmfriend(name1, name2){
-	FriendManager.rmFriendship(name1, name2);
-	alert("Welcome ");
-}
-
-</script>
-
-<form action="AdminAvailableServlet" method="post" >
-	<p>
-		<input type="hidden" name="name" value="<%=Username%>">
-		<input type="submit" value="Administrator">
-	</p>
+<form action = "friendlist.jsp" method = "post">
+<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
+<input type = "submit" value = "FriendList"/>
 </form>
 
 
