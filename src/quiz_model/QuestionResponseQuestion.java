@@ -106,7 +106,9 @@ public class QuestionResponseQuestion extends Question{
 		ArrayList<String> ansList = new ArrayList<String> ();
 		String ans = request.getParameter("answer" + Integer.toString(questionNum));
         if (ans == null) {
+        	System.out.println("answer" + Integer.toString(questionNum));
         	ans = (String)request.getSession().getAttribute("answer" + Integer.toString(questionNum)) ;
+        	System.out.println("hello");
         	if (ans == null) {
                 ans = "";
         	}

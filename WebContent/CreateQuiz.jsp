@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
-	String sender = (String)request.getSession().getAttribute("sender");
+	String sender = (String) request.getSession().getAttribute("sender");
 %>
 <title>Create a new quiz</title>
 <link rel="shortcut icon" href="pic/favicon.ico" /> 
@@ -29,7 +29,7 @@
 						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
 					</li>
 					<li id="items">
-						<a href="http://www.google.com" id="item-text">Friends</a>
+						<a href="friendlist.jsp?sender=<%=sender%>" id="item-text">Friends</a>
 					</li>
 					<li id="items">
 						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
@@ -39,8 +39,8 @@
 
 			<div id="search-bar-board">	 
 				<div id="search-bar" >
-					<form method="GET" id="search-form" action="http://www.google.com" >
-						<input type="text" id="search-text" name="q" placeholder="searching..." />
+					<form method="POST" id="search-form" action="TagSearchResult.jsp" >
+						<input type="text" id="search-text" name="tag" placeholder="Searching tags..." />
 	
 						<button type="submit" class="magnify-button" id="search-buttom">
 							<i  id="search-buttom-glass"></i>
@@ -74,10 +74,11 @@ for(int i = 0; i < questions.size(); ++i){
 }
 %>
 
+<h2>Step Zero</h2>
 <h3>Create by loading XML</h3>
 <form action="CreateQuizSubmissionServlet" method="post">
-<input type="text"	name="filepath">
-<input type="submit" value="Load">
+<input type="text"	name="filepath" id = "basic-input-long" placeholder="Put your file path here.">
+<input type="submit" value="Load" id = "green-button">
 <input type="hidden" name="xml" value="dummy">
 <input type="hidden" name="action" value="Submit">
 </form>
@@ -86,13 +87,13 @@ for(int i = 0; i < questions.size(); ++i){
 <h3>Select a question type to add: </h3>
 <form action = "CreateQuestionTypeServlet" method="post">
 
-<p><input type="radio" name="type" value="QuestionResponseQuestion" checked> Question-Response</p>
-<p><input type="radio" name="type" value="QuestionResponseQuestionMultiAnswer" checked> Question-Response Multi-Answer</p>
-<p><input type="radio" name="type" value="FillInBlankQuestion"> Fill in the Blank</p>
-<p><input type="radio" name="type" value="MultipleChoiceQuestion"> Multiple Choice</p>
-<p><input type="radio" name="type" value="MultipleChoiceMultipleAnswerQuestion" checked> Multiple Choice with Multiple Answers</p>
-<p><input type="radio" name="type" value="PictureResponseQuestion"> Picture Response</p>
-<p><input type="radio" name="type" value="MatchingQuestion"> Matching</p>
+<p><input type="radio" name="type" value="QuestionResponseQuestion" checked> <b>Question-Response</b></p>
+<p><input type="radio" name="type" value="QuestionResponseQuestionMultiAnswer"> <b>Question-Response Multi-Answer</b></p>
+<p><input type="radio" name="type" value="FillInBlankQuestion"> <b>Fill in the Blank</b></p>
+<p><input type="radio" name="type" value="MultipleChoiceQuestion"><b>Multiple Choice</b></p>
+<p><input type="radio" name="type" value="MultipleChoiceMultipleAnswerQuestion"> <b>Multiple Choice with Multiple Answers</b></p>
+<p><input type="radio" name="type" value="PictureResponseQuestion"> <b>Picture Response</b></p>
+<p><input type="radio" name="type" value="MatchingQuestion"> <b>Matching</b></p>
 <input type="submit" value="Select" id = "red-button">
 
 </form>

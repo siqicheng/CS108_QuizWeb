@@ -85,8 +85,7 @@
 						<%
 							String friendQ = new String();
 							if (!sender.equals(""))
-								out.println("<a href=\"friendlist.jsp?sender="+sender + "id=\"item-text\">Friends</a>");
-								
+								out.println("<a href=\"friendlist.jsp?sender=" + sender + "\" id=\"item-text\">Friends</a>");
 						%>
 					</li>
 					<li id="items">
@@ -315,7 +314,8 @@
 				out.println("<input type=\"submit\" value=\"GoRockQuiz\" id = \"red-button\" >");
 				out.println("</form>");
 			}else{
-				out.println("<h3>Register and rock the quiz</h3>");
+				out.println("<form action=\"CreateAccount_new_account.jsp\" method=\"post\">");
+				out.println("<input type=\"submit\" id=\"red-button\" value=\"Register and Rock the quiz\">");
 			}
 		%>
 		
@@ -332,15 +332,56 @@
 			<input type="hidden" name= "sender" value="<%=userName%>">
 			<input type="hidden" name="quizId" value="<%=quizId%>">
 		</form>
+		
+		<%
+
+		%>
+		
+		<form action="sendMailServlet" method="post" id = "report">
+			<input id = basic-input type="hidden" name= "receiver" value=admin>
+			<input type="hidden" name= "sender" value="<%=userName%>">
+			<input type="hidden" name="quizId" value="<%=quizId%>">
+		</form>
+		
+		<%	
+			if (!sender.equals(""))
+				out.println("<input type=\"submit\" value=\"Share with friends\" id = \"green-button\" form =\"email\" >");
+			if (!sender.equals(""))
+				out.println("<input type=\"submit\" value=\"Report to admin\" id = \"yellow-button\" form =\"report\" >");
+		%>
+		
+
+		
 		</div>
 		<%
-			if (!sender.equals(""))
-				out.println("<input type=\"submit\" value=\"Share\" id = \"green-button\" form =\"email\" >");
+			AdministratorAccount admin = new  AdministratorAccount(sender);
+			boolean isAdmin = admin.getUserType().equals("s");
+			if (!sender.equals("") && isAdmin)
+				out.println("<h2>Administration</h2>");
 		%>
+		
+		<form action="ManageQuizServlet" method="post" id = "AdminDelete">
+			<p>
+				<input type="hidden" name="quiz" id = "basic-input" value="<%=id %>">
+		<%
+
+			if (!sender.equals("") && isAdmin){
+				out.println("<select name=\"operation\" id =\"red-button\">");
+				out.println("<option value=\"1\">Clear taken history</option>");
+				out.println("<option value=\"2\">Delete quiz</option>");
+				out.println("</select>");
+				out.println("<input type=\"submit\" value=\"Delete\" id = \"red-button\" form =\"AdminDelete\" >");
+			}
+		%>
+
+			</p>
+		</form>
+		
+
 		
 	</div>
 	
-		<div class="wrapper">
+	<div class="wrapper">
 		<div id="ft">
 			<span class="fleft">
 			  <a> Copyright © 2013 <%="IQuizYOU"%> , all rights reserved</a><br>
