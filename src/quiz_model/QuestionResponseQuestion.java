@@ -1,8 +1,9 @@
 package quiz_model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.sql.*;
 
 import javax.servlet.http.HttpServletRequest;
 
