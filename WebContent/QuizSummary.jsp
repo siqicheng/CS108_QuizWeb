@@ -68,7 +68,7 @@
 						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
 					</li>
 					<li id="items">
-						<a href="http://www.google.com" id="item-text">Friends</a>
+						<a href="friendlist.jsp?sender=<%=sender%>" id="item-text">Friends</a>
 					</li>
 					<li id="items">
 						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
@@ -79,8 +79,8 @@
 
 			<div id="search-bar-board">	 
 				<div id="search-bar" >
-					<form method="GET" id="search-form" action="http://www.google.com" >
-						<input type="text" id="search-text" name="q" placeholder="searching..." />
+					<form method="POST" id="search-form" action="TagSearchResult.jsp" >
+						<input type="text" id="search-text" name="tag" placeholder="Searching tags..." />
 	
 						<button type="submit" class="magnify-button" id="search-buttom">
 							<i  id="search-buttom-glass"></i>

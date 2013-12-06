@@ -38,14 +38,10 @@
 	String onetime2 = (String)request.getAttribute("once");
 	boolean jump2 = (onetime2 == null || "null".equals(onetime2));
 	if (jump2 && Username.equals(sender)){
-		System.out.println("fuck");
 		out.println("<script type=\"text/javascript\">");
 		out.println("window.onload=function(){document.getElementById('ini').submit();}");
 		out.println("</script>");
-
 	}
-
-
 %>
 
 
@@ -71,7 +67,7 @@
 						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
 					</li>
 					<li id="items">
-						<a href="http://www.google.com" id="item-text">Friends</a>
+						<a href="friendlist.jsp?sender=<%=sender%>" id="item-text">Friends</a>
 					</li>
 					<li id="items">
 						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
@@ -80,8 +76,8 @@
 			</div>
 			<div id="search-bar-board">	 
 				<div id="search-bar" >
-					<form method="GET" id="search-form" action="http://www.google.com" >
-						<input type="text" id="search-text" name="q" placeholder="searching..." />
+					<form method="POST" id="search-form" action="TagSearchResult.jsp" >
+						<input type="text" id="search-text" name="tag" placeholder="Searching tags..." />
 	
 						<button type="submit" class="magnify-button" id="search-buttom">
 							<i  id="search-buttom-glass"></i>
@@ -89,7 +85,6 @@
 					</form> 
 				</div>
 			</div>
-
 
 			<div id ="title-bar-text"> 
 				<b> <%=sender%> </b>
@@ -100,22 +95,41 @@
 	<div class="wrapper">
 			<h1>Welcome <%=Username%></h1>
 	<%
-		//set and unset privacy
-		String privacy = FriendManager.getPrivacy(sender);
-		if("true".equals(privacy)){
-			// unset privacy
-			out.println("<form action = \"privacyServlet\" method = \"post\">");
-			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
-			out.println("<input id=\"red-button\" type = \"submit\" value = \"Public to All\"/>");
-			out.println("</form>");
-		} else {
-			//set privacy
-			out.println("<form action = \"privacyServlet\" method = \"post\">");
-			out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-			out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
-			out.println("<input id=\"green-button\" type = \"submit\" value = \"Anonymous to Non Friends\"/>");
-			out.println("</form>");
+		if(Username.equals(sender)){
+			//set and unset privacy
+			String privacy = FriendManager.getPrivacy(sender);
+			if("true".equals(privacy)){
+				// unset privacy
+				out.println("<form action = \"privacyServlet\" method = \"post\">");
+				out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+				out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
+				out.println("<input id=\"red-button\" type = \"submit\" value = \"Public to All\"/>");
+				out.println("</form>");
+			} else {
+				//set privacy
+				out.println("<form action = \"privacyServlet\" method = \"post\">");
+				out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
+				out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
+				out.println("<input id=\"yellow-button\" type = \"submit\" value = \"Anonymous to Non Friends\"/>");
+				out.println("</form>");
+			}
+		}
+		if (Username.equals(sender)){
+			ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+			friendRequests = FriendManager.getFriendRequests(sender);
+			if (friendRequests.size()!=0){
+				// sender has friend requests
+				String formline = "<form method = \"POST\" action = \"friendRequest.jsp\">";
+				String userline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
+				//String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
+				String requestsButton = "<input id=\"green-button\" type = \"submit\" value = \"Friend Requests\" onclick=\"this.disabled=true;this.form.submit();\">";
+				String endForm = "</form>";
+				out.println(formline);
+				out.println(userline);
+				//out.println(receiverline);
+				out.println(requestsButton);
+				out.println(endForm); 
+			}
 		}
 	%>
 			<h2>Announcements</h2>
@@ -226,7 +240,7 @@
 		
 			<form action="CategorySearchResult.jsp" method="POST">
 				<p>Search by Category
-				<select name="category" onchange="this.form.submit()">
+				<select name="category" id = "yellow-button" onchange="this.form.submit()">
 				<option value="All" selected>All</option>
 				<%
 					Category category = new Category();
@@ -239,19 +253,9 @@
 				<br>
 			</form>
 		
-			<form action="TagSearchResult.jsp" method="POST">
-				<p>Search by Tag
-				<input type="text" name="tag" placeholder = "tags..."/>
-				<input type="submit" value="search"/>
-				<br>
-			</form>
+
 		
-			<form action = "FriendSearchServlet" method = "post">
-			<input type = "text" name = "name" placeholder = "Search for friends"/>
-			<% //<input type = "hidden" name = "sender" value = Username/> %>
-			<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
-			<input type = "submit" value = "Search"/>
-			</form>
+
 		
 		<%
 			boolean showButton = false;
@@ -295,26 +299,6 @@
 					out.println(sentButton);
 				}
 			}
-			
-			// you have friend request button
-			if (Username.equals(sender)){
-				ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
-				friendRequests = FriendManager.getFriendRequests(sender);
-				if (friendRequests.size()!=0){
-					// sender has friend requests
-					String formline = "<form method = \"POST\" action = \"friendRequest.jsp\">";
-					String userline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
-					//String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-					String requestsButton = "<input type = \"submit\" value = \"Friend Requests\" onclick=\"this.disabled=true;this.form.submit();\">";
-					String endForm = "</form>";
-					out.println(formline);
-					out.println(userline);
-					//out.println(receiverline);
-					out.println(requestsButton);
-					out.println(endForm); 
-				}
-			}
-			
 		%>
 		
 		<% 
@@ -359,14 +343,6 @@
 			</span>
   		</div>
 	</div>
-	
-
-
-<form action = "friendlist.jsp" method = "post">
-<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>"); %>
-<input type = "submit" value = "FriendList"/>
-</form>
-
 
 </body>
 </html>
