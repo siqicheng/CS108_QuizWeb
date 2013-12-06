@@ -38,16 +38,16 @@
 			<div id="function-item">
 				<ul id="function-list">
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">Home</b>
+						<a href="CreateAccount_welcome.jsp" id="item-text">Home</a>
 					</li>
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">CreateQuiz</b>
+						<a href="CreateQuiz.jsp" id="item-text">CreateQuiz</a>
 					</li>
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">Friends</b>
+						<a href="http://www.google.com" id="item-text">Friends</a>
 					</li>
 					<li id="items">
-						<b href="http://www.google.com" id="item-text">Mailbox</b>
+						<a href="mailSystem.jsp" id="item-text">Mailbox</a>
 					</li>
 				</ul>
 			</div>
@@ -71,50 +71,49 @@
 	</div>
 	
 	<div class="wrapper">
-		<h1>Delete account</h1>
-		<form action="DeleteAccountServlet" method="post" >
+		<h2>Delete account</h2>
+		<form action="DeleteAccountServlet" method="post">
 			<p>
-				Delete <input type="text" name="name" placeholder="User name">
-				<input type="submit" value="Delete">
+				<input type="text" name="name" id = "basic-input" placeholder="User name">
+				<button type="submit"  id="red-button">Delete</button>
 			</p>
 		</form>
-		
-		<h1>Promote account</h1>
+		<h2>Promote account</h2>
 		<form action="PromoteAccountServlet" method="post">
 			<p>
-				Set <input type="text" name="name" placeholder="User name">
-				as <select name="status">
-						<option value="u">Normal User</option>
+				<input type="text" name="name" id = "basic-input" placeholder="User name">
+				<select name="status" id ="green-button">
+						<option value="u"  >Normal User</option>
 						<option value="s">Administrator</option>
 					</select>
-					<input type="submit" value="Change">
+					<button type="submit"  id="green-button">Change</button>
 			</p>
 		</form>
-		<h1>Create announcement</h1>
+		<h2>Create announcement</h2>
 		<form action="NewAnnounceServlet" method="post">
 			<div>
-				<textarea rows="10" cols="40" name="content" placeholder="Write new announcement"></textarea>
+				<textarea rows="10"; cols="40"; name="content" id = "big-input" placeholder="Write new announcement"></textarea>
 			</div>
-			<input type="submit" value="Post" margin-bottom="35">
+			<button type="submit"  id="red-button">Post</button>
 		</form>
 		
-		<h1>Manage Quiz</h1>
+		<h2>Manage Quiz</h2>
 		<form action="ManageQuizServlet" method="post">
 			<p>
-				<input type="text" name="quiz" placeholder="QuizID">
-				<select name="operation">
+				<input type="text" name="quiz" id = "basic-input" placeholder="QuizID">
+				<select name="operation" id ="yellow-button">
 					<option value="1">Clear taken history</option>
 					<option value="2">Delete quiz</option>
 				</select>
-				<input type="submit">
+				<button type="submit"  id="yellow-button">Submit</button>
 
 			</p>
 		</form>
 		
-		<h1>Num of users</h1>
-		<a><%=numOfUser%></a>
-		<h1>Num of quiz taken</h1>
-		<a><%=numOfHistoryTaken%></a>
+		<h2>Num of users</h2>
+		<b><%=numOfUser%></b>
+		<h2>Num of quiz taken</h2>
+		<b><%=numOfHistoryTaken%></b>
 		
 	</div>
 	

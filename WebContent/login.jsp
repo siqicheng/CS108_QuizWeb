@@ -39,9 +39,7 @@
 				        <div class="item item-passwd">
 				                <input type="password" name="password" id="form_password" class="inp" placeholder="password" tabindex="2">
 				        </div>
-			            
-			            
-			            
+
 			            <div class="item-submit">
 			                <input type="submit" value="Login" class="login-submit" tabindex="4">
 			                <input type="submit" value="Guest" class="guest-submit" tabindex="4" onclick="form.action='CreateAccount_welcome.jsp';">
