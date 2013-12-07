@@ -295,7 +295,7 @@
 					con = (DBConnection) request.getSession().getAttribute("dbcon");
 					//System.out.println("hello");
 				}
-				List<String> achievements = con.getAchievements(sender);
+				List<String> achievements = con.getAchievements(Username);
 				for (int i = 0; i < achievements.size(); ++i) {
 					out.print("<li>" + achievements.get(i) + "</li>");
 				}

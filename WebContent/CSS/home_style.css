@@ -261,6 +261,9 @@ b {
 #red-button{padding:0 24px;height:33px;font-size:13px;border:0;border-radius:2px;cursor:pointer;background:#ef7360;color:#fff;margin-bottom: 6px}
 #red-button:hover{background-color:#B81517}
 
+#blue-button{padding:0 24px;height:33px;font-size:13px;border:0;border-radius:2px;cursor:pointer;background:#1D8EC9;color:#fff;margin-bottom: 6px}
+#blue-button:hover{background-color:#0E33D2}
+
 #gray-button{padding:0 24px;height:33px;font-size:13px;border:0;border-radius:2px;cursor:pointer;background:#ECF1F4;color:#fff;margin-bottom: 6px}
 #gray-button:hover{background-color:#ECF1F4}
 

@@ -31,7 +31,7 @@ public class Xmlparser {
 	
 	public Xmlparser(String xml){
 		//System.out.println(xml);
-		xml = path + xml;
+		//xml = path + xml;
 		Document doc = parseXmlFile(xml);
 		Element elements = doc.getDocumentElement();
 		
