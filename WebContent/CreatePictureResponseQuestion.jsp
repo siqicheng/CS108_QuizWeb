@@ -56,17 +56,17 @@
 	
 
 	<div class="wrapper">
-		<h1>Add a new Picture-Response question</h1>
+		<h2>Add a new Picture-Response question</h2>
 		
 		
 		
 		<form action="CreatePictureResponseServlet" method="post" id = "question">
-		<b>Your Picture URL: </b><br>
+		<h2>Your Picture URL: </h2>
 		<textarea name="url" rows="1" cols="80" id = "big-input" ></textarea><br>
-		<b>Your question:</b><br>
+		<h2>Your question:</h2>
 		<textarea name="question" rows="1" cols="80" id = "big-input" ></textarea><br>
-		<b>Your answers (use ; as delimiters if more than one legal answer): </b><br>
-		<textarea name="answers" rows="2" cols="80" id = "big-input"></textarea><br>
+		<h2>Your answers: </h2>
+		<textarea name="answers" rows="2" cols="80" id = "big-input" placeholder = "use ; as delimiters if more than one legal answer"></textarea><br>
 		</form>
 		
 		<form action="CreateQuiz.jsp" id = "back"></form>
