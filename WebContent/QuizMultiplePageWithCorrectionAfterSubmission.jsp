@@ -19,11 +19,24 @@
 		request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans);
 		ansList.add(ans);
 	} else {
-		for (int i = 0; i < answerNum; i++) {
-			String ans = request.getParameter("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
-			request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans);
-	        ansList.add(ans);
+		/* For multi-answer question */
+		if(q.getType().equals("MultipleChoiceMultipleAnswer")){
+			String[] answers = request.getParameterValues("answer"+Integer.toString(questionNum));
+			request.getSession().setAttribute("answerNum_"+Integer.toString(questionNum), answers.length);
+			for (int i = 0; i < answers.length; i++) {
+				//String ans = request.getParameter("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
+				String ans = answers[i];
+				request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans);
+		        ansList.add(ans);
+			}
+		} else { // Question response multi answer
+			for (int i = 0; i < answerNum; i++) {
+				String ans = request.getParameter("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
+				request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans);
+				ansList.add(ans);
+			}
 		}
+	
 	}	
 	int curScore = q.getScore(ansList);
 	

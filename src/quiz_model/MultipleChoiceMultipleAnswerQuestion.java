@@ -182,7 +182,7 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 		ArrayList<String> ansList = new ArrayList<String> ();
 		String[] ans = request.getParameterValues("answer" + Integer.toString(questionNum));
 		if (ans == null) {
-			int userAnsNum = (Integer) request.getSession().getAttribute("answerNum");
+			int userAnsNum = (Integer) request.getSession().getAttribute("answerNum_"+Integer.toString(questionNum));
 			for (int i = 0; i < userAnsNum; i++) {
 				//String ans = request.getParameter("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
 				//if (ans == null) {
