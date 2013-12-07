@@ -134,7 +134,7 @@ public class Xmlparser {
 		if(type.equals("picture-response")) {
 			String question = getStringFromTag(element, "query");
 			String url = getStringFromTag(element, "image-location");
-			System.out.println(url);
+			//System.out.println(url);
 			ArrayList<String> answers = getListFromTag(element, "answer");
 			return (new PictureResponseQuestion(url, question, answers));
 		}

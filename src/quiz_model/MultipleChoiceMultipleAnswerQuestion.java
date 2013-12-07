@@ -53,7 +53,7 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 
 	@Override
 	public String getHTML(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		ArrayList<String> toBeShuffled = new ArrayList<String> (choices);
 		toBeShuffled.addAll(answers);
 		Collections.shuffle(toBeShuffled);
@@ -77,7 +77,7 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 
 	@Override
 	public String getHTMLwithAnswer(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		ArrayList<String> toBeShuffled = new ArrayList<String> (choices);
 		toBeShuffled.addAll(answers);
 		Collections.shuffle(toBeShuffled);
@@ -145,7 +145,7 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 
 	@Override
 	public String getHTMLwithQuestion(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" + this.question + "</br><br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2><br>" + this.question + "</br><br>";
 		ArrayList<String> toBeShuffled = new ArrayList<String> (choices);
 		toBeShuffled.addAll(answers);
 		Collections.shuffle(toBeShuffled);
@@ -236,13 +236,14 @@ public class MultipleChoiceMultipleAnswerQuestion extends Question {
 			int curScore) {
 		// TODO Auto-generated method stub
 		//String userAns = userAnsList.get(0);
-		System.out.println("Score" + score);
+		//System.out.println("Score" + score);
 		String html_question = getHTML(questionNum);
-		String html_user_answer = "<b>Your answer:</b> ";
+		String html_user_answer = "<b>Your answer:</b><br> ";
 		for (String userAns:userAnsList) {
 			html_user_answer += userAns + "<br>";
 		}
-		String html_correct_answer = "<b>Correct answer:</b> ";
+		String html_correct_answer = "<b>Correct answer:</b><br> ";
+		
 		for (String answer:answers) {
 			html_correct_answer += answer + "<br>";
 		}

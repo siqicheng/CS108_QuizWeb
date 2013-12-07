@@ -145,7 +145,7 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 			try {
 				stmt.executeUpdate(quiz.insertQISql());
 				for(Question question : questions) {
-					System.out.println(quiz.insertQQSql(question.getId(), question.getType()));
+					//System.out.println(quiz.insertQQSql(question.getId(), question.getType()));
 					stmt.executeUpdate(quiz.insertQQSql(question.getId(), question.getType()));
 				}
 			} catch (SQLException e) {

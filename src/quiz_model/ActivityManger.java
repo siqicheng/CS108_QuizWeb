@@ -86,7 +86,7 @@ public class ActivityManger {
 
     public static void main(String[] args) {
     	List<Activity> as = ActivityManger.getActivities("sqcheng");
-    	System.out.println(as);
+    	//System.out.println(as);
         /*MyQuiz quiz = getQuizFromXml("src/xml/bunny.xml");
         quiz.saveToDatabase();
         exportQuizToXml(quiz, "testXml.xml");*/

@@ -361,7 +361,7 @@
 							|| (!FriendManager.isFriend(Username, sender) && FriendManager
 									.getPrivacy(Username).equals("false"))) {
 
-						HashSet<String> friends = FriendManager.getFriends(sender);
+						HashSet<String> friends = FriendManager.getFriends(Username);
 						//System.out.println(sender);
 						//System.out.println(friends);
 						List<Activity> activities = new ArrayList<Activity>();

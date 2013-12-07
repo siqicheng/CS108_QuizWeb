@@ -26,7 +26,7 @@ public class QuestionResponseQuestion extends Question{
 		try {
 			String ansStr = "";
 			String query = "SELECT * FROM QR WHERE QuestionID = \"" + id + "\"";
-			System.out.println(query);
+			//System.out.println(query);
 			ResultSet rs = stmt.executeQuery("SELECT * FROM QR WHERE QuestionID = \"" + id + "\"");
 			rs.next();
 			question = rs.getString("Question");
@@ -48,7 +48,7 @@ public class QuestionResponseQuestion extends Question{
 
 	@Override
 	public String getHTML(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		return html_question;
 	}
 
@@ -59,7 +59,7 @@ public class QuestionResponseQuestion extends Question{
 
 	@Override
 	public String getHTMLwithAnswer(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		String html_answer = "<b>Answers: </b>";
 		for(String answer : this.answers) {
 			html_answer += answer;
@@ -95,7 +95,7 @@ public class QuestionResponseQuestion extends Question{
 	@Override
 	public String getHTMLwithQuestion(int questionNum) {
 		// TODO Auto-generated method stub
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" + this.question + "</br><br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2><br>" + this.question + "</br><br>";
 		String html_answer = "<b><textarea name=\"answer" + Integer.toString(questionNum) +"\" rows=\"1\" cols=\"30\"></textarea></b><br>";
 		return html_question + html_answer;
 	}
@@ -106,9 +106,9 @@ public class QuestionResponseQuestion extends Question{
 		ArrayList<String> ansList = new ArrayList<String> ();
 		String ans = request.getParameter("answer" + Integer.toString(questionNum));
         if (ans == null) {
-        	System.out.println("answer" + Integer.toString(questionNum));
+        	//System.out.println("answer" + Integer.toString(questionNum));
         	ans = (String)request.getSession().getAttribute("answer" + Integer.toString(questionNum)) ;
-        	System.out.println("hello");
+        	//System.out.println("hello");
         	if (ans == null || ans.equals("null")) {
                 ans = "";
         	}

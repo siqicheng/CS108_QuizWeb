@@ -215,6 +215,16 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		
+		query = "SELECT * FROM Achievement_History WHERE Achievement='I am the Greatest' AND User_Name='" + sender + "';";
+		try {
+			if(connection.isClosed()) generateConnection();
+			ResultSet rs = statement.executeQuery(query);
+			if(rs.isBeforeFirst()) insert = false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
 		if(insert){	// To Achievement_History
 			
 			String sql = "INSERT INTO Achievement_History VALUES('" + sender + "', 'I am the Greatest', '" + time + "');"; 

@@ -46,7 +46,7 @@ public class MultipleChoiceQuestion extends Question{
 	
 	@Override
 	public String getHTML(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		Random rnd = new Random();
 		double prob = 1 / choices.size();
 		boolean answerNotShown = true;
@@ -64,7 +64,7 @@ public class MultipleChoiceQuestion extends Question{
 
 	@Override
 	public String getHTMLwithAnswer(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		Random rnd = new Random();
 		double prob = (double)1 / choices.size();
 		boolean answerNotShown = true;
@@ -118,7 +118,7 @@ public class MultipleChoiceQuestion extends Question{
 
 	@Override
 	public String getHTMLwithQuestion(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" + this.question + "</br><br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2><br>" + this.question + "</br><br>";
 		Random rnd = new Random();
 		double prob = (double)1 / choices.size();
 		boolean answerNotShown = true;

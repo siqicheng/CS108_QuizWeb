@@ -90,10 +90,9 @@ for(int i = 0; i < questions.size(); ++i){
 <p><input type="radio" name="type" value="QuestionResponseQuestion" checked> <b>Question-Response</b></p>
 <p><input type="radio" name="type" value="QuestionResponseQuestionMultiAnswer"> <b>Question-Response Multi-Answer</b></p>
 <p><input type="radio" name="type" value="FillInBlankQuestion"> <b>Fill in the Blank</b></p>
-<p><input type="radio" name="type" value="MultipleChoiceQuestion"><b>Multiple Choice</b></p>
+<p><input type="radio" name="type" value="MultipleChoiceQuestion"> <b>Multiple Choice</b></p>
 <p><input type="radio" name="type" value="MultipleChoiceMultipleAnswerQuestion"> <b>Multiple Choice with Multiple Answers</b></p>
 <p><input type="radio" name="type" value="PictureResponseQuestion"> <b>Picture Response</b></p>
-<p><input type="radio" name="type" value="MatchingQuestion"> <b>Matching</b></p>
 <input type="submit" value="Select" id = "red-button">
 
 </form>

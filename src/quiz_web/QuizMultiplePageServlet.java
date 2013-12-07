@@ -75,13 +75,13 @@ public class QuizMultiplePageServlet extends HttpServlet {
 			String[] ans = request.getParameterValues("answer" + Integer.toString(questionNum));
 			if (ans != null) {
 				if (ans.length == 1) {
-					System.out.println(questionNum);
-					System.out.println("answer"+Integer.toString(questionNum));
+					//System.out.println(questionNum);
+					//System.out.println("answer"+Integer.toString(questionNum));
 					request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans[0]);
 				} else {
 					for (int i = 0; i < ans.length; i++) {
-						System.out.println("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
-						System.out.println(ans[i]);
+						//System.out.println("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
+						//System.out.println(ans[i]);
 						request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans[i]);
 					}
 					request.getSession().setAttribute("answerNum_"+Integer.toString(questionNum),ans.length);

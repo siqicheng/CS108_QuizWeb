@@ -42,7 +42,7 @@ public class PictureResponseQuestion extends Question {
 	
 	@Override
 	public String getHTML(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" ;
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2><br>" ;
 		html_question += "<img src=\"" + this.url + "\"/><br>"; 
 		html_question += this.question + "<br>";
 		return html_question;
@@ -108,9 +108,9 @@ public class PictureResponseQuestion extends Question {
 		ArrayList<String> ansList = new ArrayList<String> ();
 		String ans = request.getParameter("answer" + Integer.toString(questionNum));
         if (ans == null) {
-        	System.out.println("answer" + Integer.toString(questionNum));
+        	//System.out.println("answer" + Integer.toString(questionNum));
         	ans = (String)request.getSession().getAttribute("answer" + Integer.toString(questionNum)) ;
-        	System.out.println("hello");
+        	//System.out.println("hello");
         	if (ans == null || ans.equals("null")) {
                 ans = "";
         	}

@@ -1,30 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import = "java.util.*,java.text.SimpleDateFormat,java.sql.*,quiz_model.*,database_connection.*,user.*,java.awt.*,javax.swing.*,java.awt.event.*,java.io.*,javax.swing.border.TitledBorder;" %>
-
+<%@ page import="database_connection.*,quiz_model.*,quiz_web.*,java.sql.*,java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
 	String sender = (String)request.getSession().getAttribute("sender");
-	if (sender == null)
-		sender = request.getParameter("sender");
-		
+	Quiz quiz = (Quiz) request.getSession().getAttribute("Quiz");
+	List<Question> questions = quiz.getQuestions();
+	String questionNumStr = request.getParameter("question");
+	int questionNum;
+	if (questionNumStr == null) questionNum = 0;
+	else questionNum = Integer.parseInt(questionNumStr) + 1;	
 %>
-<title><%=sender%>'s Mailbox</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Quiz - <%=quiz.getName()%></title>
 <link rel="shortcut icon" href="pic/favicon.ico" /> 
 <link rel="stylesheet" href="CSS/home_style.css" type="text/css">
 <!-- COLLECTED CSS -->
 </head>
 <body>
-
 	<div id="title-bar">
 		<div class="wrapper">
 			<div class="logo">
 				<a href="login.jsp"><img src="pic/logo.jpg" width="" height="44"></a>
 			</div>
-
 			
 			<div id="function-item">
 				<ul id="function-list">
@@ -60,49 +60,37 @@
 			</div>	
 		</div>
 	</div>
-	
-	<div class="wrapper">
-		<form action = "writeMail.jsp" method = "post">
-			<% out.println("<input type = \"hidden\" name = \"sender\" value =" + "\""+sender + "\"/>");%>
-			<input type = "submit" value = "Compose" id="red-button"/>
-		</form>
-	
-		<h2>Received Emails: </h2>
-	
-		<table border="1" class = "fixed">
-		    <col width="150px" />
-	    	<col width="600px" />
-	    	<col width="200px" />
-		<%
-			ArrayList<Message> messages = MailManager.getMessages(sender);
-			for (Message msg : messages){
-				out.println("<tr bordercolor=\"white\">");
-				
-				String writeLink = "<a href=\"writeMail.jsp?sender=" + msg.getreceiver() + "&receiver=" + msg.getsender()+ "\">" + msg.getsender();
-				out.println("<td>" + writeLink + "</td>");
-				String message = msg.getMessage();
-				if (!message.contains("<a href"))
-					message = message.length() < 100 ? message : message.substring(0,100);
-				
-				if (message.contains("<a href")){
-					out.println("<td>" + message + "</td>");
-					//System.out.println("----------------");
-					//System.out.println(message);
-				}
-				else{
-				//String form = "<input type = \"submit\" name = \"msg\" value = \"" + message + "\">";
-					String link = "<a href=\"readMail.jsp?sender=" + msg.getsender() + "&receiver=" + msg.getreceiver() + "&message=" + msg.getMessage() + "&date=" + msg.getSentDate()  + "\">" + message;
-					out.println("<td>" + link + "</td>");
-				}
-				out.println("<td>" + msg.getSentDate() + "</td>");
-				
-				out.println("</tr>");
-			}
-		
-		%>
-		</table>
-	</div>
 
+	<div class="wrapper">
+		<h1><%=quiz.getName() %></h1>
+		<form action="QuizMultiplePageWithCorrectionAfterSubmission.jsp" method="POST">
+		<%	 
+			//out.print("<form action=\"QuizMultiplePageServlet\" method=\"post\">");
+			Question question = questions.get(questionNum);
+			System.out.println(question.getHTMLwithQuestion(questionNum));
+			out.print(question.getHTMLwithQuestion(questionNum));
+			String input = "<input type=\"hidden\" name=\"question\" value=\""+ Integer.toString(questionNum)+"\">";
+			out.print(input);
+			//System.out.println(input);
+			/*if (questionNum == 0) {
+				out.print("<input type=\"submit\" name=\"action\" value=\"Next\">");
+			} else if (questionNum == questions.size()-1) {
+				out.print("<input type=\"submit\" name=\"action\" value=\"Back\">");
+				out.print("<input type=\"submit\" value=\"Submit\">");
+			} else {
+				out.print("<input type=\"submit\" name=\"action\" value=\"Back\">");
+				out.print("<input type=\"submit\" name=\"action\" value=\"Next\">");
+			}*/
+			String fakeButton;
+			if (questionNum == questions.size() -1 ) {
+				fakeButton = "See result";
+			} else fakeButton = "Next";
+		%>
+		<input type="submit" value="Submit" id = "red-button">
+		<input type="submit" value="<%=fakeButton%>" disabled id = "gray-button" >
+		</form>
+	</div>
+	
 	<div class="wrapper">
 		<div id="ft">
 			<span class="fleft">
@@ -121,5 +109,6 @@
 			</span>
   		</div>
 	</div>
+
 </body>
 </html>

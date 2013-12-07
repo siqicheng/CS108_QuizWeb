@@ -26,7 +26,7 @@ public class QuestionResponseMultiAnswerQuestion extends Question{
 		try {
 			String ansStr = "";
 			String query = "SELECT * FROM MA WHERE QuestionID = \"" + id + "\"";
-			System.out.println(query);
+			//System.out.println(query);
 			ResultSet rs = stmt.executeQuery("SELECT * FROM MA WHERE QuestionID = \"" + id + "\"");
 			rs.next();
 			question = rs.getString("Question");
@@ -56,7 +56,7 @@ public class QuestionResponseMultiAnswerQuestion extends Question{
 
 	@Override
 	public String getHTML(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		return html_question;
 	}
 
@@ -67,7 +67,7 @@ public class QuestionResponseMultiAnswerQuestion extends Question{
 
 	@Override
 	public String getHTMLwithAnswer(int questionNum) {
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b>" + this.question + "<br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2>" + this.question + "<br>";
 		String html_answer = "<b>Answers: </b>";
 		for(ArrayList<String> answerL : this.answers) {
 			html_answer += "<br>";
@@ -119,7 +119,7 @@ public class QuestionResponseMultiAnswerQuestion extends Question{
 	@Override
 	public String getHTMLwithQuestion(int questionNum) {
 		// TODO Auto-generated method stub
-		String html_question = "<b>Question " + Integer.toString(questionNum) + ": </b><br>" + this.question + "</br><br>";
+		String html_question = "<h2>Question " + Integer.toString(questionNum) + ": </h2><br>" + this.question + "</br><br>";
 		String html_answer = "";
 		for (int i = 0; i < answers.size(); i++) {
 			html_answer += "<b><textarea name=\"answer" + Integer.toString(questionNum) + "_" + Integer.toString(i) +"\" rows=\"1\" cols=\"30\"></textarea></b><br>";

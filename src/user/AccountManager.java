@@ -37,7 +37,7 @@ public class AccountManager {
 			
 			String query = "INSERT INTO userTable VALUES (\""
 				+ UserName.toLowerCase() + "\", \"" + getHashCodeSHA(Password) + "\", \"" + Status + "\", \"" + Gender + "\", \"" + Email +  "\");";
-			System.out.print(query);
+			//System.out.print(query);
 		statement.executeUpdate(query);
 		
 		} catch (SQLException e) {
@@ -54,13 +54,13 @@ public class AccountManager {
 			ResultSet rs = statement.executeQuery("SELECT * FROM userTable " +
 					"WHERE userName LIKE \"" + userName + "\"");
 			if(!rs.next()) {
-				System.out.println("This account doesn't exist.");
+				//System.out.println("This account doesn't exist.");
 				close();
 				return false;
 			}
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("Deletion failed 1.");
+			//System.out.println("Deletion failed 1.");
 			close();
 			return false;
 		}
@@ -69,7 +69,7 @@ public class AccountManager {
 			connect();
 			statement.executeUpdate("DELETE FROM userTable WHERE userName LIKE \"" + userName + "\"");
 		} catch(SQLException e){
-			System.out.println("Deletion failed 2.");
+			//System.out.println("Deletion failed 2.");
 			close();
 			return false;
 		}
