@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "java.util.*, java.util.List, java.text.SimpleDateFormat, java.sql.*, quiz_model.*, database_connection.*, user.*, java.awt.*, javax.swing.*, java.awt.event.*, java.io.*, javax.swing.border.TitledBorder, java.text.DecimalFormat;" %>
+<%@ page import = "java.util.*,java.util.List,java.text.SimpleDateFormat,java.sql.*,quiz_model.*,database_connection.*,user.*,java.awt.*,javax.swing.*,java.awt.event.*,java.io.*,javax.swing.border.TitledBorder,java.text.DecimalFormat;" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,7 +13,8 @@
 
 	String Username = request.getParameter("name");
 
-	String sender = (String) request.getSession().getAttribute("sender");
+	String sender = (String) request.getSession()
+			.getAttribute("sender");
 	if (sender == null || sender.equals("null")) { /* From login page */
 		sender = new String(Username);
 		request.getSession().setAttribute("sender", sender);
@@ -38,15 +39,14 @@
 	</form>
 	
 <%
-
-	String onetime2 = (String)request.getAttribute("once");
-	boolean jump2 = (onetime2 == null || "null".equals(onetime2));
-	if (jump2 && Username.equals(sender)){
-		out.println("<script type=\"text/javascript\">");
-		out.println("window.onload=function(){document.getElementById('ini').submit();}");
-		out.println("</script>");
-	}
-%>
+		String onetime2 = (String) request.getAttribute("once");
+		boolean jump2 = (onetime2 == null || "null".equals(onetime2));
+		if (jump2 && Username.equals(sender)) {
+			out.println("<script type=\"text/javascript\">");
+			out.println("window.onload=function(){document.getElementById('ini').submit();}");
+			out.println("</script>");
+		}
+	%>
 
 
 
@@ -87,7 +87,8 @@
 						<%
 							String friendG = new String();
 							if (!sender.equals(""))
-								out.println("<a href=\"friendlist.jsp?sender=" + sender + "\" id=\"item-text\">Friends</a>");
+								out.println("<a href=\"friendlist.jsp?sender=" + sender
+										+ "\" id=\"item-text\">Friends</a>");
 						%>
 						
 <!--						<a href="http://www.google.com" id="item-text">Friends</a>-->
@@ -123,34 +124,38 @@
 	<div class="wrapper">
 			<h1><%=Username%></h1>
 	<%
-
-		if(Username.equals(sender) && !sender.equals("")){
+		if (Username.equals(sender) && !sender.equals("")) {
 			//set and unset privacy
 			String privacy = FriendManager.getPrivacy(sender);
-			if("true".equals(privacy)){
+			if ("true".equals(privacy)) {
 				// unset privacy
 				out.println("<form action = \"privacyServlet\" method = \"post\">");
-				out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-				out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"false\"/>");
+				out.println("<input type = \"hidden\" name = \"user\" value ="
+						+ "\"" + sender + "\"/>");
+				out.println("<input type = \"hidden\" name = \"privacy\" value ="
+						+ "\"false\"/>");
 
 				out.println("<input id=\"red-button\" type = \"submit\" value = \"Public to All\"/>");
 				out.println("</form>");
 			} else {
 				//set privacy
 				out.println("<form action = \"privacyServlet\" method = \"post\">");
-				out.println("<input type = \"hidden\" name = \"user\" value =" + "\""+sender + "\"/>");
-				out.println("<input type = \"hidden\" name = \"privacy\" value =" + "\"true\"/>");
+				out.println("<input type = \"hidden\" name = \"user\" value ="
+						+ "\"" + sender + "\"/>");
+				out.println("<input type = \"hidden\" name = \"privacy\" value ="
+						+ "\"true\"/>");
 				out.println("<input id=\"yellow-button\" type = \"submit\" value = \"Anonymous to Non Friends\"/>");
 				out.println("</form>");
 			}
 		}
-		if (Username.equals(sender)){
+		if (Username.equals(sender)) {
 			ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
 			friendRequests = FriendManager.getFriendRequests(sender);
-			if (friendRequests.size()!=0){
+			if (friendRequests.size() != 0) {
 				// sender has friend requests
 				String formline = "<form method = \"POST\" action = \"friendRequest.jsp\">";
-				String userline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
+				String userline = "<input type = \"hidden\" name = \"sender\" value = \""
+						+ sender + "\">";
 				//String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
 				String requestsButton = "<input id=\"green-button\" type = \"submit\" value = \"Friend Requests\" onclick=\"this.disabled=true;this.form.submit();\">";
 				String endForm = "</form>";
@@ -158,37 +163,40 @@
 				out.println(userline);
 				//out.println(receiverline);
 				out.println(requestsButton);
-				out.println(endForm); 
+				out.println(endForm);
 			}
 		}
 	%>
 			<h2>Announcements</h2>
 			<%
-			DBConnection con = (DBConnection) request.getSession().getAttribute("dbcon");
-			if (con == null) {
-				request.getSession().setAttribute("dbcon", new DBConnection());
-				con = (DBConnection) request.getSession().getAttribute("dbcon");
-				//System.out.println("hello");
-			}
-			
-			Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
-			if(stmt == null) {
-		    	stmt = (new DBConnection()).getStatement();
-		    	request.getSession().setAttribute("db_connection", stmt);
-			}
-			
-			List<String> announcements = con.getAnnouncement();
-			if(announcements.isEmpty()) out.println("No announcement.");
-			else {
-				out.println("<ul>");
-				for(String announcement : announcements){
-					String[] parts = announcement.split("#");
-					String time = parts[0];
-					String content = parts[1];
-					out.println("<li>"+ time + "	" + content + "</li>");
+				DBConnection con = (DBConnection) request.getSession()
+						.getAttribute("dbcon");
+				if (con == null) {
+					request.getSession().setAttribute("dbcon", new DBConnection());
+					con = (DBConnection) request.getSession().getAttribute("dbcon");
+					//System.out.println("hello");
 				}
-				out.println("</ul>");
-			}
+
+				Statement stmt = (Statement) request.getSession().getAttribute(
+						"db_connection");
+				if (stmt == null) {
+					stmt = (new DBConnection()).getStatement();
+					request.getSession().setAttribute("db_connection", stmt);
+				}
+
+				List<String> announcements = con.getAnnouncement();
+				if (announcements.isEmpty())
+					out.println("No announcement.");
+				else {
+					out.println("<ul>");
+					for (String announcement : announcements) {
+						String[] parts = announcement.split("#");
+						String time = parts[0];
+						String content = parts[1];
+						out.println("<li>" + time + "	" + content + "</li>");
+					}
+					out.println("</ul>");
+				}
 			%>		
 		
 			<h2>Popular Quiz</h2>
@@ -196,12 +204,12 @@
 					<%
 						/*Statement stmt = (Statement) request.getSession().getAttribute("db_connection");
 						if(stmt == null) {
-					    	stmt = (new DBConnection()).getStatement();
-					    	request.getSession().setAttribute("db_connection", stmt);
+							stmt = (new DBConnection()).getStatement();
+							request.getSession().setAttribute("db_connection", stmt);
 						}*/
-					
+
 						String query = "SELECT QI.QuizID, QuizName, AVG(Rate) AS AVE_RATE FROM Rates_Table, QI WHERE QI.QuizID = Rates_Table.QuizID Group By QuizID ORDER BY AVE_RATE DESC;";
-						
+
 						//ResultSet rs = stmt.executeQuery("SELECT QuizName, Quiz_Id, Number FROM (SELECT Quiz_Id, COUNT(*) as Number FROM quiz_take_history GROUP BY Quiz_Id) AS tmp, QI WHERE tmp.Quiz_Id = QI.QuizID ORDER BY Number DESC;");
 						ResultSet rs = stmt.executeQuery(query);
 						int counter_1 = 0;
@@ -212,12 +220,12 @@
 							float r = rs.getFloat("AVE_RATE");
 							//System.out.println(rate);
 							String rate = (new DecimalFormat("#.##").format(r));
-							String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id + "&user_name=" + sender + "\">"
-									+ name + "</a>" + "		rate: " + rate  + "</li>";
+							String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id
+									+ "&user_name=" + sender + "\">" + name + "</a>"
+									+ "		rate: " + rate + "</li>";
 							out.println(line);
 							++counter_1;
 						}
-
 					%>
 				</ul>
 			<h2>Latest Quiz</h2>
@@ -239,87 +247,149 @@
 			<h2>Recent Activities</h2>
 				<ul>
 					<%
-						query = "SELECT QuizID, QuizName, Score, End_Time FROM QI, quiz_take_history WHERE QI.QuizID = quiz_take_history.Quiz_Id AND User_Name = \"" + Username + "\" order by Start_Time DESC;";
+						if (FriendManager.isFriend(Username, sender)
+								|| Username.equals(sender)
+								|| (!FriendManager.isFriend(Username, sender) && FriendManager
+										.getPrivacy(Username).equals("false"))) {
 
-						rs = stmt.executeQuery(query);
-						int counter = 0;
-						while (rs.next() && counter < 15) {
-							String name = rs.getString("QuizName");
-							String id = Integer.toString(rs.getInt("QuizID"));
-							String score = Integer.toString(rs.getInt("Score"));
-							String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm")
-									.format(rs.getTimestamp("End_Time"));
-							String line = "<li>Finished quiz <a href=\"QuizSummary.jsp?quizId="
-									+ id
-									+ "&user_name="
-									+ sender
-									+ "\">"
-									+ name
-									+ "</a> at "
-									+ endTime
-									+ " and earned "
-									+ score
-									+ " points</li>";
-							out.println(line);
-							++counter;
+							query = "SELECT QuizID, QuizName, Score, End_Time FROM QI, quiz_take_history WHERE QI.QuizID = quiz_take_history.Quiz_Id AND User_Name = \""
+									+ Username + "\" order by Start_Time DESC;";
+
+							rs = stmt.executeQuery(query);
+							int counter = 0;
+							while (rs.next() && counter < 15) {
+								String name = rs.getString("QuizName");
+								String id = Integer.toString(rs.getInt("QuizID"));
+								String score = Integer.toString(rs.getInt("Score"));
+								String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+										.format(rs.getTimestamp("End_Time"));
+								String line = "<li>Finished quiz <a href=\"QuizSummary.jsp?quizId="
+										+ id
+										+ "&user_name="
+										+ sender
+										+ "\">"
+										+ name
+										+ "</a> at "
+										+ endTime
+										+ " and earned "
+										+ score
+										+ " points</li>";
+								out.println(line);
+								++counter;
+							}
+
+							out.println("</ul>");
+
+							query = "SELECT QuizID, QuizName FROM QI WHERE CreaterId = '"
+									+ Username + "' ORDER BY CreateTime DESC;";
+							rs = stmt.executeQuery(query);
+							if (rs.isBeforeFirst()) { /* rs not empty */
+								out.println("<h2>Created Quiz</h2>");
+								out.println("<ul>");
+								int counter_2 = 0;
+								while (rs.next() && counter < 15) {
+									String name = rs.getString("QuizName");
+									String id = Integer.toString(rs.getInt("QuizID"));
+									String line = "<li><a href=\"QuizSummary.jsp?quizId="
+											+ id + "&user_name=" + sender + "\">" + name
+											+ "</a></li>";
+									out.println(line);
+									++counter_2;
+								}
+								out.println("</ul>");
+							}
+						} else {
+							out.println("The user has set it to be private");
+							out.println("</ul>");
+							out.println("<h2>Created Quiz</h2>");
+							out.println("<ul>");
+							out.println("The user has set it to be private");
+
 						}
 					%>
-				</ul>
-				<%
-					query = "SELECT QuizID, QuizName FROM QI WHERE CreaterId = '"
-							+ Username + "' ORDER BY CreateTime DESC;";
-					rs = stmt.executeQuery(query);
-					if (rs.isBeforeFirst()) { /* rs not empty */
-						out.println("<h2>Created Quiz</h2>");
-						out.println("<ul>");
-						int counter_2 = 0;
-						while (rs.next() && counter < 15) {
-							String name = rs.getString("QuizName");
-							String id = Integer.toString(rs.getInt("QuizID"));
-							String line = "<li><a href=\"QuizSummary.jsp?quizId=" + id
-									+ "&user_name=" + sender + "\">" + name
-									+ "</a></li>";
-							out.println(line);
-							++counter_2;
-						}
-						out.println("</ul>");
-					}
-				%>
+					</ul>
 			<h2>Achievements</h2>
 			<ul>
 			<%
-				con = (DBConnection) request.getSession().getAttribute("dbcon");
-
-				if (con == null) {
-					request.getSession().setAttribute("dbcon", new DBConnection());
+				if (FriendManager.isFriend(Username, sender)
+						|| Username.equals(sender)
+						|| (!FriendManager.isFriend(Username, sender) && FriendManager
+								.getPrivacy(Username).equals("false"))) {
 					con = (DBConnection) request.getSession().getAttribute("dbcon");
-					//System.out.println("hello");
-				}
-				List<String> achievements = con.getAchievements(sender);
-				for (int i = 0; i < achievements.size(); ++i) {
-					out.print("<li>" + achievements.get(i) + "</li>");
+
+					if (con == null) {
+						request.getSession().setAttribute("dbcon",
+								new DBConnection());
+						con = (DBConnection) request.getSession().getAttribute(
+								"dbcon");
+						//System.out.println("hello");
+					}
+					List<String> achievements = con.getAchievements(sender);
+					for (int i = 0; i < achievements.size(); ++i) {
+						out.print("<li>" + achievements.get(i) + "</li>");
+					}
+				} else {
+					out.println("The user has set it to be private");
 				}
 			%>
 			</ul>
-			<h2>Messages</h2>
+			
 		<%
-			if (MailManager.hasNewMessage(sender))
-				out.println("You have NEW messages!<br>");
-			if (MailManager.hasNewChallenge(sender))
-				out.println("You have NEW challenges!<br>");
-			if (Username.equals(sender)) {
-				ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
-				friendRequests = FriendManager.getFriendRequests(sender);
-				if (friendRequests.size() != 0) {
-					out.println("You have NEW friend requests!<br>");
-				}
-			}
-		%>
+						//Messages
+						if (Username.equals(sender)) {
+							out.println("<h2>Messages</h2>");
+							if (MailManager.hasNewMessage(sender))
+								out.println("You have NEW messages!<br>");
+							if (MailManager.hasNewChallenge(sender))
+								out.println("You have NEW challenges!<br>");
+							if (Username.equals(sender)) {
+								ArrayList<Friend_Request> friendRequests = new ArrayList<Friend_Request>();
+								friendRequests = FriendManager.getFriendRequests(sender);
+								if (friendRequests.size() != 0) {
+									out.println("You have NEW friend requests!<br>");
+								}
+							}
+						}
+					%>
 			<%
-				if (!sender.equals(""))
+				if (!sender.equals("")) {
 					out.println("<h2>Friends Activities</h2>");
+					if (FriendManager.isFriend(Username, sender)
+							|| Username.equals(sender)
+							|| (!FriendManager.isFriend(Username, sender) && FriendManager
+									.getPrivacy(Username).equals("false"))) {
+
+						HashSet<String> friends = FriendManager.getFriends(sender);
+						//System.out.println(sender);
+						//System.out.println(friends);
+						List<Activity> activities = new ArrayList<Activity>();
+						for (String friend : friends) {
+							List<Activity> tmp = ActivityManger
+									.getActivities(friend);
+							activities.addAll(tmp);
+						}
+						Collections.sort(activities);
+						if (!activities.isEmpty()) {
+							out.println("<ul>");
+							int count = 0;
+							for (Activity a : activities) {
+								if (count > 10)
+									break;
+								out.println("<li>" + a.toString() + "</li>");
+								count++;
+							}
+							out.println("</ul>");
+						} else {
+							out.println("No new activities.<br>");
+						}
+					} else {
+						out.println("<ul>The user has set it to be private</ul>");
+					}
+				}
 			%>
-		
+			
+			
+		<h2>Search by Category</h2>
 			<form action="CategorySearchResult.jsp" method="POST">
 				<p>Search by Category
 				<select name="category" id = "yellow-button" onchange="this.form.submit()">
@@ -338,48 +408,54 @@
 		
 		
 		<%
-			boolean showButton = false;
-			
-			if (sender != null && !Username.equals(sender) && !sender.equals("")){
-				if(FriendManager.isFriend(Username, sender)){
-					//remove a friend
-					
-					String formline = "<form method = \"POST\" action = \"rmFriendServlet\">";
-					String userline = "<input type = \"hidden\" name = \"username\" value = \"" + Username + "\">";
-					String friendline = "<input type = \"hidden\" name = \"friendname\" value = \"" + sender + "\">";
-					String rmButton = "<input id = \"green-button\" type = \"submit\" value = \"Remove Friend\" name = \"rmbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
-					String endForm = "</form>";
-					out.println(formline);
-					out.println(userline);
-					out.println(friendline);
-					out.println(rmButton);
-					out.println(endForm);
-					
-					//String rmButton = "<button onclick=\"rmfriend('" + Username + "','" + sender + "');this.disabled=true;\">Remove Friend</button>";
-					//out.println(rmButton);
-					
-				} else if (!FriendManager.isDuplicateFriendRequest(sender, Username)){
-					
-					//send a friend request
-					String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
-					String senderline = "<input type = \"hidden\" name = \"sender\" value = \"" + sender + "\">";
-					String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \"" + Username + "\">";
-					String msgline = "<textarea id = \"big-input\" name = \"msg\" rows = \"3\" cols = \"25\" placeholder=\"Messages to sent\" ></textarea >";
-					String requestButton = "<input id = \"green-button\" type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
-					String endForm = "</form>";
-					out.println(formline);
-					out.println(senderline);
-					out.println(receiverline);
-					out.println(msgline);
-					out.println(requestButton);
-					out.println(endForm);
-				} else {
-					// request sent button
-					String sentButton = "<button id = \"gray-button\" type=\"button\" disabled>Friend Request Sent</button>";
-					out.println(sentButton);
-				}
-			}
-		%>
+							boolean showButton = false;
+
+							if (sender != null && !Username.equals(sender)
+									&& !sender.equals("")) {
+								if (FriendManager.isFriend(Username, sender)) {
+									//remove a friend
+
+									String formline = "<form method = \"POST\" action = \"rmFriendServlet\">";
+									String userline = "<input type = \"hidden\" name = \"username\" value = \""
+											+ Username + "\">";
+									String friendline = "<input type = \"hidden\" name = \"friendname\" value = \""
+											+ sender + "\">";
+									String rmButton = "<input id = \"green-button\" type = \"submit\" value = \"Remove Friend\" name = \"rmbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
+									String endForm = "</form>";
+									out.println(formline);
+									out.println(userline);
+									out.println(friendline);
+									out.println(rmButton);
+									out.println(endForm);
+
+									//String rmButton = "<button onclick=\"rmfriend('" + Username + "','" + sender + "');this.disabled=true;\">Remove Friend</button>";
+									//out.println(rmButton);
+
+								} else if (!FriendManager.isDuplicateFriendRequest(sender,
+										Username)) {
+
+									//send a friend request
+									String formline = "<form method = \"POST\" action = \"friendRequestServlet\">";
+									String senderline = "<input type = \"hidden\" name = \"sender\" value = \""
+											+ sender + "\">";
+									String receiverline = "<input type = \"hidden\" name = \"receiver\" value = \""
+											+ Username + "\">";
+									String msgline = "<textarea id = \"big-input\" name = \"msg\" rows = \"3\" cols = \"25\" placeholder=\"Messages to sent\" ></textarea >";
+									String requestButton = "<input id = \"green-button\" type = \"submit\" value = \"Add Friend\" name = \"addbutton\" onclick=\"this.disabled=true;this.form.submit();\">";
+									String endForm = "</form>";
+									out.println(formline);
+									out.println(senderline);
+									out.println(receiverline);
+									out.println(msgline);
+									out.println(requestButton);
+									out.println(endForm);
+								} else {
+									// request sent button
+									String sentButton = "<button id = \"gray-button\" type=\"button\" disabled>Friend Request Sent</button>";
+									out.println(sentButton);
+								}
+							}
+						%>
 		
 		<%
 					if (Username.equals(sender)) {
@@ -397,19 +473,19 @@
 		
 		
 		<%
-			AdministratorAccount admin = new  AdministratorAccount(Username);
-			
-			if(sender.equals(Username)){
-				if(admin.getUserType().equals("s")){
-					// unset privacy
-					out.println("<form action=\"AdminAvailableServlet\" method=\"post\">");
-					out.println("<input type=\"hidden\" name=\"who\" value=\""+ Username + "\">");
-					out.println("<button type=\"submit\" id=\"red-button\">Administrator</button>");
-					out.println("</form>");
-				}
-			}
-		
-		%>
+							AdministratorAccount admin = new AdministratorAccount(Username);
+
+							if (sender.equals(Username)) {
+								if (admin.getUserType().equals("s")) {
+									// unset privacy
+									out.println("<form action=\"AdminAvailableServlet\" method=\"post\">");
+									out.println("<input type=\"hidden\" name=\"who\" value=\""
+											+ Username + "\">");
+									out.println("<button type=\"submit\" id=\"red-button\">Administrator</button>");
+									out.println("</form>");
+								}
+							}
+						%>
 
 	</div>
 	
