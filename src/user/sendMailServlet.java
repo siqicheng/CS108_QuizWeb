@@ -56,8 +56,13 @@ public class sendMailServlet extends HttpServlet {
 			String show = new String();
 			if (receiver.equals("admin"))
 				show = "This quiz is reported to be inappropriate";
-			else
-				show = "Take this challenge";
+			else{
+				show = "Take this challenge. ";
+				String score = request.getParameter("score");
+				if (score != null && !"".equals(score)){
+					show += sender + " has got " + score + " scores"; 
+				}
+			}
         	String link = "<a href=\\\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "&date="+ts+"&challenge=yes \\\">" + show +"</a>";
         	
 			MailManager.sendMessage(sender, receiver, link);

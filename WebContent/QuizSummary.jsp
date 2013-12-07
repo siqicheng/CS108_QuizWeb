@@ -225,7 +225,11 @@
 					int time = rs.getInt("Length");
 					String t_str = String.format("%d:%02d:%02d", time/3600, (time%3600)/60, (time%60));
 					out.println("<tr>");
-					out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + u_name + "&sender=" + userName + "\">" + u_name + "</a></td>");
+					if (FriendManager.isFriend(u_name, sender) || u_name.equals(sender) || (!FriendManager.isFriend(u_name, sender)&&FriendManager.getPrivacy(u_name).equals("false")) ){
+						out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + u_name + "&sender=" + userName + "\">" + u_name + "</a></td>");
+					}else{
+						out.println("<td>Anonymous</td>");
+					}
 					out.println("<td>" + Integer.toString(score) + "</td>");
 					out.println("<td>" + t_str + "</td>");
 					out.println("</tr>");
@@ -259,7 +263,13 @@
 					int time = rs.getInt("Length");
 					String t_str = String.format("%d:%02d:%02d", time/3600, (time%3600)/60, (time%60));
 					out.println("<tr>");
-					out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + "&sender=" + userName +"\">" + u_name + "</a></td>");
+					if (FriendManager.isFriend(u_name, sender) || u_name.equals(sender) || (!FriendManager.isFriend(u_name, sender)&&FriendManager.getPrivacy(u_name).equals("false")) ){
+						out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + u_name + "&sender=" + userName + "\">" + u_name + "</a></td>");
+					}else{
+						out.println("<td>Anonymous</td>");
+						System.out.println(u_name);
+						System.out.println(sender);
+					}
 					out.println("<td>" + Integer.toString(score) + "</td>");
 					out.println("<td>" + t_str + "</td>");
 					out.println("</tr>");
@@ -287,7 +297,11 @@
 					String end_str = format.format(end);
 		
 					out.println("<tr>");
-					out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + "&sender=" + userName +"\">" + u_name + "</a></td>");
+					if (FriendManager.isFriend(u_name, sender) || u_name.equals(sender) || (!FriendManager.isFriend(u_name, sender)&&FriendManager.getPrivacy(u_name).equals("false")) ){
+						out.println("<td><a href=\"CreateAccount_welcome.jsp?name=" + u_name + "&sender=" + userName + "\">" + u_name + "</a></td>");
+					}else{
+						out.println("<td>Anonymous</td>");
+					}
 					out.println("<td>" + Integer.toString(score) + "</td>");
 					out.println("<td>" + t_str + "</td>");
 					out.println("<td>" + end_str + "</td>");
@@ -323,6 +337,16 @@
 <!--			<input type="submit" value="GoRockQuiz" id = "red-button" >-->
 <!--		</form>-->
 		
+		<%
+			query = "SELECT Score from quiz_take_history WHERE Quiz_Id = '" + id + "' and User_Name='"+ sender + "' ORDER BY Score DESC;";
+			statement = dbcon.getStatement();
+			rs = statement.executeQuery(query);
+			String score = new String();
+			if (rs.next()){
+				score = rs.getString("Score");
+			}
+		%>
+		
 		<form action="sendMailServlet" method="post" id = "email">
 			<%
 			if (!sender.equals(""))
@@ -331,11 +355,9 @@
 			<%String address = new String("<a href=\\\"QuizSummary.jsp?user_name=#######&quizId=" + id  + "\\\">Take this challenge</a>");  %>
 			<input type="hidden" name= "sender" value="<%=userName%>">
 			<input type="hidden" name="quizId" value="<%=quizId%>">
+			<input type="hidden" name="score" value="<%=score%>">
 		</form>
 		
-		<%
-
-		%>
 		
 		<form action="sendMailServlet" method="post" id = "report">
 			<input id = basic-input type="hidden" name= "receiver" value=admin>
