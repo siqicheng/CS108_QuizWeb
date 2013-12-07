@@ -19,14 +19,14 @@ import quiz_model.Quiz;
 @WebServlet("/QuizMultiplePageServlet")
 public class QuizMultiplePageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public QuizMultiplePageServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public QuizMultiplePageServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,39 +42,50 @@ public class QuizMultiplePageServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Quiz quiz = (Quiz) request.getSession().getAttribute("Quiz");
 		List<Question> questions = quiz.getQuestions();
-//		String questionNumStr = request.getParameter("question");
-//		int questionNum;
-//		if (questionNumStr == null) {
-//			questionNum = 0;
-//		} else {
-//			String actionStr = request.getParameter("action");
-//			if (actionStr == null) {
-//				questionNum = Integer.parseInt(questionNumStr);
-//			}
-//			if (actionStr.matches("Back")) {
-//				questionNum = Integer.parseInt(questionNumStr)-1;
-//			} else {
-//				// next
-//				questionNum = Integer.parseInt(questionNumStr)+1;
-//				String ans = request.getParameter("answer" + Integer.toString(questionNum-1));
-//				if (ans != null) {
-//					request.getSession().setAttribute("answer"+Integer.toString(questionNum-1), ans);
-//				}
-//			}
-//		}
-//		request.getSession().setAttribute("question",questionNum);
+		//		String questionNumStr = request.getParameter("question");
+		//		int questionNum;
+		//		if (questionNumStr == null) {
+		//			questionNum = 0;
+		//		} else {
+		//			String actionStr = request.getParameter("action");
+		//			if (actionStr == null) {
+		//				questionNum = Integer.parseInt(questionNumStr);
+		//			}
+		//			if (actionStr.matches("Back")) {
+		//				questionNum = Integer.parseInt(questionNumStr)-1;
+		//			} else {
+		//				// next
+		//				questionNum = Integer.parseInt(questionNumStr)+1;
+		//				String ans = request.getParameter("answer" + Integer.toString(questionNum-1));
+		//				if (ans != null) {
+		//					request.getSession().setAttribute("answer"+Integer.toString(questionNum-1), ans);
+		//				}
+		//			}
+		//		}
+		//		request.getSession().setAttribute("question",questionNum);
 		int questionNum = (Integer)request.getSession().getAttribute("question");
-		String[] ans = request.getParameterValues("answer" + Integer.toString(questionNum));
-		if (ans != null) {
-			if (ans.length == 1) {
-				System.out.println(questionNum);
-				System.out.println("answer"+Integer.toString(questionNum));
-				request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans[0]);
-			} else {
-				for (int i = 0; i < ans.length; i++) {
-					request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans[i]);
+		Question q = questions.get(questionNum);
+		int answerNum = q.getAnswerNum();
+		if (q.getType().matches("QuestionResponseMultiAnswer")) {
+			for (int i = 0; i < answerNum; i++) {
+				String ansStr = request.getParameter("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
+				request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ansStr);
+			}
+		} else {
+			String[] ans = request.getParameterValues("answer" + Integer.toString(questionNum));
+			if (ans != null) {
+				if (ans.length == 1) {
+					System.out.println(questionNum);
+					System.out.println("answer"+Integer.toString(questionNum));
+					request.getSession().setAttribute("answer"+Integer.toString(questionNum), ans[0]);
+				} else {
+					for (int i = 0; i < ans.length; i++) {
+						System.out.println("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
+						System.out.println(ans[i]);
+						request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans[i]);
+					}
+					request.getSession().setAttribute("anserNum_"+Integer.toString(questionNum),ans.length);
 				}
-				request.getSession().setAttribute("anserNum",ans.length);
 			}
 		}
 		if (questionNum == questions.size()-1) {
