@@ -61,6 +61,8 @@ public class sendMailServlet extends HttpServlet {
 				String score = request.getParameter("score");
 				if (score != null && !"".equals(score)){
 					show += sender + " has got " + score + " scores"; 
+				}else{
+					show += " He has not taken this quiz yet.";
 				}
 			}
         	String link = "<a href=\\\"QuizSummary.jsp?user_name=" + receiver + "&quizId=" + id + "&date="+ts+"&challenge=yes \\\">" + show +"</a>";

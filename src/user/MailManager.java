@@ -60,7 +60,7 @@ public class MailManager {
 			Date SentTime = new Date();
 			Timestamp ts = new Timestamp(SentTime.getTime());
 			query = "insert into mailTable values ('" + username1 + "','" + username2 + "','" + msg + "','" + ts + "','" +  "false')";
-			
+			System.out.println(query);
 			connect();
 			statement.executeUpdate(query);
 			close();
