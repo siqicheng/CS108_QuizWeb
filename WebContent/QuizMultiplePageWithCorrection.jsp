@@ -67,6 +67,7 @@
 		<%	 
 			//out.print("<form action=\"QuizMultiplePageServlet\" method=\"post\">");
 			Question question = questions.get(questionNum);
+			System.out.println(question.getHTMLwithQuestion(questionNum));
 			out.print(question.getHTMLwithQuestion(questionNum));
 			String input = "<input type=\"hidden\" name=\"question\" value=\""+ Integer.toString(questionNum)+"\">";
 			out.print(input);
