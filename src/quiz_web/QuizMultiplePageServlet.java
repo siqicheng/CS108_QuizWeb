@@ -84,7 +84,7 @@ public class QuizMultiplePageServlet extends HttpServlet {
 						System.out.println(ans[i]);
 						request.getSession().setAttribute("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i), ans[i]);
 					}
-					request.getSession().setAttribute("anserNum_"+Integer.toString(questionNum),ans.length);
+					request.getSession().setAttribute("answerNum_"+Integer.toString(questionNum),ans.length);
 				}
 			}
 		}

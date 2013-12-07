@@ -135,7 +135,7 @@ public class QuestionResponseMultiAnswerQuestion extends Question{
 			String ans = request.getParameter("answer"+Integer.toString(questionNum)+"_"+Integer.toString(i));
 			if (ans == null) {
 				ans = (String)request.getSession().getAttribute("answer" + Integer.toString(questionNum)+"_"+Integer.toString(i)) ;
-				if (ans == null) {
+				if (ans == null || ans.equals("null")) {
 					ans = "";
 				}
 			}
