@@ -337,6 +337,16 @@
 <!--			<input type="submit" value="GoRockQuiz" id = "red-button" >-->
 <!--		</form>-->
 		
+		<%
+			query = "SELECT Score from quiz_take_history WHERE Quiz_Id = '" + id + "' and User_Name='"+ sender + "' ORDER BY Score DESC;";
+			statement = dbcon.getStatement();
+			rs = statement.executeQuery(query);
+			String score = new String();
+			if (rs.next()){
+				score = rs.getString("Score");
+			}
+		%>
+		
 		<form action="sendMailServlet" method="post" id = "email">
 			<%
 			if (!sender.equals(""))
@@ -345,11 +355,9 @@
 			<%String address = new String("<a href=\\\"QuizSummary.jsp?user_name=#######&quizId=" + id  + "\\\">Take this challenge</a>");  %>
 			<input type="hidden" name= "sender" value="<%=userName%>">
 			<input type="hidden" name="quizId" value="<%=quizId%>">
+			<input type="hidden" name="score" value="<%=score%>">
 		</form>
 		
-		<%
-
-		%>
 		
 		<form action="sendMailServlet" method="post" id = "report">
 			<input id = basic-input type="hidden" name= "receiver" value=admin>
