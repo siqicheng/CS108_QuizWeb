@@ -317,6 +317,7 @@
 								.getPrivacy(Username).equals("false"))) {
 					con = (DBConnection) request.getSession().getAttribute("dbcon");
 
+
 					if (con == null) {
 						request.getSession().setAttribute("dbcon",
 								new DBConnection());
@@ -352,6 +353,7 @@
 						}
 					%>
 			<%
+
 				if (!sender.equals("")) {
 					out.println("<h2>Friends Activities</h2>");
 					if (FriendManager.isFriend(Username, sender)

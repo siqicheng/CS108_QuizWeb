@@ -156,11 +156,16 @@ public class CreateQuizSubmissionServlet extends HttpServlet {
 			/* Clear the createdQuesions list */
 			questions.clear();
 			request.setAttribute("createdQuestions", questions);
-		} 
+			/* Update Achievement */
+			DBConnection con = new DBConnection();
+			con.updateAchievement_CreateQuiz(quizCreator);
+		} else {
+			/* Clear the createdQuesions list */
+			questions.clear();
+			request.setAttribute("createdQuestions", questions);
+		}
 		
-		/* Update Achievement */
-		DBConnection con = new DBConnection();
-		con.updateAchievement_CreateQuiz(quizCreator);
+
 		
 		RequestDispatcher dispatch = request.getRequestDispatcher("CreateAccount_welcome.jsp");
 		dispatch.forward(request, response);

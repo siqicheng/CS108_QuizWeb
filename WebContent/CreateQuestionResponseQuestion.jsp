@@ -62,10 +62,10 @@
 		
 		
 		<form action="CreateQuestionResponseServlet" method="post" id = "question">
-		<b>Your question:</b><br>
+		<h2>Your question:</h2>
 		<textarea name="question" rows="4" cols="80" id = "big-input" ></textarea><br>
-		<b>Your answers (use ; as delimiters if more than one legal answer): </b><br>
-		<textarea name="answers" rows="4" cols="80" id = "big-input" ></textarea><br>
+		<h2>Your answers : </h2>
+		<textarea name="answers" rows="4" cols="80" id = "big-input" placeholder = "use ; as delimiters if more than one legal answer"></textarea><br>
 		</form>
 		
 		<form action="CreateQuiz.jsp" id = "back"></form>

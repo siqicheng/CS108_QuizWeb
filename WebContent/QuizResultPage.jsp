@@ -81,6 +81,7 @@
 			Question q = questions.get(i);
 			ArrayList<String> ansList = q.fetchAnswer(request, i);
 			int curScore = q.getScore(ansList);
+			System.out.println("Score the user got:" + curScore);
 			totScore += curScore;
 			out.print(q.getHTMLwithQuestionResult(i, ansList, curScore));
 		}

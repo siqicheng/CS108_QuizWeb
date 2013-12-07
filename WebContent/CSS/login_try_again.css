@@ -31,7 +31,7 @@ button { cursor:pointer;line-height:1.2; }
 #header, #content { margin-bottom:40px; }
 #header, #content, #footer { width:100%;overflow:hidden; }
 .article { float:left;width:400px; }
-.aside { float:right;width:450px;color:#666; }
+.aside { float:right;width:550px;color:#666; }
 .aside li { padding-bottom: 20px; }
 
 #ft{overflow:hidden;zoom:1;padding:14px 0;margin-top:30px;border-top:1px dashed #dcdcdc;color:#999}
@@ -99,3 +99,22 @@ a.lnk-ret:hover{font-size:14px;color:#fff;background:#0E33D2}
 
 
 input[type="radio"]{margin:30px 0};}
+
+h2{ color: rgb(0, 119, 34);
+	border-top:2px dotted #dcdcdc; 
+	font: Helvetica
+	}
+	
+c{
+	cursor:pointer;
+	color: rgb(232, 49, 56);
+	font: 18px Helvetica 
+}
+#title-bar{margin-bottom:25px;background:#ECF1F4}
+#title-bar .wrapper{padding:20px 20px 20px 20px;overflow:hidden;zoom:1}
+#title-bar .register-buttom{display:inline-block;*display:inline;zoom:1;padding:7px 18px;vertical-align:top;margin-right:15px;border-radius:2px}
+#title-bar .register-buttom:link,#title-bar .register-buttom:visited,#title-bar .register-buttom:hover,#title-bar .register-buttom:active{font-size:14px;color:#fff;background:#ef7360}
+#title-bar .register-buttom:hover,#title-bar .register-buttom:active{font-size:14px;color:#fff;background:#B81517}
+#title-bar .register-buttom i{font-size:12px}
+#title-bar .ad-info{display:inline-block;*display:inline;zoom:1;color:#666;vertical-align:bottom}
+#title-bar .ad-info b{font-size:16px;line-height:2;font-weight:normal}

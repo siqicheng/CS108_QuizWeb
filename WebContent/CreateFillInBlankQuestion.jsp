@@ -55,15 +55,15 @@
 	</div>
 
 	<div class="wrapper">
-		<h1>Add a new Fill-in-the-Blank question</h1>
+		<h2>Add a new Fill-in-the-Blank question</h2>
 		<p>Your question should have two parts, with a blank left to be filled by the quiz taker</p>
 		<form action="CreateFillInBlankServlet" method="post" id = "question">
-		First part of your question:<br>
+		<h2>First part of your question:</h2>
 		<textarea name="part1" rows="4" cols="80" id = "big-input"></textarea><br>
-		Second part of your question:<br>
+		<h2>Second part of your question:</h2>
 		<textarea name="part2" rows="4" cols="80" id = "big-input"></textarea><br>
-		Your answers (use ; as delimiters if more than one legal answer): <br>
-		<textarea name="answers" rows="4" cols="80" id = "big-input"></textarea><br>
+		<h2>Your answers : </h2>
+		<textarea name="answers" rows="4" cols="80" id = "big-input" placeholder = "use ; as delimiters if more than one legal answer"></textarea><br>
 		</form>
 		
 		<form action="CreateQuiz.jsp" id = "back"></form>
