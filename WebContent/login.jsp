@@ -13,7 +13,7 @@
 <title>Welcome to <%=webName%></title>
 <link rel="shortcut icon" href="pic/favicon.ico" /> 
 <link rel="stylesheet" href="CSS/login_style.css" type="text/css">
-<!-- COLLECTED CSS -->
+
 </head>
 <script type="text/javascript" src="checkcookies.js"></script>
 <script type="text/javascript">
